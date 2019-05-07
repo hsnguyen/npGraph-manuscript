@@ -97,30 +97,23 @@
 %% use \onecolumn for onecolumn paper
 \onecolumn
 
-%Set the title
-\title{Online resolving assembly graph by long reads data}
-
-%Set the short tittle
-\shorttitle{An awesome paper}
+\title{Online resolving assembly graph by ONT long reads data}
+\shorttitle{Real-time Scaffolding with Assembly graph}
 
 %Authors
-\author[1,$\dag$, $\ast$]{Author First}
-\author[1,$\dag$]{Author Two} 
-\author[1,2]{Author Three}
-\author[1,2,$\ast$]{Author Last}
+\author[1,$\ast$]{Son Hoang Nguyen}
+%\author[]{Minh Duc Cao}
+\author[1,$\ast$]{Lachlan Coin}
 
 %Affiliation
-\affil[1]{Affiliation One}
-\affil[2]{Affiliation Two}
+\affil[1]{Institute for Molecular Bioscience, the University of Queensland, 
+St Lucia, Brisbane, QLD 4072 Australia}
 
-%Display equal author textrent focus is developing methods to determine evolutionary relationships, primarily usi
-\equalauthors{\textsuperscript{$\dag$}These authors contributed equally to
-this work.}
-
-%Display correspondingauthor text 
 \correspondingauthor{
-\textsuperscript{$\ast$}To whom correspondence should be addressed. E-mails:
-author.last\@email.com,author.first\@email.com}
+\textsuperscript{$\ast$}
+To whom correspondence should be addressed. 
+E-mails: l.coin@imb.uq.edu.au,s.hoangnguyen@imb.uq.edu.au
+}
 
 %Display ``This manuscript was compiled on XXXX''
 \compiledate
@@ -129,7 +122,7 @@ author.last\@email.com,author.first\@email.com}
 \abstract{This is abstract}
 
 %Set keywords
-\keywords{Keyword 1, Keyword 2,Keyword 3}
+\keywords{hybrid assembly, assembly graph, real-time analysis, nanopore sequencing}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -139,7 +132,7 @@ author.last\@email.com,author.first\@email.com}
 \thispagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
+\section*{Introduction}
 % \begin{itemize}
 % \item The importance of having a real-time assembler for bacterial and small genomes: e.g. npscarf 
 % \item The difficulty to resolve assembly graph in real-time.
@@ -152,7 +145,7 @@ author.last\@email.com,author.first\@email.com}
 %     \item Standardisation : output GFA in real-time
 %     \end{itemize}
 % \end{itemize}
-Streaming assembly methods have been proven to be useful in saving time and resources compared to the traditional batch algorithms with examples included \EG $\mathtt{Faucet}$~\cite{Rozov2017faucet} and \npscarf{}~\cite{Cao2017scaffolding}. The first method allows the assembly graph to be constructed incrementally as long as reads are retrieved and processed. This practice is helpful dealing with huge short-read data set because it can significantly reduce the local storage for the reads, as well as save time for a DBG construction while waiting for the data being retrieved.
+Streaming assembly methods have been proven to be useful in saving time and resources compared to the traditional batch algorithms with examples included \EG{} $\mathtt{Faucet}$~\cite{Rozov2017faucet} and \npscarf{}~\cite{Cao2017scaffolding}. The first method allows the assembly graph to be constructed incrementally as long as reads are retrieved and processed. This practice is helpful dealing with huge short-read data set because it can significantly reduce the local storage for the reads, as well as save time for a DBG construction while waiting for the data being retrieved.
 
 \npscarf{}, on the other hand, works on the available short-read assembly to scaffold the contigs using nanopore sequencing which is well-known by the real-time property. The completion of genome assembly along with the sequencing run provides explicit benefits in term of resource control and turn-around time for analysis~\cite{Cao2017scaffolding}.  
 However, due to the greedy approach of a streaming algorithm, as well as being an alignment-based-only scaffolding mechanism, running the tool with default settings suffers from mis-assemblies~\cite{Wick2017unicycler,Giordano2017}. In many case, the gap filling step has to rely on the low quality nanopore reads thus the accuracy of the final assembly is affected as well. 
@@ -170,8 +163,8 @@ However, the challenges to adapt this approach into a real-time mechanism are ob
 A modified DFS algorithm and a voting system with accumulating scores calculation has been implemented to overcome these issues.
 This results in \npgraph{}, an user-friendly tool with GUI that can traverse the assembly graph and scaffold its components in real-time as long as the nanopore sequencing process is running and continuously generating long reads.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
-\subsection{\npgraph{} -- a tool to resolve assembly graph in real-time}
+\section*{Results}
+\subsection*{\npgraph{} -- a tool to resolve assembly graph in real-time}
 \npgraph{}'s input consists of Illumina assembly graph resulted from running assembler, e.g. \spades{}~\cite{BankevichNA2012}, $\mathtt{Velvet}$ \cite{Zerbino2008}, $\mathtt{AbySS}$ \cite{Simpson2009} on Illumina short reads, together with long reads from third generation sequencing technology (Oxford Nanopore Technology, Pacbio).
 The long reads will be aligned with the contigs in the assembly graph to indicate longer paths that should be traversed. These local paths, given sufficient data, are expected to untangle the complicated graph and guide to the global Eulerian paths (or cycles if possible) that represent the entire genomic sequences. 
 \npgraph{} can be invoked and fully function from the command-line interface. In addition, in order to aid the visualization of the assembly process, a GUI has been developed as well.
@@ -201,7 +194,7 @@ From the second window (\textbf{6}), the colored vertices imply unique contigs w
 
 A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. The practice is similar to the previous developed pipelines~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2017barcode} that allow the analysis to take place abreast to a nanopore sequencing run.
 
-\subsection{Hybrid assembly for synthetic data sets}
+\subsection*{Hybrid assembly for synthetic data sets}
 To evaluate the performance of the method, \npgraph{} was benchmarked against \spades{} with its hybrid assembly module~\cite{AntipovKM2015}, \npscarf{} with/without assembly graph integrated, and Unicycler version 0.4.6 on the latter's testing data~ \cite{Wick2017unicycler} . This data set were simulations of Illumina and MinION raw data, generated \emph{in silico} based on random and available microbial references. 
 Specifically, the synthetic Illumina data was generated by using a wrapper script of ART~\cite{HuangLMM2012} that allows uniform coverage for circular genome sequencing with justifiable depths.
 PBSIM~\cite{OnoAH2012}, on the other hand, was used to simulate the long reads.
@@ -340,7 +333,7 @@ By integrating the assembly graph for the task, the errors were reduced in gener
 \npgraph{} significantly reduced the errors compared to \npscarf{}, however the figures were still higher than the those of the best counterparts.
 This implied a more robust decision making system is needed in \npgraph{}'s real-time path finding module for even better output's accuracy.
 
-\subsection{Hybrid assembly for real data sets}
+\subsection*{Hybrid assembly for real data sets}
 Several sequencing data sets of actual bacterial samples~\cite{George2017M14} were used in this scenario.
 The data included both Illumina paired-end and MinION sequencing based-call data for each sample.
 Unlike previous settings, rather than the default output, the optimal \spades{} assembly graph detected by \unicycler{} were used for \npgraph{} algorithm as well.
@@ -405,10 +398,10 @@ In addition to what presented in Table~\ref{tab:npgraph_real}, dot plots for the
 Overall, by testing with synthetic and real data, \npgraph{} proved to be able to generate assemblies of comparative quality compared to other powerful batch-mode hybrid assemblers, such as $\mathtt{hybridSPAdes}$ or \unicycler{}.
 Furthermore, similar to \npscarf{}, it has the advantage in term of supporting real-time assembly. The next section will address this utility and the interactive GUI bundled in \npgraph{}. 
 
-\subsection{Real-time mode hybrid assembly}
+\subsection*{Real-time mode hybrid assembly}
 Figure~\ref{F:npgraph_rt} demonstrates the real-time mode performance of \npscarf{} and \npgraph{} via N50 statistics during the assembly of 4 example data sets.
 This experiment would discover the rate of completing genome assemblies of the new method, set aside the accuracy aspect which had already been discussed previously.
-\npscarf{}\_wg basically scaffolds the pre-assembly contigs in the same manner with the original version thus was not discussed here.
+\npscarfg{} basically scaffolds the pre-assembly contigs in the same manner with the original version thus was not discussed here.
 
 \begin{figure}[!hpt]
 \centering
@@ -437,7 +430,7 @@ The reason stems from the fact that the new algorithm implemented a more `conser
 Unlike \npscarf{} when the connections could be undone and rectified later if needed, a bridge in \npgraph{} will remain unchanged once created.
 The plot for \ec{} data clarifies this behaviour when a fluctuation can be observed in \npscarf{} assembly at $\simeq 3$-folds data coverage.
 On the other hand, the N50 length of \npgraph{} is always a monotonic increasing function. 
-The sharp `jumping' patterns suggested that the linking information from long-read data had been stored and exploited at certain time point decided by the algorithm.
+The sharp \emph{jumping} patterns suggested that the linking information from long-read data had been stored and exploited at certain time point decided by the algorithm.
 Once a unique path has been determined, the bridge can be formed to connect the fragments together into longer sequences.
 
 
@@ -459,7 +452,7 @@ The result graph, after cleaning, would only report the significant connected co
 Smaller fragments, even unfinished but with high remaining coverage, are also presented as potential candidates for further downstream analysis.
 Further annotation utility can be implemented in the future better monitoring the features of interests as in \npscarf{}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
+\section*{Conclusions}
 Assembly graph is the data structure describing the assembly process at a lower level of more details.
 The current chapter brings this informative knowledge to the original \npscarf{}'s mechanism in two ways, either partly for the gap-filling module only (\npscarfg{}) or completely as the building block of the assembly construction method (\npgraph{}).
 
@@ -475,19 +468,14 @@ This would alleviate the data consumption of the \npgraph{} while at the same ti
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Methods}
+\section*{Materials and Methods}
 
 Basically the work flow of \npgraph{} can be divided into 3 main phases: abundance binning, graph resolving and assembly output. 
 The first step will try to bin the contigs into different groups of \emph{population} based on their coverage. 
 Each population would include contigs of the similar abundance in the final assembly sequences, \EG{} chromosome , plasmids, or even particular species genome in a metagenomics community.
 The binning phase would assist to differentiate between repetitive contigs and unique ones. By using this information, in combination with path inducing from long reads, the assembly graph is then traversed and resolved in real-time. Finally, the graph is subjected to the last attempt of resolving and cleaning, as well as output the final results. The whole process can be managed by using either command-line interface or GUI.
-\subsection{Pre-processing: identify repeat and unique contigs}
-The purpose of this step is to investigate the sequencing properties of contigs, \IE{} length and \emph{k-mer} count, in combination with the graph topology, for an initial binning algorithm to determine multiplicity for each of them.
-%\paragraph{Correct coverage bias due to GC content}
-%The read coverage from Illumina data could be rectified by applying GC-content correction model \cite{BenjaminiS2012}.
-%To be implemented.
 
-\paragraph{Initial binning contigs into groups of abundances}
+\subsection*{Initial binning contigs into groups of abundances}
 Each contig is represented as a node in the assembly graph and the edge between two nodes indicate their overlap (link) properties.
 This step is to cluster the significant nodes (longer than $10$Kbp) into different sets, namely significant abundance groups, based on their coverage values. 
 
@@ -508,7 +496,7 @@ $$D_{KL}(P_1||P_2)=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_
 The metric we used is the distance defined as
 $$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
 
-\paragraph{Coverage re-estimation}
+\subsection*{Coverage re-estimation}
 Due to the possible divergence of sequencing coverage relative to the real abundance of sequences, especially the short ones, an optimization step is implemented to alleviate this issue. The coverage measure of nodes (which represent contigs) are spread throughout the graph via edges that connect them for comparison and calibration. 
 The assignment of coverage to edges is also helpful to identify multiplicity in later step. 
 
@@ -525,23 +513,23 @@ and then being minimized by using Newton or gradient method.
 \item[2.] Update nodes' coverage based on itself and its neighbor edges' measures.
 \end{itemize}
 The calibration is iterative until no further improvements are made or a threshold loop count is reached.
-\paragraph{Multiplicity estimation}
+\subsection*{Multiplicity estimation}
 Based on the coverage values of all the edges and the graph's topology, we induce the copy numbers of every significant nodes (long contigs) in the final paths.
 For each node, this could be done by investigating its adjacent edges and answering the questions of how many times it should be visited, from which abundance groups.
 Multiplicities of insignificant nodes (of sequences with length less than $1,000$ bp) can be estimated in the same way but usually with less confident due to more complicated connections and greater variances of coverage values. 
 For that reason, they are only used as augmented information to calculate candidate paths' score in the next step.
 
-\subsection{Untangling assembly graph by stream of nanopore data.}
-\paragraph{Building bridges in real-time}
-Bridge is the data structure designed for tracking the possible connections between two unique contigs (anchor nodes in the assembly graph). This approach was implemented in \npscarf{} gap-filling phase with assembly graph as in Supplementary Figure \ref{f:gapfilling}.
-% how bridge is connected, transformed multiplicity (real-time)
+%\subsection*{Untangling assembly graph by stream of nanopore data.}
+\subsection*{Building bridges in real-time}
+Bridge is the data structure designed for tracking the possible connections between two unique contigs (anchor nodes in the assembly graph).
 Here we take advantage of the graph topology and nodes' multiplicity information to employ a dynamic bridging mechanism.
 This procedure considers the dynamic changing of multiplicity property for each node, meaning that a $n$-times repetitive node can become a unique node at certain time point when its $(n-1)$ occurrences are identified and assigned in appropriate unique paths. 
 
 Other than \npscarf{}, a bridge in \npgraph{} has several completion levels. A bridge is only created with at least one unique contig as an end, if so it has level 1 of completion. If both ends are identified, the level is 2. The number is greater than that only if paths connecting two ends are found. A bridge is known as fully complete (level 4) if there is only one unique linking path left. Given a bridge with 2 ends, a path finding algorithm (described in next section) is invoked to find all candidate paths. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the best ones are voted for the next round.
 
 Whenever a bridge becomes complete thanks to the voting system, the assembly graph is \emph{transformed} or \emph{reduced} by replacing its unique path by an composite edge and removing any unique edges (edges coming from unique nodes) along the path. The assembly graph would have at least one edge less than the original after the reduction. The nodes located on the reduced path, other than 2 ends, also have their multiplicities subtracted by one and the bridge is marked as finally resolved without any further modifications. 
-\paragraph{Path finding algorithm}
+
+\subsection*{Path finding algorithm}
 
 \begin{algorithm}[!hpt]
 \DontPrintSemicolon
@@ -600,7 +588,7 @@ A threshold for the traversing depth is set (150) to ignore too complicated and 
 
 It is worth to mention that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} DBG-derived assembly graph, the value of an edge is $-k$. 
 
-\subsection{Result extraction and output}
+\subsection*{Result extraction and output}
 \npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will present a contig for the result.
 A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if every edge along the path, $e_i, \forall i=1,\ldots,k$, must be the only option to traverse from either $v_{i-1}$ or $v_i$ following the transition rule.
 To decompose the graph, we can just simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
