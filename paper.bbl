@@ -1,0 +1,121 @@
+\begin{thebibliography}{10}
+
+\bibitem{Rozov2017faucet}
+Rozov R, Goldshlager G, Halperin E, Shamir R (2017) Faucet: streaming de novo
+  assembly graph construction.
+\newblock {\em Bioinformatics} 34(1):147--154.
+
+\bibitem{Cao2017scaffolding}
+Cao MD et~al. (2017) {Scaffolding and completing genome assemblies in real-time
+  with nanopore sequencing}.
+\newblock {\em Nature Communications} 8:14515.
+
+\bibitem{Wick2017unicycler}
+Wick RR, Judd LM, Gorrie CL, Holt KE (2017) Unicycler: resolving bacterial
+  genome assemblies from short and long sequencing reads.
+\newblock {\em PLOS Computational Biology} 13(6):e1005595.
+
+\bibitem{Giordano2017}
+Giordano F et~al. (2017) {De novo yeast genome assemblies from MinION, PacBio
+  and MiSeq platforms}.
+\newblock {\em Scientific reports} 7(1):3935.
+
+\bibitem{AntipovKM2015}
+Antipov D, Korobeynikov A, McLean JS, Pevzner PA (2016) {hybridSPAdes: an
+  algorithm for hybrid assembly of short and long reads}.
+\newblock {\em Bioinformatics} 32(7):1009--1015.
+
+\bibitem{Prjibelski2014}
+Prjibelski AD et~al. (2014) {ExSPAnder}: a universal repeat resolver for {DNA}
+  fragment assembly.
+\newblock {\em Bioinformatics} 30(12):i293--i301.
+
+\bibitem{BankevichNA2012}
+Bankevich A et~al. (2012) {SPAdes: A New Genome Assembly Algorithm and Its
+  Applications to Single-Cell Sequencing}.
+\newblock {\em Journal of Computational Biology} 19(5):455--477.
+
+\bibitem{Zerbino2008}
+Zerbino DR, Birney E (2008) {Velvet: algorithms for de novo short read assembly
+  using de Bruijn graphs.}
+\newblock {\em Genome research} 18(5):821--9.
+
+\bibitem{Simpson2009}
+Simpson JT et~al. (2009) {ABySS: A parallel assembler for short read sequence
+  data}.
+\newblock {\em Genome Research} 19(6):1117--1123.
+
+\bibitem{CaoGC2016}
+Cao MD, Ganesamoorthy D, Cooper MA, Coin LJM (2016) {Realtime analysis and
+  visualization of MinION sequencing data with npReader}.
+\newblock {\em Bioinformatics} 32(5):764--766.
+
+\bibitem{Nguyen2017barcode}
+Nguyen SH, Duarte TP, Coin LJ, Cao MD (2017) {Real-time demultiplexing Nanopore
+  barcoded sequencing data with npBarcode}.
+\newblock {\em Bioinformatics} 33(24):3988--3990.
+
+\bibitem{HuangLMM2012}
+Huang W, Li L, Myers JR, Marth GT (2012) {ART: a Next-generation Sequencing
+  Read Simulator}.
+\newblock {\em Bioinformatics} 28(4):593--594.
+
+\bibitem{OnoAH2012}
+Ono Y, Asai K, Hamada M (2012) {PBSIM: PacBio Reads Simulator – Toward
+  Accurate Genome Assembly}.
+\newblock {\em Bioinformatics}.
+
+\bibitem{Mikheenko2018quast5}
+Mikheenko A, Prjibelski A, Saveliev V, Antipov D, Gurevich A (2018) Versatile
+  genome assembly evaluation with {QUAST-LG}.
+\newblock {\em Bioinformatics} 34(13):i142--i150.
+
+\bibitem{MyersSD2000}
+Myers EW et~al. (2000) {A Whole-Genome Assembly of Drosophila}.
+\newblock {\em Science} 287(5461):2196--2204.
+
+\bibitem{Li2013}
+Li H (2013) {Aligning sequence reads, clone sequences and assembly contigs with
+  BWA-MEM}.
+\newblock p.~3.
+
+\bibitem{Li2016}
+Li H (2016) {Minimap and miniasm: fast mapping and de novo assembly for noisy
+  long sequences}.
+\newblock {\em Bioinformatics} 32(14):2103--2110.
+
+\bibitem{Brudno2003glocal}
+Brudno M et~al. (2003) {Glocal alignment: finding rearrangements during
+  alignment}.
+\newblock {\em Bioinformatics} 19(suppl\_1):i54--i62.
+
+\bibitem{George2017M14}
+George S et~al. (2017) {Resolving plasmid structures in Enterobacteriaceae
+  using the MinION nanopore sequencer: assessment of MinION and MinION/Illumina
+  hybrid data assembly approaches}.
+\newblock {\em Microbial genomics} 3(8).
+
+\bibitem{Carattoli2014}
+Carattoli A et~al. (2014) Plasmidfinder and pmlst: in silico detection and
+  typing of plasmids.
+\newblock {\em Antimicrobial agents and chemotherapy} pp. AAC--02412.
+
+\bibitem{Potter2016rapid}
+Potter RF, D’souza AW, Dantas G (2016) {The rapid spread of
+  carbapenem-resistant Enterobacteriaceae}.
+\newblock {\em Drug Resistance Updates} 29:30--46.
+
+\bibitem{Ester96adensity-based}
+Ester M, Kriegel HP, Sander J, Xu X (1996) A density-based algorithm for
+  discovering clusters in large spatial databases with noise.
+\newblock (AAAI Press), pp. 226--231.
+
+\bibitem{Kullback1951information}
+Kullback S, Leibler RA (1951) On information and sufficiency.
+\newblock {\em The annals of mathematical statistics} 22(1):79--86.
+
+\bibitem{Dijkstra1959}
+Dijkstra EW (1959) A note on two problems in connexion with graphs.
+\newblock {\em Numerische mathematik} 1(1):269--271.
+
+\end{thebibliography}
