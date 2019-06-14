@@ -479,10 +479,10 @@ The binning phase would assist to differentiate between repetitive contigs and u
 
 \subsection*{Initial binning contigs into groups of abundances}
 Each contig is represented as a node in the assembly graph and the edge between two nodes indicate their overlap (link) properties.
-This step is to cluster the significant nodes (longer than $10$Kbp) into different sets, namely significant abundance groups, based on their coverage values. 
+This step is to cluster the longest nodes (longer than $10$Kbp) into different sets, namely \emph{core} groups, based on their coverage values. 
 
 DBSCAN clustering algorithm \cite{Ester96adensity-based} is applied for this task.
-The idea is to consider a coverage value of a significant contig (which consists of more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
+The rationale is to approximate a coverage value of a significant contig (which consists of more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
 The metric is a distance function based on Kullback-Leibner divergence \cite{Kullback1951information}, or relative entropy, of two Poisson distributions.
 
 Assume there are 2 Poisson distributions $P_1$ and $P_2$ with density functions $$p_1(x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{\Gamma(x+1)}$$ and $$p_2(x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{\Gamma(x+1)}$$ 
