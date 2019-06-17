@@ -485,18 +485,19 @@ DBSCAN clustering algorithm \cite{Ester96adensity-based} is applied for this tas
 The rationale is to approximate a coverage value of a significant contig (which consists of more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
 The metric is a distance function based on Kullback-Leibner divergence \cite{Kullback1951information}, or relative entropy, of two Poisson distributions.
 
-Assume there are 2 Poisson distributions $P_1$ and $P_2$ with density functions $$p_1(x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{\Gamma(x+1)}$$ and $$p_2(x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{\Gamma(x+1)}$$ 
-The Kullback-Leibner divergence from $P_2$ to $P_1$ is defined as:
-$$D_{KL}(P_1||P_2)=\int_{-\infty}^{\infty} p_1(x)\log{\frac{p_1(x)}{p_2(x)}} dx$$
-or in other words,  it is the expectation of the logarithmic difference between the probabilities $P_1$ and $P_2$, where the expectation is taken with regard to $P_1$.
-
-The log ratio of the density functions is
-$$\log{\frac{p_1(x)}{p_2(x)}}=x\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
-take expectation of this expression with regard to $P_1$ with mean $\lambda_1$ we have
-$$D_{KL}(P_1||P_2)=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
-
-The metric we used is the distance defined as
-$$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
+%%%Move to Supplementary
+%Assume there are 2 Poisson distributions $P_1$ and $P_2$ with density functions $$p_1(x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{\Gamma(x+1)}$$ and $$p_2(x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{\Gamma(x+1)}$$ 
+%The Kullback-Leibner divergence from $P_2$ to $P_1$ is defined as:
+%$$D_{KL}(P_1||P_2)=\int_{-\infty}^{\infty} p_1(x)\log{\frac{p_1(x)}{p_2(x)}} dx$$
+%or in other words,  it is the expectation of the logarithmic difference between the probabilities $P_1$ and $P_2$, where the expectation is taken with regard to $P_1$.
+%
+%The log ratio of the density functions is
+%$$\log{\frac{p_1(x)}{p_2(x)}}=x\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+%take expectation of this expression with regard to $P_1$ with mean $\lambda_1$ we have
+%$$D_{KL}(P_1||P_2)=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+%
+%The metric we used is the distance defined as
+%$$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
 
 \subsection*{Coverage re-estimation}
 Due to the possible divergence of sequencing coverage relative to the real abundance of sequences, especially the short ones, an optimization step is implemented to alleviate this issue. The coverage measure of nodes (which represent contigs) are spread throughout the graph via edges that connect them for comparison and calibration. 
@@ -511,7 +512,7 @@ where $l_i$ and $c_i$ is the length and coverage of a node $i$ in the graph;
 $\sum{e^{+}_{i}}$ and $\sum{e^{-}_{i}}$ indicates sum of the values of incoming and outgoing edges from $i$ respectively. 
 The above function and be rewritten as:
 $$f(x)=\frac{1}{2}x^TQx + b^Tx + r$$
-and then being minimized by using Newton or gradient method.
+and then being minimized by using gradient-based method.
 \item[2.] Update nodes' coverage based on itself and its neighbor edges' measures.
 \end{itemize}
 The calibration is iterative until no further improvements are made or a threshold loop count is reached.
