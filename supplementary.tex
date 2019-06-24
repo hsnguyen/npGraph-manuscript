@@ -5,6 +5,20 @@
 \usepackage{xcolor,colortbl}
 \usepackage{subfig}
 \usepackage{longtable}
+% For pseudocode
+\usepackage[linesnumbered,boxed,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% For code embedding (Bash, Java...)
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{mathtools}
+
+
 \definecolor{Gray}{gray}{0.9}
 \newcommand{\npscarf}{$\mathtt{npScarf}$}
 \newcommand{\npscarfg}{$\mathtt{npScarf\_wag}$}
@@ -35,6 +49,7 @@
 
 %Authors
 \author[1]{Son Hoang Nguyen}
+\author[1]{Minh Duc Cao}
 \author[1,$\ast$]{Lachlan Coin}
 
 %Affiliation
@@ -57,13 +72,114 @@ E-mails: author.last@email.com,author.first@email.com
 \renewcommand{\figurename}{Supplementary Figure}
 \renewcommand{\tablename}{Supplementary Table}
 %\setcounter{page}{1}
+%\setcounter{figure}{0}
+%\setcounter{table}{0}
+% 
+\begin{center}
+ \Large{Supplementary Notes}
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% text supplementary %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Supplementary Note 1: Distance metric for clustering algorithm}\label{supp:note1}
+%%Move to Supplementary
+Assume there are 2 Poisson distributions $P_1$ and $P_2$ with density functions $$p_1(x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{\Gamma(x+1)}$$ and $$p_2(x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{\Gamma(x+1)}$$ 
+The Kullback-Leibner divergence from $P_2$ to $P_1$ is defined as:
+$$D_{KL}(P_1||P_2)=\int_{-\infty}^{\infty} p_1(x)\log{\frac{p_1(x)}{p_2(x)}} dx$$
+or in other words,  it is the expectation of the logarithmic difference between the probabilities $P_1$ and $P_2$, where the expectation is taken with regard to $P_1$.
+
+The log ratio of the density functions is
+$$\log{\frac{p_1(x)}{p_2(x)}}=x\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+take expectation of this expression with regard to $P_1$ with mean $\lambda_1$ we have
+$$D_{KL}(P_1||P_2)=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+
+The metric we used is the distance defined as
+$$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
+
+\section{Supplementary Note 2: Coverage re-estimation}\label{supp:note2}
+The re-estimation is basically carried out by following two steps.
+\begin{itemize}
+\item[1.] From nodes coverage, estimate edges' value by quadratic unconstrained optimization of the least-square function:
+$$\frac{1}{2}\sum_{i}{l_i((\sum{e^{+}_{i}}-c_i)^2+(\sum{e^{-}_{i}}-c_i)^2}$$
+where $l_i$ and $c_i$ is the length and coverage of a node $i$ in the graph;
+
+$\sum{e^{+}_{i}}$ and $\sum{e^{-}_{i}}$ indicates sum of the values of incoming and outgoing edges from $i$ respectively. 
+The above function and be rewritten as:
+$$f(x)=\frac{1}{2}x^TQx + b^Tx + r$$
+and then being minimized by using gradient-based method.
+\item[2.] Update nodes' coverage based on itself and its neighbor edges' measures.
+\end{itemize}
+The calibration is iterative until no further improvements are made or a threshold loop count is reached.
+
+\section{Supplementary Note 3: Path finding algorithm}\label{supp:note3}
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Bridge $B=(\overrightarrow{v_1}, \overrightarrow{v_2})$ with two ending unique bidirected nodes $\overrightarrow{v_1}, \overrightarrow{v_2}$}
+\KwOut{Set of candidate paths $P$ connecting $B$}
+\Begin{
+$d$:=$B.length()$ \tcp*{length of the bridge or the distance between 2 ending nodes}
+$M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree from $\overrightarrow{v_2}$ with range $d$}
+\If{$M.contain(\overrightarrow{v_1})$}{
+    $S$:=new $Stack()$ \tcp*{stack of sets of edges to traverse}
+    $edgesSet$:=$getEdges(\overrightarrow{v_1})$ \tcp*{get all bidirected edges going from $\overrightarrow{v_1}$}
+    $S.push(edgesSet)$\;
+    $p$:=new $Path(\overrightarrow{v_1})$ \tcp*{init a path that has $\overrightarrow{v_1}$ as root}
+    \While{true}{
+        $edgesSet$:=$S.peek()$\;
+        \If{$edgesSet.isEmpty()$}{
+            \If{$p.size() \leq 1$}{
+                $\mathbf{break}$ \tcp*{stop the loop when there is no more edge to discover}
+            }
+        $S.pop()$\;
+        $d$+=$p.peekNode.length()+p.popEdge().length()$\; 
+        }
+        \Else{
+            $curEdge \coloneqq edgesSet.remove()$\;
+            $\overrightarrow{v}$:=$curEdge.getOpposite(p.peekNode())$\;
+            $S.push(getEdges(\overrightarrow{v}).includedIn(M))$\;
+            $p.add(curEdge)$\;
+            \If{reach $\overrightarrow{v_2}$ with reasonable $d$}{
+                $P.add(p)$\;
+            }
+            $d$-=$\overrightarrow{v}.length()+curEdge.length()$\;
+        }
+    }
+}
+
+\Return{$P$}
+}
+\caption{Pseudo-code for finding paths connecting a bridge with 2 ends.}
+\label{algo:findpath}
+\end{algorithm}
+
+Algorithm~\ref{algo:findpath} demonstrates the path finding module in general. In which, function 
+
+$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
+
+from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
+This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
+
+Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
+A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
+
+It is worth to mention that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+
+On the other hand, if external binning algorithm is employed, the resulting output must be converted into a text file that specifies the corresponding bin of every contigs. By that, each line of the file would be:
+$
+\mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
+$
+where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%% figures & tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\newpage
 \setcounter{figure}{0}
 \setcounter{table}{0}
 % 
 \begin{center}
- \Large{Supplementary Information}
+ \Large{Supplementary Figures and Tables}
 \end{center}
-
 
 \makeatletter
 
@@ -79,6 +195,7 @@ E-mails: author.last@email.com,author.first@email.com
           \global\arrayrulewidth\oriarrayrulewidth\relax}}
 
 \makeatother
+
 
 \begin{longtable}[!hpt]{llcrrrrr}
 \caption{Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.}
