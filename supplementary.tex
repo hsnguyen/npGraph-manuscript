@@ -170,6 +170,18 @@ $
 \mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
 $
 where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
+\section{Supplementary Note 4: Graph decomposing for output report}\label{supp:note4}
+A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if every edge along the path, $e_i, \forall i=1,\ldots,k$, must be the only option to traverse from either $v_{i-1}$ or $v_i$ following the transition rule.
+To decompose the graph, we can just simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=.6\textwidth]{images/decompose.pdf}
+\caption[Example of graph decomposition into longest straight paths]{Example of graph decomposition into longest straight paths. Branching edges are masked out (shaded) leaving only straight paths (bold colored) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
+\label{figure:npgraph_decompose}
+\end{figure}
+The decomposed graph is only used to report the contigs that can be extracted from an assembly graph at certain time point. For that reason, the branching edges are only masked but not removed from the original graph as they would be used for further bridging.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%% figures & tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
