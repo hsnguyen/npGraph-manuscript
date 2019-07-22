@@ -110,7 +110,16 @@ and then being minimized by using gradient-based method.
 \end{itemize}
 The calibration is iterative until no further improvements are made or a threshold loop count is reached.
 
-\section{Supplementary Note 3: Path finding algorithm}\label{supp:note3}
+\section{Supplementary Note 3: Constructing bridges in real-time}\label{supp:note3}
+A bridge has 4 levels of completion, ranging from 1 to 4 depends on how close to finish it is.
+When a new bridge is built with only one unique ending, it has level 1.
+If both endings are identified, its completion level is 2.
+Only then, a path finding algorithm is applied to find candidate paths of this bridge. When potential paths (more than 1) are listed successfully, the completion level is increased to 3.
+Finally, when the only path solution is determined out of all candidates, the bridge is assigned as completely built with level 4.
+
+In the early stages (level 1 or 2), a bridge is fortified by alignments from long reads that spanning its anchor(s).
+
+\section{Supplementary Note 4: Path finding algorithm}\label{supp:note4}
 
 \begin{algorithm}[!hpt]
 \DontPrintSemicolon
@@ -170,7 +179,7 @@ $
 \mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
 $
 where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
-\section{Supplementary Note 4: Graph decomposing for output report}\label{supp:note4}
+\section{Supplementary Note 5: Graph decomposing for output report}\label{supp:note5}
 A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if every edge along the path, $e_i, \forall i=1,\ldots,k$, must be the only option to traverse from either $v_{i-1}$ or $v_i$ following the transition rule.
 To decompose the graph, we can just simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
 
