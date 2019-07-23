@@ -117,7 +117,14 @@ If both endings are identified, its completion level is 2.
 Only then, a path finding algorithm is applied to find candidate paths of this bridge. When potential paths (more than 1) are listed successfully, the completion level is increased to 3.
 Finally, when the only path solution is determined out of all candidates, the bridge is assigned as completely built with level 4.
 
-In the early stages (level 1 or 2), a bridge is fortified by alignments from long reads that spanning its anchor(s).
+In the early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s) (figure \ref{figure:npgraph_merging}).
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=.8\textwidth]{images/bridge_merging.pdf}
+\caption[Example of bridge merging progressively]{Bridge merging progressively in real-time. Long reads generate alignments to the contigs where new bridges are created respectively. Bridges sharing same anchors can be merged together to form the ultimate, more comprehensive bridge (with more spans and better approximation about distances between them).}
+\label{figure:npgraph_merging}
+\end{figure}
 
 \section{Supplementary Note 4: Path finding algorithm}\label{supp:note4}
 
