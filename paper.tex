@@ -460,15 +460,16 @@ This would alleviate the data consumption of the \npgraph{} while at the same ti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Methods}
 
-Basically the work flow of \npgraph{} consists of 3 main modules: (1) assembly graph loading and preprocessing; (2) graph resolving; (3) postprocessing and reporting. 
+Basically the work flow of \npgraph{} consists of 3 main modules: (1) assembly graph loading and preprocessing; (2) graph resolving; (3) postprocessing and reporting results. 
 The first step is to load the graph of Illumina contigs and retrieve their metadata which are helpful for the next steps, \EG binning and multiplicity estimation.
 By using this information, in combination with path inducing from long reads, the assembly graph is then traversed and resolved in real-time.
 Finally, the graph is subjected to the last attempt of resolving and cleaning, as well as output the final results. The whole process can be managed by using either command-line interface or GUI.
 Among three phases, only the first one must be performed prior to the MinION sequencing process in a streaming setup.
+The algorithm works on the assembly graph of Illumina contigs, so the terms \emph{contigs} and \emph{nodes} if not mentioned specifically, would be used interchangable throughout this context.
 \subsection*{Contigs binning}
 Each population is expected to include contigs of the similar abundance in the final assembly sequences, \EG{} chromosome , plasmids, or even particular species genome in a metagenomics community. In addition, the binning phase would assist to differentiate between repetitive contigs and unique ones. 
 
-Each contig is represented as a node in the assembly graph and an edge between two nodes indicate their overlap (link) properties.
+Each contig is represented as a single node in the assembly graph and an edge between two nodes indicate their overlap (link) properties.
 This step is to cluster the longest nodes (longer than $10$Kbp) into different sets, namely \emph{core} groups, based on the their degree (number of connections) and coverage values.
 DBSCAN clustering algorithm \cite{Ester96adensity-based} is applied for this task by default.
 The rationale is to approximate a coverage value of a significant contig (which can be splitted into more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
@@ -486,8 +487,10 @@ For that reason, in \npgraph{}'s algorithm, they are only used as augmented info
 %\subsection*{Untangling assembly graph by stream of nanopore data.}
 \subsection*{Building bridges in real-time}
 Bridge is the data structure designed for tracking the possible connections between two anchored nodes (of unique contigs) in the assembly graph.
+A bridge must start from a unique contig, or \emph{anchor} node, and end at another when completed. Located inbetween are nodes known as \emph{steps} and distances between them are called \emph{spans} of the bridge. Stepping nodes are normally repetitive contigs and indicative for a path finding operation later on. In a complicated assembly graph, the more details the bridge, \emph{a.k.a.} more steps inbetween, the faster and more accurate the linking path it would resolve. A bridge's function is complete when it successfully return the ultimate linking path between 2 anchors.
+
 The real-time bridging method considers the dynamic aspect of multiplicity measures for each node, meaning that a $n$-times repetitive node might become a unique node at certain time point when its $(n-1)$ occurrences have been already identified in other distinct unique paths. 
-Furthermore, the streaming fashion of this method allows the bridge constructions to be carried out progressively so that assembly decisions are made immediately after having sufficient supporting data.
+Furthermore, the streaming fashion of this method allows the bridge constructions (updating steps and spans) to be carried out progressively so that assembly decisions can be made immediately after having sufficient supporting data.
 The detail implementation is addressed in Supplementary Note~\ref{supp:note3}.
 
 A bridge in \npgraph{} has several completion levels. When created, it must be rooted from an \emph{anchor node} which represents a unique contig (level 1). A bridge is known as fully complete (level 4) if and only if there is a unique path connecting its two anchor nodes from two ends. 

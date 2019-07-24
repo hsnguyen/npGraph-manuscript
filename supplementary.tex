@@ -111,30 +111,42 @@ and then being minimized by using gradient-based method.
 The calibration is iterative until no further improvements are made or a threshold loop count is reached.
 
 \section{Supplementary Note 3: Constructing bridges in real-time}\label{supp:note3}
+We implemented a data structure to represent the connection between two unique contigs in the assembly graph, namely \emph{bridge}. 
 A bridge has 4 levels of completion, ranging from 1 to 4 depends on how close to finish it is.
-When a new bridge is built with only one unique ending, it has level 1.
-If both endings are identified, its completion level is 2.
+When a new bridge is built with only one anchor (unique ending), it has level 1.
+If both anchor nodes are identified, its completion level is 2.
 Only then, a path finding algorithm is applied to find candidate paths of this bridge. When potential paths (more than 1) are listed successfully, the completion level is increased to 3.
-Finally, when the only path solution is determined out of all candidates, the bridge is assigned as completely built with level 4.
+Finally, when the only path solution is determined out of all candidates, the bridge is assigned as complete-built with level 4.
 
-In the early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s) (figure \ref{figure:npgraph_merging}).
+At early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s).
+In an example from Figure~\ref{figure:npgraph_merging}, bridges from a certain anchor (highlighted in red) are created by extracting appropriate alignments from incoming long reads to the contigs. Each of the steps therefore is assigned a weighing score based on its alignment quality.
+Due to the error rate of long reads, there should be deviations in terms of steps found and spans measured between these bridges, eventhough they represent the same connection.
+A continuous merging phase, as shown in the figure, takes advantage of a pairwise Needleman-Wunsch dynamic programming to generate a consensus list based on weight and position of each of every stepping nodes. The spans are calibrated accordingly by averaging out the distances. On the other hand, the score of the merged steps are accumulated over time as well.
+Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hosting a list of steps with sufficient coverage, it is ready for a path finding in the next step.
 
 \begin{figure}[!hpt]
 \centering
 \includegraphics[width=.8\textwidth]{images/bridge_merging.pdf}
-\caption[Example of bridge merging progressively]{Bridge merging progressively in real-time. Long reads generate alignments to the contigs where new bridges are created respectively. Bridges sharing same anchors can be merged together to form the ultimate, more comprehensive bridge (with more spans and better approximation about distances between them).}
+\caption[Example of bridge merging progressively]{Bridge merging progressively in real-time. Sequencing long reads induce alignments to the contigs where new bridges are created respectively. Bridges sharing same anchors can be merged together to form the ultimate, more comprehensive bridge (with more spans and better approximation about distances between them).}
 \label{figure:npgraph_merging}
 \end{figure}
 
+
 \section{Supplementary Note 4: Path finding algorithm}\label{supp:note4}
+However, due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are neccessary to be appeared in the ultimate path resolved by the bridge. 
+In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
+For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge.
+
 
 \begin{algorithm}[!hpt]
 \DontPrintSemicolon
 \KwData{Assembly graph $G\{V,E\}$}
-\KwIn{Bridge $B=(\overrightarrow{v_1}, \overrightarrow{v_2})$ with two ending unique bidirected nodes $\overrightarrow{v_1}, \overrightarrow{v_2}$}
-\KwOut{Set of candidate paths $P$ connecting $B$}
-\Begin{
-$d$:=$B.length()$ \tcp*{length of the bridge or the distance between 2 ending nodes}
+\KwIn{Pair of bidirected nodes $\overrightarrow{v_1}, \overrightarrow{v_2}$ and estimated distance $d$ between them}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_1}$ to $\overrightarrow{v_2}$ with reasonable distances compared to $d$}
+\SetKwFunction{DFS}{DFS} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\DFS{$\overrightarrow{v_1}, \overrightarrow{v_2}$, $d$}}{
+$P$:=new List()\;
 $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree from $\overrightarrow{v_2}$ with range $d$}
 \If{$M.contain(\overrightarrow{v_1})$}{
     $S$:=new $Stack()$ \tcp*{stack of sets of edges to traverse}
@@ -165,11 +177,11 @@ $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree f
 
 \Return{$P$}
 }
-\caption{Pseudo-code for finding paths connecting a bridge with 2 ends.}
+\caption{Pseudo-code for finding paths connecting 2 nodes given their estimated distance.}
 \label{algo:findpath}
 \end{algorithm}
 
-Algorithm~\ref{algo:findpath} demonstrates the path finding module in general. In which, function 
+Algorithm~\ref{algo:findpath} generally demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
 
 $\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
 
