@@ -110,7 +110,16 @@ and then being minimized by using gradient-based method.
 \end{itemize}
 The calibration is iterative until no further improvements are made or a threshold loop count is reached.
 
-\section{Supplementary Note 3: Constructing bridges in real-time}\label{supp:note3}
+\section{Supplementary Note 3: Contigs binning}\label{supp:note3}
+We implemented a simple binning algorithm based on the clustered contigs, the graph topology as well as statistics calculated by length and coverage of each contigs. The algorithm works well for isolate or simple mock metagenomics, but not robust enough for complicated community.
+
+On the other hand, if external binning algorithm is employed, the resulting output must be converted into a text file that specifies the corresponding bin of every contigs, just like output from MetaBAT. By that, each line of the file would be:
+$
+\mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
+$
+where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
+
+\section{Supplementary Note 4: Constructing bridges in real-time}\label{supp:note4}
 We implemented a data structure to represent the connection between two unique contigs in the assembly graph, namely \emph{bridge}. 
 A bridge has 4 levels of completion, ranging from 1 to 4 depends on how close to finish it is.
 When a new bridge is built with only one anchor (unique ending), it has level 1.
@@ -132,7 +141,7 @@ Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hos
 \end{figure}
 
 
-\section{Supplementary Note 4: Path finding algorithm}\label{supp:note4}
+\section{Supplementary Note 5: Path finding algorithm}\label{supp:note5}
 However, due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are neccessary to be appeared in the ultimate path resolved by the bridge. 
 In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
 For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge.
@@ -191,14 +200,9 @@ This tree is used on line 4 and in function $includedIn()$ on line 19 to filter 
 Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
 A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
 
-It is worth to mention that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
 
-On the other hand, if external binning algorithm is employed, the resulting output must be converted into a text file that specifies the corresponding bin of every contigs. By that, each line of the file would be:
-$
-\mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
-$
-where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
-\section{Supplementary Note 5: Graph decomposing for output report}\label{supp:note5}
+\section{Supplementary Note 6: Graph decomposing for output report}\label{supp:note6}
 A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if every edge along the path, $e_i, \forall i=1,\ldots,k$, must be the only option to traverse from either $v_{i-1}$ or $v_i$ following the transition rule.
 To decompose the graph, we can just simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
 
