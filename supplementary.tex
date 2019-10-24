@@ -16,8 +16,11 @@
   commentstyle=\color{red},
   keywordstyle=\color{blue}
 }
+\usepackage{latexsym}
 \usepackage{mathtools}
-
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
 
 \definecolor{Gray}{gray}{0.9}
 \newcommand{\npscarf}{$\mathtt{npScarf}$}
@@ -146,8 +149,13 @@ Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hos
 \section{Supplementary Note 5: Path finding algorithm}\label{supp:note5}
 However, due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are neccessary to be appeared in the ultimate path resolved by the bridge. 
 In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
-For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge.
+For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}.
 
+
+Before that, we define Algorithm~\ref{algo:findpath} to demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
+$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
+from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
+This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
 
 \begin{algorithm}[!hpt]
 \DontPrintSemicolon
@@ -192,12 +200,29 @@ $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree f
 \label{algo:findpath}
 \end{algorithm}
 
-Algorithm~\ref{algo:findpath} generally demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
-
-$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
-
-from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
-This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps inbetween}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_2}$ that maximize the likelihood of the step list.}
+\SetKwFunction{BinaryBridging}{BinaryBridging} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\BinaryBridging{B}}{
+\tcc{search for the contig with maximum score from the step list (two ends excluded)}
+$m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
+\tcc{if there is no step inbetween, run path finding algorithm above directly and return the result}
+\If{$M.size() \equiv 2$}{ 
+	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
+}
+\tcc{divide the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
+$BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
+$BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
+\tcc{Return the join of running recursive function on two sub-bridges}
+\Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
+}
+\caption{Recursive binary bridging to connect 2 anchor nodes.}
+\label{algo:binsearch}
+\end{algorithm}
 
 Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
 A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
