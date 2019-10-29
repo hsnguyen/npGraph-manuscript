@@ -423,24 +423,8 @@ On the other hand, the N50 length of \npgraph{} is always a monotonic increasing
 The sharp \emph{jumping} patterns suggested that the linking information from long-read data had been stored and exploited at certain time point decided by the algorithm.
 Once a unique path has been determined, the bridge can be formed to connect the fragments together into longer sequences.
 
+\subsection*{Scaffolding metagenomics data set}
 
-\begin{figure}[!hpt]
-\centering
-\subfloat[Initial graph]{
-	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_0.png}
-}
-\hfill
-\subfloat[Resolved graph]{
-	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_2.png}
-}
-\caption[Assembly graph resolving on \npgraph{} Graph View]{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
-\label{F:npgraph_graphview}
-\end{figure}
-
-Figure~\ref{F:npgraph_graphview} shows an example of the real-time graph resolving process being displayed on GUI.
-The result graph, after cleaning, would only report the significant connected components that represents the final contigs.
-Smaller fragments, even unfinished but with high remaining coverage, are also presented as potential candidates for further downstream analysis.
-Further annotation utility can be implemented in the future better monitoring the features of interests as in \npscarf{}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Conclusions}
 Assembly graph is the data structure describing the assembly process at a lower level of more details.

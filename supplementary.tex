@@ -242,8 +242,26 @@ To decompose the graph, the tool simply mask out all incoming/outgoing edges roo
 \caption[Example of graph decomposition into longest straight paths]{Example of graph decomposition into longest straight paths. Branching edges are masked out (shaded) leaving only straight paths (bold colored) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
 \label{figure:npgraph_decompose}
 \end{figure}
+
 The decomposed graph is only used to report the contigs that can be extracted from an assembly graph at certain time point. For that reason, the branching edges are only masked but not removed from the original graph as they would be used for further bridging.
 
+\begin{figure}[!hpt]
+\centering
+\subfloat[Initial graph]{
+	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_0.png}
+}
+\hfill
+\subfloat[Resolved graph]{
+	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_2.png}
+}
+\caption[Assembly graph resolving on \npgraph{} Graph View]{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
+\label{figure:npgraph_graphview}
+\end{figure}
+
+Supplementary Figure~\ref{figure:npgraph_graphview} presents an example of the results before and after graph resolving process in the GUI.
+The result graph, after cleaning, would only report the significant connected components that represents the final contigs.
+Smaller fragments, even unfinished but with high remaining coverage, are also presented as potential candidates for further downstream analysis.
+Further annotation utility can be implemented in the future better monitoring the features of interests as in \npscarf{}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%% figures & tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
