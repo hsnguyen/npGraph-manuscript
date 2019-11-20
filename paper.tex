@@ -110,7 +110,8 @@ E-mails: l.coin@imb.uq.edu.au,s.hoangnguyen@imb.uq.edu.au
 \abstract{
 A real-time assembly pipeline for Oxford Nanopore Technology (ONT) data is important for either saving sequencing resources or reducing turnaround time for data analyses. The previous approach from \npscarf{} provided a greedy fast-response, auto-correct streaming algorithm for such task but was relatively prone to mis-assemblies compared to other graph-based methods. 
 Here we present \npgraph{}, a real-time hybrid assembly software using the assembly graph instead of the separated pre-assembly contigs. It is able to produce more complete genome assembly by resolving the path finding problem on the assembly graph using long reads as the traversing guide. 
-The applications on synthetic and real data set of isolate genomes show improved accuracy while still maintain the required computational cost at very low level. In addition, the built-in graphical user interface (GUI) can provide users a comprehensive look-and-feel of the whole assembly process. The tool and source code is available at \url{https://github.com/hsnguyen/assembly}.
+The application on synthetic and real data set of isolate genomes show improved accuracy while still maintaining the required computational cost extremely low. On top of that, we apply \npgraph{} on mock community in the very first application to improve metagenomics assembly in real-time with nanopore data. 
+With \npscarf{}, the built-in graphical user interface (GUI) can provide users a comprehensive look-and-feel of the whole assembly process. The tool and source code is available at \url{https://github.com/hsnguyen/assembly}.
 %=======
 %A real-time assembly pipeline for Oxford Nanopore Technology (ONT) data is important for either better control of sequencing resources or quick turnaround of analyses. The previous approach from \npscarf{} provided a greedy fast-response, auto-correct streaming algorithm for such task but was relatively prone to mis-assemblies. Here we present another real-time hybrid assembler, \npgraph{}, that can work on the assembly graph instead of the pre-assembled contigs. The results show improved accuracy while still minimize the required computational cost. The tool is available at \url{https://github.com/hsnguyen/assembly}.
 %>>>>>>> 2d4c481dd93902dfb2dabe46534a62e8a8c2058c
@@ -204,14 +205,14 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
 \LTcapwidth=\linewidth
 % \footnotesize
 \begin{longtable}{llcrrrrr@{\hspace{2pt}}c@{\hspace{2pt}}r}
-\caption[Comparison of assemblies using \npgraph{} and other comparative methods on 5 synthetic data sets]{Comparison of assemblies produced in batch-mode using \npgraph{} and the comparative methods on 5 synthetic data sets taken from \url{https://cloudstor.aarnet.edu.au/plus/index.php/s/dzRCaxLjpGpfKYW}} \label{table:npgraph_compare} \\
+\caption[Comparison of assemblies using \npgraph{} and other comparative methods on 5 synthetic data sets]{Comparison of assemblies produced in batch-mode using \npgraph{} and the comparative methods on 5 \unicycler{}`s synthetic data sets downloaded from \url{https://cloudstor.aarnet.edu.au/plus/index.php/s/dzRCaxLjpGpfKYW}} \label{table:npgraph_compare} \\
 
  \toprule
     &       & \cthead{1}{Assembly} &     & 
     \cthead{1}{N50}  & \cthead{1}{Mis-} &  \cthead{1}{Error}  &
     \cthead{3}{Run times} \\
-    & \cthead{1}{Method} & \cthead{1}{size (Mb)} & \cthead{1}{\#Contigs} &
-    \cthead{1}{(Kp)} & \cthead{1}{assemblies} & \cthead{1}{(per 100 Kb)} &  
+    & \cthead{1}{Method} & \cthead{1}{size (Mbp)} & \cthead{1}{\#Contigs} &
+    \cthead{1}{(Kbp)} & \cthead{1}{assemblies} & \cthead{1}{(per 100 Kbp)} &  
     \cthead{3}{(CPU hrs)} \\
 \toprule    
 \endfirsthead
@@ -222,8 +223,8 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
     &       & \cthead{1}{Assembly} &     & 
     \cthead{1}{N50}  & \cthead{1}{Mis-} &  \cthead{1}{Error}  &
     \cthead{3}{Run times} \\
-    & \cthead{1}{Method} & \cthead{1}{size (Mb)} & \cthead{1}{\#Contigs} &
-    \cthead{1}{(Kp)} & \cthead{1}{assemblies} & \cthead{1}{(per 100 Kb)} &  
+    & \cthead{1}{Method} & \cthead{1}{size (Mbp)} & \cthead{1}{\#Contigs} &
+    \cthead{1}{(Kbp)} & \cthead{1}{assemblies} & \cthead{1}{(per 100 Kbp)} &  
     \cthead{3}{(CPU hrs)} \\
 \toprule    
 \endhead
@@ -311,9 +312,9 @@ However, under almost circumstances, using either aligners would result in final
 Furthermore, in terms of running time and resources required, \minimap{} proved to be the best option. 
 The total CPU hours had been cut down drastically with the new aligner, making \npgraph{} the fastest hybrid assembler available.
 This feature is certainly more favoured to a real-time assembly as well.
-As the consequence, as long as \minimap{} is expected to replace \bwa{} for long-read sequencing data alignment, it would likewise become the main aligner for \npgraph{} pipeline in the future.
+Because \minimap{} is expected to replace \bwa{} for long-read sequencing data alignment, it likewise being chosen as the default aligner for \npgraph{} pipeline.
 
-To evaluate assembly errors, we considered the measure of the total mismatches and indels per 100kpb from the assembly sequences when mapping to the reference.
+To evaluate assembly errors, we considered the measure of the total mismatches and indels per 100 Kbp from the assembly sequences when mapping to the reference.
 As expected from hybrid assembly method embedding Illumina data, the figures were hardly bigger than 100 (equivalent to 0.1\% error rate) in almost every cases.
 Furthermore, the indels errors, which mainly caused by TGS data, were found relatively low in the final contigs (Table~\ref{supp_tab:synthetic_benchmark}).
 The majority of the differences accounted for the mismatched nucleotides caused by the alternative paths connecting the unique anchors from the backbone of the assembly.
@@ -363,7 +364,7 @@ From the first data set, there was high similarity between final contigs generat
 They shared the same number of circular ultimate sequences, including the chromosomal and other six replicons contigs. 
 The only divergence lied on the biggest sequence ($\simeq 5.029$Mbp) when the \unicycler{}'s chromosome was 48 nucleotides longer than that of \npgraph{}.
 Five out of six identical replicons were confirmed as plasmids based on the occurences of appropriate Origin of replication sequences (PlasmidFinder database).
-In detail, two megaplasmids (longer than $100$Kpb) were classified as IncFIB while the other two mid-size replicons, $85.6$Kbp and $43.6$Kpb, were incL and repA respectively, leaving the shortest one with $2Kbp$ of length as ColRNAI plasmid.
+In detail, two megaplasmids (longer than $100$Kbp) were classified as IncFIB while the other two mid-size replicons, $85.6$Kbp and $43.6$Kbp, were incL and repA respectively, leaving the shortest one with $2Kbp$ of length as ColRNAI plasmid.
 The remaining circular sequence without any hits to the database was $3.2$Kbp long suggesting that it could be phage or newly replicon's DNA.
 Lastly, there were still $14.5$Kbp unfinished sequences resulted in 3 linear contigs from \unicycler{} and 2 for \npgraph{} respectively.
 
@@ -372,7 +373,7 @@ The chromosome size was estimated to be approximately $4.8$Mbp but had been brok
 \npgraph{} returned longer stretches of length $3.324$Mbp and $1.534$Mbp while the figures were $2.829$Mbp and $1.978$Mbp from \unicycler{}'s output.
 However, the number of circular sequences detected by \unicycler{} was one more than the other ($2$ versus $1$). They were corresponding to 2 plasmids, namely IncR and repA.
 While the latter were recognized by both methods, the longer plasmid sequence was fragmented running \npgraph{}.
-Similar to the previous data set, there were around $14$Kpb of data were unable to be finished by the assemblers.
+Similar to the previous data set, there were around $14$Kbp of data were unable to be finished by the assemblers.
 
 Finally, assembly for \emph{Klebsiella oxytoca} saw fragmented chromosome using \unicycler{} but it was a fully complete contig for \npgraph{} with $6.156$Mbp of size.
 The two assemblers shared 3 common circular sequences where two of them were confirmed plasmids. 
@@ -533,8 +534,7 @@ It is worth noting that due to dead-ends, there not always exist a path in the a
 Whenever a bridge is finished (with a unique linking path), the assembly graph is \emph{transformed} or \emph{reduced} by replacing its unique path with a composite edge and removing any unique edges (edges coming from unique nodes) along the path. The assembly graph would have at least one edge less than the original after the reduction. The nodes located on the reduced path, other than 2 ends, also have their multiplicities subtracted by one and the bridge is marked as finally resolved without any further modifications. 
 
 \subsection*{Result extraction and output}
-\npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will present a contig for the result (Supplementary Note \ref{supp:note6}).
-
+\npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will spell a contig in the assembly report (Supplementary Note \ref{supp:note6}).
 The final assembly output contains files in both FASTA and GFAv1 format (\url{https://github.com/GFA-spec/GFA-spec}). While the former only retains the actual genome sequences from the final decomposed graph, the latter output file can store almost every properties of the ultimate graph such as nodes, links and potential paths between them.
 
 Other than that, if GUI mode is enabled, basic assembly statistics such as N50, N75, maximal contigs length, number of contigs can be visually reported to the users in real-time beside the Dashboard. The progressive simplification of the assembly graph can also be observed at the same time in the Graph view.
