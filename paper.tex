@@ -482,22 +482,22 @@ The result has shown more complete isolate genomes reconstructed out of the grap
 
 As a hybrid assembler, similar to \unicycler{}, \npgraph{} relies on the initial assembly graph to generate the final assembly. The algorithm operates on the assumption of a high quality assembly from a well-supplied source of short-read data for a decent assembly graph to begin with.
 It then consumes a just-enought amount of data from a streaming input of nanopore reads to resolve the graph. 
-In summary, extra pre-processing and comprehensive binning for the initial graph could further improve the performance of \npgraph{}.
+Finally, extra pre-processing and comprehensive binning on the initial graph could further improve the performance of the streaming assembler.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Methods}
 
-The work flow of \npgraph{} consists of 3 stages: (1) assembly graph preprocessing; (2) graph resolving and simplifying; (3) postprocessing and reporting results. 
+The work flow of \npgraph{} mainly consists of 3 stages: (1) assembly graph preprocessing; (2) graph resolving and simplifying; (3) postprocessing and reporting results. 
 The first step is to load the graph of Illumina contigs and retrieve their metadata which are helpful for the next steps, \EG binning and multiplicity estimation.
 The second step works on the processed input and augmented information from the previous one. In combination with path inducing from long reads, the assembly graph is then traversed and resolved in real-time.
 Finally, the graph is subjected to the last attempt of resolving and cleaning, as well as output the final results. The whole process can be managed by using either command-line interface or GUI.
 Among three phases, only the first one must be performed prior to the MinION sequencing process in a streaming setup.
 The algorithm works on the assembly graph of Illumina contigs, so the terms \emph{contigs} and \emph{nodes} if not mentioned specifically, would be used interchangable throughout this context.
 \subsection*{Contigs binning}
-Each population is expected to include contigs of the similar abundance in the final assembly sequences, \EG{} chromosome , plasmids, or even particular species genome in a metagenomics community. In addition, the binning phase would assist the multiplicity estimation submodule that can differentiate repetitive contigs from unique ones. 
+Contigs from each completed genome are expected to be assigned to an unique group, or \emph{bin}, that would represent the final assembly unit, \EG{} chromosome , plasmids, or even particular species genome in a metagenomic community. As a result, the binning phase would assist the multiplicity estimation submodule that can differentiate repetitive contigs from unique ones. 
 
-Each contig is represented as a single node in the assembly graph and an edge between two nodes indicates their overlap (link) properties.
+Each contig is embeded in a single node in the assembly graph and an edge between two nodes indicates their overlap (link) properties.
 This step is to cluster the biggest nodes (contigs longer than $10$Kbp) into different sets, namely \emph{core} groups, based on the their degree (number of connections) and coverage values.
 DBSCAN clustering algorithm \cite{Ester96adensity-based} is applied for this task by default.
 The rationale is to approximate a coverage value of a significant contig (which can be splitted into more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
