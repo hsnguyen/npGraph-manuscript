@@ -10,6 +10,7 @@
 \newcommand{\canu}{$\mathtt{Canu}$}
 \newcommand{\unicycler}{$\mathtt{Unicycler}$}
 \newcommand{\spades}{$\mathtt{SPAdes}$}
+\newcommand{\hspades}{$\mathtt{hybridSPAdes}$}
 \newcommand{\albacore}{$\mathtt{Albacore}$}
 \newcommand{\racon}{$\mathtt{Racon}$}
 \newcommand{\metrichor}{$\mathtt{Metrichor}$}
@@ -139,14 +140,14 @@ Streaming assembly methods had been proven to be useful in saving time and resou
 
 % Why hybrid???
 Hybrd approaches are still common practice in genome assembly and data analyses when Illumina sequencing remains the most favoured option in terms of cost and accuracy to date.
-On the other hand, the third-generation sequencing methods such as Pacbio or Oxford Nanopore Technology are well-known for the ability to produce much longer reads that can further complete the former`s assembly.
+On the other hand, the third-generation sequencing methods such as Pacbio or Oxford Nanopore Technology are well-known for the ability to produce much longer reads that can further complete the Illumina assembly.
 As the consequence, it is rational to combine two sources of data together in a hybrid method that can offer accurate and comptete genomes at the same time.
 \npscarf{}, following that philosophy, had been developed and deployed on real microbial genomes.
 
-However, due to the greedy bridging approach of the contigs-based streaming algorithm, \npscarf{}`s concurrent results might suffer from mis-assemblies~\cite{Wick2017unicycler,Giordano2017}. 
+However, due to the greedy bridging approach of the contigs-based streaming algorithm, \npscarf{}`s results might suffer from mis-assemblies~\cite{Wick2017unicycler,Giordano2017}. 
 A default setting were optimzed for microbial genomes input but cannot fit for all data from various experiments in practice.
 Also, the gap filling step has to rely on the low quality nanopore reads thus the accuracy of the final assembly is affected as well. 
-To tackle the quality issue while maintaining its streaming execution, a bridging method by assembly graph traversing is proposed. 
+To tackle the quality issue while maintaining its streaming feature, a bridging method by assembly graph traversing is proposed. 
 In which, after the construction of a compact DBG assembly graph, the next step is to traverse the graph, resolve the repeats and identify the longest possible un-branched paths that would represents contigs for the final assembly.
 
 Hybrid assembler using nanopore data to resolve the graph has been implemented in $\mathtt{hybridSPAdes}$ \cite{AntipovKM2015} or \unicycler{} \cite{Wick2017unicycler}. 
@@ -156,9 +157,14 @@ On the other hand, \unicycler{}'s hybrid assembler will initially generate a con
 The higher quality consensus reads are used to align with the assembly graph to find the best paths bridging pairs of anchored contigs.
 While the latter method employs the completeness of the data  set from the very beginning for a consensus step, the former only iterates over the batch of possible paths and relies on a scoring system for the final decision of graph traversal. For that reason, the first direction is more suitable for a real-time pipeline.
     
-Nonetheless, the challenges to adapt this approach into a real-time mechanism are obvious, mainly from building a progressive, self-updating path-finding and graph reducing method which are required for a streaming assembler on graph. 
-A modified DFS (depth-first search) algorithm and a progressive voting algorithm has been implemented to overcome these issues.
-The method is implemented in \npgraph{}, a user-friendly tool with GUI that can traverse the assembly graph and bridge its components in real-time as long as the nanopore sequencing process is still running.  
+Nonetheless, the challenge to adapt this approach into a real-time mechanism is obvious, mainly from building a progressive implementation for path-finding and graph reducing module which are essential for a streaming graph assembler. 
+To achieve that, we apply a modified DFS (depth-first search) mechanism and a dynamic voting algorithm into an on-the-fly graph resolver.
+The method is implemented in \npgraph{}, a user-friendly tool with GUI that can traverse the assembly graph and bridge its components in real-time as long as the nanopore sequencing process is still running. 
+ 
+We use different hybrid data sets to study the \npgraph{}`s performance and compare with other available tools with similar functionality, such as \npscarf{}, \unicycler{} and \hspades{}. Even though all data were from microbial genomes, the complexity of the input graphs range from few hundred to ten thousands of components, synthesized \emph{in silico} or sequenced from \emph{in vitro} samples.
+Particularly, for the first time, we employ a pipeline in an attempt to complete metagenomics assembly in real-time. 
+We aim to develop a simple approach on top of \npgraph{} to adapt with metagenomics while minimizing additional processing steps. In fact, only one more step for population binning is needed to make \npgraph{} functions on genomes of a mock community.
+Despite a rather straightforward methodology, the pipeline has shown consecutively enhanced assembly from the fragmented short-read DBG graph.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Results}
 \subsection*{\npgraph{} -- a tool to resolve assembly graph in real-time}
@@ -231,7 +237,7 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
 \rowcolor{Gray} \multicolumn{10}{l}
 { random sequence with repeats} \\*  
  & SPAdes  & 3.928 & 226  & 40.5  &  0 &  0.00 &  0.95 &  &  \\*
- & SPAdes-Hybrid  & 4.109 & 3  & 4,000.0  & 0  & 0.85  & 1.196  &  &  \\*
+ & SPAdes-Hybrid  & 4.108 & 3  & 3,999.6  & 0  & 0.83  & 1.196  &  &  \\*
  & Unicycler  & 4.110 & 3  & 4,000.0  &  0 &  0.47 & 6.783  &  &  \\*
  & npScarf  & 4.251 &  9 & 3,952.2  &  27 &  8.74 &  0.95 & + & 0.39 \\*
  & npScarf\_wag & 4.554 & 9  &  3,999.6 &  37 &  6.16 &  0.95 & + &  0.45\\*
