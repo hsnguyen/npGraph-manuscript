@@ -71,6 +71,22 @@
 	\DeclareGraphicsExtensions{.ps}
 \fi
 
+\usepackage[linesnumbered,boxed,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% For code embedding (Bash, Java...)
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{latexsym}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
 \usepackage{xr}
 \externaldocument{supplementary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,50 +251,38 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
 \endlastfoot
 
 \rowcolor{Gray} \multicolumn{10}{l}
-{ random sequence with repeats} \\*  
- & SPAdes  & 3.928 & 226  & 40.5  &  0 &  0.00 &  0.95 &  &  \\*
- & SPAdes-Hybrid  & 4.108 & 3  & 3,999.6  & 0  & 0.83  & 1.196  &  &  \\*
- & Unicycler  & 4.110 & 3  & 4,000.0  &  0 &  0.47 & 6.783  &  &  \\*
- & npScarf  & 4.251 &  9 & 3,952.2  &  27 &  8.74 &  0.95 & + & 0.39 \\*
- & npScarf\_wag & 4.554 & 9  &  3,999.6 &  37 &  6.16 &  0.95 & + &  0.45\\*
- & npGraph (bwa)  & 4.110 & 3  & 4,000.0  & 0  &  0.47 &  0.95 & + &  0.33\\*
- & ngGraph (minimap2)  & 4.110 & 3  & 4,000.0  & 0  & 0.47  &  0.95 & + &  0.02\\
+{\emph{Mycobacterium~tuberculosis} H37Rv: 4,411,532bp} \\*  
+& SPAdes & 4.376 & 66 & 150.7 & 0 & 0.23 & 1.42 & & \\*
+& SPAdes hybrid & 4.411 & 1 & 4410.5 & 0 & 0.86 & 1.61 & & \\*
+& Unicycler & 4.412 & 1 & 4411.5 & 0 & 2.56 & 5.52 & & \\*
+& npScarf & 4.432 & 4 & 4402.2 & 7 & 6.61 & 1.42 & + & 0.7 \\*
+& npGraph (bwa) & 4.411 & 1 & 4411.4 & 0 & 2.63 & 1.42 & + & 0.64 \\*
+& npGraph (minimap2) & 4.412 & 1 & 4411.5 & 0 & 0.68 & 1.42 & + & 0.02 \\*
 \rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Mycobacterium tuberculosis} H37Rv} \\*  
- & SPAdes  & 4.371 & 114  &  125.5 &  1 & 1.51  &  1.55 &  &  \\*
- & SPAdes-Hybrid  & 4.411 & 1  & 4,411.2  & 0  & 1.73  & 1.68  &  &  \\*
- & Unicycler  & 4.412 &  1 &  4,411.5 & 0  &  2.56 &  6.36 &  &  \\*
- & npScarf  & 4.446 & 4  & 4,389.9  & 12  &  11.41 & 1.55  & + & 0.78 \\*
- & npScarf\_wag  & 4.408 & 1  & 4,407.6  &  2 &  7.01 & 1.55  & + & 0.79 \\*
- & npGraph (bwa)  & 4.411 &  1 & 4,411.6  &  0 & 7.28  &  1.55 & + & 0.63 \\*
- & ngGraph (minimap2)  & 4.411 & 1 & 4,411.4  &  0 &  7.01 & 1.55  & + &  0.02\\
+{\emph{Saccharomyces~cerevisiae} S288c: 12,157,105 bp} \\*  
+& SPAdes & 11.675 & 194 & 260.5 & 0 & 1.57 & 3.61 & & \\*
+& SPAdes hybrid & 11.910 & 45 & 770.5 & 5 & 34.52 & 4.15 & & \\*
+& Unicycler & 11.837 & 29 & 909.1 & 0 & 22.83 & 16.34 & & \\*
+& npScarf & 11.990 & 22 & 796.8 & 53 & 85.5 & 3.61 & + & 4.35 \\*
+& npGraph (bwa) & 12.000 & 151 & 913.1 & 3 & 38.68 & 3.61 & + & 4.12 \\*
+& npGraph (minimap2) & 12.008 & 148 & 913.1 & 5 & 25.32 & 3.61 & + & 0.13 \\*
 \rowcolor{Gray} \multicolumn{10}{l}
-{\ec{} O25b H4-ST131} \\*  
- & SPAdes  & 5.173 &  159 & 191.0  &  1 &  1.69 & 1.26  &  &  \\*
- & SPAdes-Hybrid  & 5.249 &  7 &  5,109.6 & 0  & 2.65  & 1.40  &  &  \\*
- & Unicycler  & 5.249 &  3 & 5,109.8  &  0 &  4.29 &  4.70 &  &  \\*
- & npScarf  & 5.354 & 7  & 5,087.5  &  14 & 29.12  &  1.26 & + &  0.78\\*
- & npScarf\_wag  & 5.413 &  7 & 5,108.1  & 6  &  30.29 & 1.26  & + & 0.78 \\*
- & npGraph (bwa)  & 5.252 & 3  &  5,112.3 &  0 & 16.37  & 1.26  & + &  0.66\\*
- & ngGraph (minimap2)  & 5.250 & 3  & 5,111.1  & 0  & 14.61  &  1.26 & + & 0.03 \\
+{\emph{Shigella~sonnei} 53G: 5,220,473 bp} \\*  
+& SPAdes & 4.796 & 392 & 27.7 & 0 & 0.44 & 1.1 & & \\*
+& SPAdes hybrid & 5.218 & 8 & 2195.5 & 2 & 41.98 & 1.36 & & \\*
+& Unicycler & 5.221 & 5 & 4988.5 & 0 & 7.91 & 9.64 & & \\*
+& npScarf & 6.426 & 20 & 1293.8 & 84 & 366.04 & 1.1 & + & 0.52 \\*
+& npGraph (bwa) & 5.293 & 97 & 4988.5 & 3 & 14.87 & 1.1 & + & 0.57 \\*
+& npGraph (minimap2) & 5.293 & 97 & 4988.5 & 3 & 8.31 & 1.1 & + & 0.08 \\*
 \rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Streptococcus suis} BM407} \\*  
- & SPAdes  & 2.119 &  81 &  131.0 & 0  & 3.84  & 0.59  &  &  \\*
- & SPAdes-Hybrid  & 2.147 & 48  &  1,438.0 &  0 &  0.98 & 0.65  &  &  \\*
- & Unicycler  & 2.171 &  2 &  2,146.2 & 0  &  2.99 &  2.58  &  &  \\*
- & npScarf  & 2.220 &  4 &  2,120.0  & 9  & 97.20  & 0.59 & + & 0.31 \\*
- & npScarf\_wag  & 2.245 & 4  &  2,128.3  & 3  &  89.64 & 0.59 & + &  0.31\\*
- & npGraph (bwa)  & 2.167 & 6  & 2,146.7  &  0 &  26.77 & 0.59  & + &  0.21\\*
- & ngGraph (minimap2)  & 2.167 & 6  &  2,146.2 &  0 & 22.53  &  0.59 & + & 0.01 \\
-\rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Acinetobacter} AB30} \\*  
- & SPAdes  & 4.134 & 265  & 42.5  &  0 &  3.23 & 0.95  &  &  \\*
- & SPAdes-Hybrid  & 4.287 & 49  &  3,308.0 &  0 & 5.04  & 1.84  &  &  \\*
- & Unicycler  & 4.333 & 1  &  4,333.0 &  1 & 6.95  &  5.27 &  &  \\*
- & npScarf  & 4.595 & 11  & 4,299.7  & 1  & 120.99  & 0.95  & + & 0.45 \\*
- & npScarf\_wag  & - & -  &  - & -  &  - &  - &  &  \\*
- & npGraph (bwa)  & 4.317 & 6  &  2,766.9 & 1  &  39.82 &  0.95 & + & 0.41 \\*
- & ngGraph (minimap2)  & 4.337 & 1  &  4,336.8 & 0  & 24.71  & 0.95  & + & 0.03 \\
+{\emph{Shigella~dysenteriae} Sd197: 4,560,911 bp} \\*  
+& SPAdes & 4.096 & 534 & 14.4 & 1 & 0.68 & 1.19 & & \\*
+& SPAdes hybrid & 4.486 & 23 & 821.2 & 96 & 10.99 & 1.89 & & \\*
+& Unicycler & 4.561 & 3 & 4369.2 & 0 & 12.96 & 8.46 & & \\*
+& npScarf & 4.649 & 174 & 41.8 & 65 & 372.87 & 1.19 & + & 0.62 \\*
+& npGraph (bwa) & 4.553 & 3 & 4369.1 & 6 & 91.03 & 1.19 & + & 0.76 \\*
+& npGraph (minimap2) & 4.548 & 3 & 4364.1 & 8 & 83.68 & 1.19 & + & 0.14 \\*
+
 \end{longtable}
 
 \normalsize
@@ -500,11 +504,44 @@ Contigs from each completed genome are expected to be assigned to an unique grou
 Each contig is embeded in a single node in the assembly graph and an edge between two nodes indicates their overlap (link) properties.
 This step is to cluster the biggest nodes (contigs longer than $10$Kbp) into different sets, namely \emph{core} groups, based on the their degree (number of connections) and coverage values.
 DBSCAN clustering algorithm \cite{Ester96adensity-based} is applied for this task by default.
-The rationale is to approximate a coverage value of a significant contig (which can be splitted into more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
-The metric is a distance function based on Kullback-Leibner divergence \cite{Kullback1951information}, or relative entropy, of two Poisson distributions. Other than that, external binning tools can be employed for more complicated binning task, \EG{} metagenomics, and the results can be integrated into \npgraph{} for better performance. More details can be found on Supplementary Note \ref{supp:note1}.
+The rationale is to approximate a coverage value of an extremely long contig (which can be splitted into more than 10,000 \emph{k-mers}) to be a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
+The metric is a distance function based on Kullback-Leibner divergence \cite{Kullback1951information}, or relative entropy, of two Poisson distributions. 
 
+Assuming there are 2 Poisson distributions $P_1$ and $P_2$ with density functions $$p_1(x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{\Gamma(x+1)}$$ and $$p_2(x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{\Gamma(x+1)}$$ 
+The Kullback-Leibner divergence from $P_2$ to $P_1$ is defined as:
+$$D_{KL}(P_1||P_2)=\int_{-\infty}^{\infty} p_1(x)\log{\frac{p_1(x)}{p_2(x)}} dx$$
+or in other words,  it is the expectation of the logarithmic difference between the probabilities $P_1$ and $P_2$, where the expectation is taken with regard to $P_1$.
+The log ratio of the density functions is
+$$\log{\frac{p_1(x)}{p_2(x)}}=x\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+take expectation of this expression with regard to $P_1$ with mean $\lambda_1$ we have
+$$D_{KL}(P_1||P_2)=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+The metric we used is the distance defined as
+$$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
+
+We implemented a simple binning algorithm based on the clustered contigs, the graph topology as well as statistics calculated by length and coverage of each contigs. 
+Additional binning step is taken place in real-time using the long reads as well. In this context, the repetition or uniquess of ambigous nodes are determined with sufficient supporting evidence from the long-spanning reads.
+Generally, the algorithm performs well for isolate or simple simulated metagenomics, but ineffective for complicated community. In that case, external binning tools can be employed for more comprehensive binning task and the results can be augmented to \npgraph{} input.
+If external binning algorithm is employed, the resulting output must be converted into a text file that specifies the corresponding bin of every contigs, just like output from MetaBAT. By that, each line of the file would be:
+$
+\mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
+$
+where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
 \subsection*{Multiplicity estimation}
-Due to the possible divergence of sequencing coverage relative to the real abundance of sequences, especially for the shorter contigs, an optimization step is carried out to alleviate this issue as shown in Supplementary Note \ref{supp:note2}. The coverage measures of nodes (which represent contigs) are propated throughout the graph via connecting edges for calibrations prior to the multiplicity estimation. 
+Due to the possible divergence of sequencing coverage relative to the real abundance of sequences, especially for the shorter contigs, an optimization step is carried out to alleviate this issue.
+The re-estimation is basically carried out by following two steps.
+\begin{itemize}
+\item[1.] From nodes coverage, estimate edges' value by quadratic unconstrained optimization of the least-square function:
+$$\frac{1}{2}\sum_{i}{l_i((\sum{e^{+}_{i}}-c_i)^2+(\sum{e^{-}_{i}}-c_i)^2}$$
+where $l_i$ and $c_i$ is the length and coverage of a node $i$ in the graph;
+
+$\sum{e^{+}_{i}}$ and $\sum{e^{-}_{i}}$ indicates sum of the values of incoming and outgoing edges from $i$ respectively. 
+The above function and be rewritten as:
+$$f(x)=\frac{1}{2}x^TQx + b^Tx + r$$
+and then being minimized by using gradient-based method.
+\item[2.] Update nodes' coverage based on itself and its neighbor edges' measures.
+\end{itemize}
+The calibration is iterative until no further improvements are made or a threshold loop count is reached.
+The coverage measures of nodes (which represent contigs) are propated throughout the graph via connecting edges for calibrations prior to the multiplicity estimation. 
 %The assignment of coverage to edges is also helpful to induce multiplicity of nodes in later step. 
 
 Based on the coverage values of all the edges and the graph's topology, we induce the copy numbers of every significant nodes (long contigs) in the final paths.
@@ -519,22 +556,145 @@ A bridge must start from a unique contig, or \emph{anchor} node, and end at anot
 
 The real-time bridging method considers the dynamic aspect of multiplicity measures for each node, meaning that a $n$-times repetitive node might become a unique node at certain time point when its $(n-1)$ occurrences have been already identified in other distinct unique paths. 
 Furthermore, the streaming fashion of this method allows the bridge constructions (updating steps and spans) to be carried out progressively so that assembly decisions can be made immediately after having sufficient supporting data.
-The detail implementation is addressed in Supplementary Note~\ref{supp:note4}.
-
 A bridge in \npgraph{} has several completion levels. When created, it must be rooted from an \emph{anchor node} which represents a unique contig (level 1). A bridge is known as fully complete (level 4) if and only if there is a unique path connecting its two anchor nodes from two ends. 
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=.8\textwidth]{images/bridge_merging.pdf}
+\caption[Example of bridge merging progressively]{Bridge merging progressively in real-time. Sequencing long reads induce alignments to the contigs where new bridges are created respectively. Bridges sharing same anchors can be merged together to form the ultimate, more comprehensive bridge (with more step nodes and better approximation of spans between them).}
+\label{figure:npgraph_merging}
+\end{figure}
+
+At early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s).
+In an example from Figure~\ref{figure:npgraph_merging}, bridges from a certain anchor (highlighted in red) are created by extracting appropriate alignments from incoming long reads to the contigs. Each of the steps therefore is assigned a weighing score based on its alignment quality.
+Due to the error rate of long reads, there should be deviations in terms of steps found and spans measured between these bridges, eventhough they represent the same connection.
+A continuous merging phase, as shown in the figure, takes advantage of a pairwise Needleman-Wunsch dynamic programming to generate a consensus list based on weight and position of each of every stepping nodes. The spans are calibrated accordingly by averaging out the distances. On the other hand, the score of the merged steps are accumulated over time as well.
+Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hosting a list of steps with sufficient coverage, it is ready for a path finding in the next step.
+
 
 \subsection*{Path finding algorithm}
 Given a bridge with 2 anchors, a path finding algorithm is invoked to find all candidate paths between them. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the top-scored ones are kept for the next round.
-We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space when using Depth-First Search (Supplementary Note~\ref{supp:note5}).
+We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space when using Depth-First Search.
 
-It is worth noting that due to dead-ends, there not always exist a path in the assembly graph connecting two anchors as suggested by the alignments. In this case, if enough long reads coverage (20X) are met, a consensus module is invoked and the resulting sequence is contained in a \emph{pseudo} edge.
+Due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are neccessary to be appeared in the ultimate path resolved by the bridge. 
+In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
+For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}.
+
+
+Before that, we define Algorithm~\ref{algo:findpath} to demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
+$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
+from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
+This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Pair of bidirected nodes $\overrightarrow{v_1}, \overrightarrow{v_2}$ and estimated distance $d$ between them}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_1}$ to $\overrightarrow{v_2}$ with reasonable distances compared to $d$}
+\SetKwFunction{DFS}{DFS} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\DFS{$\overrightarrow{v_1}, \overrightarrow{v_2}$, $d$}}{
+$P$:=new List()\;
+$M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree from $\overrightarrow{v_2}$ with range $d$}
+\If{$M.contain(\overrightarrow{v_1})$}{
+    $S$:=new $Stack()$ \tcp*{stack of sets of edges to traverse}
+    $edgesSet$:=$getEdges(\overrightarrow{v_1})$ \tcp*{get all bidirected edges going from $\overrightarrow{v_1}$}
+    $S.push(edgesSet)$\;
+    $p$:=new $Path(\overrightarrow{v_1})$ \tcp*{init a path that has $\overrightarrow{v_1}$ as root}
+    \While{true}{
+        $edgesSet$:=$S.peek()$\;
+        \If{$edgesSet.isEmpty()$}{
+            \If{$p.size() \leq 1$}{
+                $\mathbf{break}$ \tcp*{stop the loop when there is no more edge to discover}
+            }
+        $S.pop()$\;
+        $d$+=$p.peekNode.length()+p.popEdge().length()$\; 
+        }
+        \Else{
+            $curEdge \coloneqq edgesSet.remove()$\;
+            $\overrightarrow{v}$:=$curEdge.getOpposite(p.peekNode())$\;
+            $S.push(getEdges(\overrightarrow{v}).includedIn(M))$\;
+            $p.add(curEdge)$\;
+            \If{reach $\overrightarrow{v_2}$ with reasonable $d$}{
+                $P.add(p)$\;
+            }
+            $d$-=$\overrightarrow{v}.length()+curEdge.length()$\;
+        }
+    }
+}
+
+\Return{$P$}
+}
+\caption{Pseudo-code for finding paths connecting 2 nodes given their estimated distance.}
+\label{algo:findpath}
+\end{algorithm}
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps inbetween}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_2}$ that maximize the likelihood of the step list.}
+\SetKwFunction{BinaryBridging}{BinaryBridging} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\BinaryBridging{B}}{
+\tcc{search for the contig with maximum score from the step list (two ends excluded)}
+$m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
+\tcc{if there is no step inbetween, run path finding algorithm above directly and return the result}
+\If{$M.size() \equiv 2$}{ 
+	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
+}
+\tcc{divide the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
+$BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
+$BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
+\tcc{Return the join of running recursive function on two sub-bridges}
+\Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
+}
+\caption{Recursive binary bridging to connect 2 anchor nodes.}
+\label{algo:binsearch}
+\end{algorithm}
+
+Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
+A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
+
+Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+
+In many cases, due to dead-ends, there not always exist a path in the assembly graph connecting two anchors as suggested by the alignments. In this case, if enough long reads coverage (20X) are met, a consensus module is invoked and the resulting sequence is contained in a \emph{pseudo} edge.
 \subsection*{Graph simplification in real-time}
 \npgraph{} resolves the graph by reducing its complexity perpetually using the long reads that can be streamed in real-time.
 Whenever a bridge is finished (with a unique linking path), the assembly graph is \emph{transformed} or \emph{reduced} by replacing its unique path with a composite edge and removing any unique edges (edges coming from unique nodes) along the path. The assembly graph would have at least one edge less than the original after the reduction. The nodes located on the reduced path, other than 2 ends, also have their multiplicities subtracted by one and the bridge is marked as finally resolved without any further modifications. 
 
+\begin{figure}[!hpt]
+\centering
+\subfloat[Initial graph]{
+	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_0.png}
+}
+\hfill
+\subfloat[Resolved graph]{
+	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_2.png}
+}
+\caption[Assembly graph resolving on \npgraph{} Graph View]{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
+\label{figure:npgraph_graphview}
+\end{figure}
+
+Figure~\ref{figure:npgraph_graphview} presents an example of the results before and after graph resolving process in the GUI.
+The result graph, after cleaning, would only report the significant connected components that represents the final contigs.
+Smaller fragments, even unfinished but with high remaining coverage, are also presented as potential candidates for further downstream analysis.
+Further annotation utility can be implemented in the future better monitoring the features of interests as in \npscarf{}.
 \subsection*{Result extraction and output}
-\npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will spell a contig in the assembly report (Supplementary Note \ref{supp:note6}).
+\npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will spell a contig in the assembly report.
 The final assembly output contains files in both FASTA and GFAv1 format (\url{https://github.com/GFA-spec/GFA-spec}). While the former only retains the actual genome sequences from the final decomposed graph, the latter output file can store almost every properties of the ultimate graph such as nodes, links and potential paths between them.
+
+A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if and only if each of every edges along the path $e_i, \forall i=1,\ldots,k$ is the only option to traverse from either $v_{i-1}$ or $v_i$, giving the transition rule.
+To decompose the graph, the tool simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=.6\textwidth]{images/decompose.pdf}
+\caption[Example of graph decomposition into longest straight paths]{Example of graph decomposition into longest straight paths. Branching edges are masked out (shaded) leaving only straight paths (bold colored) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
+\label{figure:npgraph_decompose}
+\end{figure}
+
+The decomposed graph is only used to report the contigs that can be extracted from an assembly graph at certain time point. For that reason, the branching edges are only masked but not removed from the original graph as they would be used for further bridging.
 
 Other than that, if GUI mode is enabled, basic assembly statistics such as N50, N75, maximal contigs length, number of contigs can be visually reported to the users in real-time beside the Dashboard. The progressive simplification of the assembly graph can also be observed at the same time in the Graph view.
 
