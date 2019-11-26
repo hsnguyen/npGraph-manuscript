@@ -214,13 +214,14 @@ From the second window (\textbf{6}), the colored vertices imply unique contigs w
 A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. The practice is similar to the previous developed pipelines~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2017barcode} that allow the analysis to take place abreast to a nanopore sequencing run.
 
 \subsection*{Evaluation using synthetic data}
-To evaluate the performance of the method, \npgraph{} was tested against \spades{} with its hybrid assembly module~\cite{AntipovKM2015}, \npscarf{} with/without assembly graph integrated, and Unicycler version 0.4.6 on Unicycler`s synthetic data set~ \cite{Wick2017unicycler} . The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on random and available microbial references. 
+To evaluate the performance of the method, \npgraph{} was tested along with \spades{}, its hybrid assembly module~\cite{AntipovKM2015}, \npscarf{}, and Unicycler version 0.4.6 using Unicycler`s synthetic data set~ \cite{Wick2017unicycler} . 
+The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on random and available microbial references. 
 We ran all hybrid assembly methods in batch-mode and the reciprocal results were examined by QUAST 5.0.2~\cite{Mikheenko2018quast5}. 
 
 \LTcapwidth=\linewidth
 % \footnotesize
 \begin{longtable}{llcrrrrr@{\hspace{2pt}}c@{\hspace{2pt}}r}
-\caption[Comparison of assemblies using \npgraph{} and other comparative methods on 5 synthetic data sets]{Comparison of assemblies produced in batch-mode using \npgraph{} and the comparative methods on 5 \unicycler{}`s synthetic data sets downloaded from \url{https://cloudstor.aarnet.edu.au/plus/index.php/s/dzRCaxLjpGpfKYW}} \label{table:npgraph_compare} \\
+\caption[Comparison of assemblies using \npgraph{} and other methods on 5 synthetic data sets]{Comparison of assemblies produced in batch-mode using \npgraph{} and other hybrid assembly methods on representative \unicycler{}`s synthetic data downloaded from \url{https://cloudstor.aarnet.edu.au/plus/index.php/s/dzRCaxLjpGpfKYW}} \label{table:npgraph_compare} \\
 
  \toprule
     &       & \cthead{1}{Assembly} &     & 
@@ -250,36 +251,44 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
 \hline \hline
 \endlastfoot
 
-\rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Mycobacterium~tuberculosis} H37Rv: 4,411,532bp} \\*  
+\rowcolor{Gray}
+& \emph{M.~tuberculosis} H37Rv & \multicolumn{8}{l} {4,411,532 bp} \\*  
 & SPAdes & 4.376 & 66 & 150.7 & 0 & 0.23 & 1.42 & & \\*
 & SPAdes hybrid & 4.411 & 1 & 4410.5 & 0 & 0.86 & 1.61 & & \\*
 & Unicycler & 4.412 & 1 & 4411.5 & 0 & 2.56 & 5.52 & & \\*
 & npScarf & 4.432 & 4 & 4402.2 & 7 & 6.61 & 1.42 & + & 0.7 \\*
 & npGraph (bwa) & 4.411 & 1 & 4411.4 & 0 & 2.63 & 1.42 & + & 0.64 \\*
 & npGraph (minimap2) & 4.412 & 1 & 4411.5 & 0 & 0.68 & 1.42 & + & 0.02 \\*
-\rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Saccharomyces~cerevisiae} S288c: 12,157,105 bp} \\*  
+\rowcolor{Gray} 
+& \emph{K.~pneumoniae} 30660 & \multicolumn{8}{l} {5,540,936 bp} \\*  
+& SPAdes & 5.469 & 64 & 270.2 & 0 & 0.07 & 1.36 & & \\*
+& SPAdes hybrid & 5.543 & 8 & 4229.1 & 2 & 5.04 & 1.63 & & \\*
+& Unicycler & 5.538 & 9 & 5263.2 & 0 & 1.85 & 4.34 & & \\*
+& npScarf & 5.566 & 7 & 5259.1 & 4 & 35.6 & 1.36 & + & 0.95 \\*
+& npGraph (bwa) & 5.535 & 5 & 5263.2 & 1 & 4.16 & 1.36 & + & 0.92 \\*
+& npGraph (minimap2) & 5.541 & 6 & 5263.2 & 0 & 0.85 & 1.36 & + & 0.04 \\*
+\rowcolor{Gray} 
+& \emph{S.~cerevisiae} S288c & \multicolumn{8}{l} {12,157,105 bp} \\*  
 & SPAdes & 11.675 & 194 & 260.5 & 0 & 1.57 & 3.61 & & \\*
 & SPAdes hybrid & 11.910 & 45 & 770.5 & 5 & 34.52 & 4.15 & & \\*
 & Unicycler & 11.837 & 29 & 909.1 & 0 & 22.83 & 16.34 & & \\*
 & npScarf & 11.990 & 22 & 796.8 & 53 & 85.5 & 3.61 & + & 4.35 \\*
 & npGraph (bwa) & 12.000 & 151 & 913.1 & 3 & 38.68 & 3.61 & + & 4.12 \\*
 & npGraph (minimap2) & 12.008 & 148 & 913.1 & 5 & 25.32 & 3.61 & + & 0.13 \\*
-\rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Shigella~sonnei} 53G: 5,220,473 bp} \\*  
+\rowcolor{Gray}
+& \emph{S.~sonnei} 53G & \multicolumn{8}{l} {5,220,473 bp} \\*  
 & SPAdes & 4.796 & 392 & 27.7 & 0 & 0.44 & 1.1 & & \\*
 & SPAdes hybrid & 5.218 & 8 & 2195.5 & 2 & 41.98 & 1.36 & & \\*
 & Unicycler & 5.221 & 5 & 4988.5 & 0 & 7.91 & 9.64 & & \\*
 & npScarf & 6.426 & 20 & 1293.8 & 84 & 366.04 & 1.1 & + & 0.52 \\*
 & npGraph (bwa) & 5.293 & 97 & 4988.5 & 3 & 14.87 & 1.1 & + & 0.57 \\*
 & npGraph (minimap2) & 5.293 & 97 & 4988.5 & 3 & 8.31 & 1.1 & + & 0.08 \\*
-\rowcolor{Gray} \multicolumn{10}{l}
-{\emph{Shigella~dysenteriae} Sd197: 4,560,911 bp} \\*  
+\rowcolor{Gray}
+& \emph{S.~dysenteriae} Sd197 & \multicolumn{8}{l} {4,560,911 bp} \\*  
 & SPAdes & 4.096 & 534 & 14.4 & 1 & 0.68 & 1.19 & & \\*
 & SPAdes hybrid & 4.486 & 23 & 821.2 & 96 & 10.99 & 1.89 & & \\*
 & Unicycler & 4.561 & 3 & 4369.2 & 0 & 12.96 & 8.46 & & \\*
-& npScarf & 4.649 & 174 & 41.8 & 65 & 372.87 & 1.19 & + & 0.62 \\*
+& npScarf & - & - & - & - & - & 1.19 & + & - \\*
 & npGraph (bwa) & 4.553 & 3 & 4369.1 & 6 & 91.03 & 1.19 & + & 0.76 \\*
 & npGraph (minimap2) & 4.548 & 3 & 4364.1 & 8 & 83.68 & 1.19 & + & 0.14 \\*
 
@@ -287,47 +296,41 @@ We ran all hybrid assembly methods in batch-mode and the reciprocal results were
 
 \normalsize
 
-Table~\ref{table:npgraph_compare} shows comparative results running different methods on 5 synthetic data sets, report for the whole comparison can be found in Supplementary Table~\ref{supp_tab:synthetic_benchmark}.
-In the first column of applied methods, beside \unicycler{} and $\mathtt{hybridSPAdes}$, the original scaffolder \npscarf{} was included as well as \npscarfg{} -- its modified version with assembly graph integrated.
-On the other hand, \npgraph{} can use 2 different aligners, \bwa{} and \minimap{}, for its bridging phase thus both practices were included in this comparison.
+Table~\ref{table:npgraph_compare} shows comparative results running different methods on 5 synthetic data sets, simulated from genome sequences of \emph{Mycobacterium~tuberculosis} H37Rv, \emph{Klebsiella~pneumoniae} 30660/NJST258\_1, \emph{Saccharomyces~cerevisiae} S288c, \emph{Shigella~sonnei} 53G and \emph{Shigella~dysenteriae} Sd197.
+In the first column of applied methods, beside \unicycler{} and $\mathtt{hybridSPAdes}$, the preceding real-time scaffolder \npscarf{} was included as well.
+On the other hand, 2 settings to run \npgraph{} were also considered for comparison.
 
-In general, the graph version of \npscarf{} improved the assembly results in terms of mis-assemblies and error reduction while virtually consuming similar resources compared to the original version.
-The only exception where the number of mis-assemblies being increased was the simulation of a random sequence with many repeats. There were 10 more mistakes detected using the later version \npscarfg{}. However, with additional investigations, we found that the number of mis-assemblies on the true positive circular sequences (3 from the reference) has been significant reduced by applying assembly graph for \npscarf{}. The errors mostly came from redundant sequences output from the software due to the failure in estimation of contig multiplicity.
-Even though using assembly graph for gap fillings, there were no changes in the way \npscarfg{} determine if a contig is unique or not. 
-Its implementation still relied on the length and coverage statistics, \IE{} \emph{Astats}~\cite{MyersSD2000} to find anchors that were critical for the backbone construction of the assembly.
-Redundant path findings for false positive replicons consequently returned additional wrong translocations in the final contigs which were reported by QUAST. 
-Other than that, the method had successfully produced better assemblies than the original. Regarding \emph{Mycobacterium tuberculosis} H37Rv, the number of mis-assembled breakpoints had been trimmed down from 12 to 2, while the number of final contigs had reduced from 4 to only one as in the reference. Results in cases of \ec{} O25b H4ST131 and \emph{Streptococcus suis} BM407 also showed enhancements in terms of those categories as well as N50 statistics. 
-There was improvements considering the nucleotide errors (mismatches and indels) as well from aforementioned data sets, except for the \ec{} when slightly more mismatches had been detected. However, these errors can be corrected by running polishing tools with the raw Illumina data afterward. 
-
-For \emph{Acinetobacter} AB30 synthetic data, it was an deficiency for \npscarfg{} in traversing the graph to find candidate paths for a bridge of long distance due to particular large search space.
-The exhaustive, naive DFS implementation for this version of \npscarf{} required a lot of memory to traverse a complex assembly graph that usually exceed a normal desktop's capacity.
-This issue has been fixed in \npgraph{} when Algorithm~\ref{algo:findpath} was used on the definitive graph. This resulted in completed runs of the assembly process for all data sets with the similar number of mis-assemblies compared to the best figures in this category.
-As shown in Table~\ref{table:npgraph_compare} and \ref{supp_tab:synthetic_benchmark}, the assembly graph based methods offered significant improvements when compared to \npscarf{}. Not only because of the clear drops with respect to mis-assemblies and errors, but it was also reflected by the number of final contigs and their N50 as well.
-
-To align the long reads to the assembly graph components, either \bwa{}~\cite{Li2013} or \minimap{}~\cite{Li2016} was invoked in \npgraph{}. 
-The former option was inherited from \npscarf{} pipeline with the intact parameters
-%$-k11 -W20 -r10 -A1 -B1 -O1 -E1 -L0 -a -Y$
-while the latter was used with the recommended settings (-$\mathtt{k}$15 -$\mathtt{w}$5) for the best sensitivity working on MinION data.
-Even though, \bwa{} normally reported more hits than \minimap{} but at the same time, was responsible for more false positive alignments.
-For instance, regarding the last data set from Table~\ref{table:npgraph_compare}, the assembly of \npgraph{} using \bwa{} was suffered from the ambiguous alignments thus more fragmented than the other counterparts. 
-On the other hand, referring to more complicated graphs from \emph{Acinetobacter} A1 and the yeast \emph{Saccharomyces cerevisiae} S288c from Table~\ref{supp_tab:synthetic_benchmark}, the number of mis-assemblies from using \minimap{} were increased due to the lacks of appropriate alignments to support accurate bridging process.
+To align the long reads to the assembly graph components, either \bwa{}~\cite{Li2013} or \minimap{}~\cite{Li2016} could be invoked from \npgraph{}.
+While \bwa{} is a well-known classic aligner that can be adapted to work with third generation sequencing data, \minimap{} is the state-of-the-art specially designed for this data type. 
+In \npgraph{}, the former option was inherited from \npscarf{} pipeline with identical parameters for the alignment algorithm
+(-$\mathtt{k}$11~-$\mathtt{W}$20~-$\mathtt{r}$10~-$\mathtt{A}$1~-$\mathtt{B}$1~-$\mathtt{O}$1~-$\mathtt{E}$1~-$\mathtt{L}$0~-$\mathtt{a}$~-$\mathtt{Y}$)
+while the latter was used with the sensitive settings (-$\mathtt{k}$15~-$\mathtt{w}$5) recommended for MinION data.
+Even though, \bwa{} normally reported more but shorter hits than \minimap{} thus was responsible for higher number of false positive alignments.
+As a result, bridging paths induced by using \bwa{} was slightly less accurate due to more noises from the smaller \emph{steps} inbetween (Figure~\ref{figure:npgraph_merging}).
+From all data sets in Table~\ref{table:npgraph_compare}, we can observe higher errors, which are the sum of mismatches and indels, per 100 Kbp from \npgraph{} using the classic tool.
 However, under almost circumstances, using either aligners would result in final assemblies with similar qualities.
-Furthermore, in terms of running time and resources required, \minimap{} proved to be the best option. 
+This is due to the fact that false possitive alignments mostly come from shorter \emph{stepping} nodes instead of long, high confident alignments with the \emph{anchor} nodes.
+In terms of running time and resources required, \minimap{} proved to be a better option. 
 The total CPU hours had been cut down drastically with the new aligner, making \npgraph{} the fastest hybrid assembler available.
 This feature is certainly more favoured for a real-time assembly pipeline that normally requires quick responses in very short intervals.
-Because \minimap{} is expected to replace \bwa{} for long-read sequencing data alignment, it likewise being chosen as the default aligner for \npgraph{} pipeline.
+Because \minimap{} is designed to replace \bwa{} for long-read sequencing data alignment, it likewise being chosen as the default aligner in the \npgraph{} pipeline.
 
-To evaluate assembly errors, we considered the measure of the total mismatches and indels per 100 Kbp from the assembly sequences when mapping to the reference.
-As expected from hybrid assembly methods embedding Illumina data, the figures were hardly bigger than 100 (equivalent to 0.1\% error rate) in almost every cases.
-Furthermore, the indels errors, which mainly caused by TGS data, were found relatively low in the final contigs (Table~\ref{supp_tab:synthetic_benchmark}).
+Overall, as expected from hybrid methods, the error rate of the draft assembly hardly exceeded 100 bp per 100 Kbp (equivalent to 0.1\%) in almost every cases.
+The only exception is \npscarf{} as it would sacrify the accuracy for the continuity by using the nanopore bases to fill in the gap between 2 unlinked unique contigs. 
+This happened for 2 \emph{Shigella} simulated genomes containing unusually long stretches of repetitive elements ($> 10$Kbp) for bacteria strains. Especially for the last case for \emph{Shigella dysenteriae}, \npscarf{} failed to finish its exhaustive path finding within reasonable time frame thus being excluded from the report.
+In fact, the indel errors (typical in nanopore sequencing) were found relatively low in the final contigs (Table~\ref{supp_tab:synthetic_benchmark}).
 The majority of the differences accounted for the mismatched nucleotides caused by the alternative paths connecting the unique anchors from the backbone of the assembly.
 This phenomenon may root from homologous repeats or sequencing errors of the genome.
-From all the hybrid assemblers, $\mathtt{hybridSPAdes}$ reported results with highest fidelity. This meant that the performance its decision-rule algorithm $\mathtt{exSPAnder}$~\cite{Prjibelski2014} was the most accurate amongst all path finding methods. As the trade-off, there were fewer connections satisfying its quality threshold, resulting in the fragmented assemblies in cases of \emph{Streptococcus suis} or \emph{Acinetobacter} samples (Table~\ref{table:npgraph_compare} and \ref{supp_tab:synthetic_benchmark}).
-\unicycler{}, which employs an algorithm based on semi-global (or glocal) alignments~\cite{Brudno2003glocal} with the consensus long reads, returned the second best reliable and at the same time, closest-to-complete results overall.
-\npscarf{}, on the other hand, employed the long reads for the gap filling thus inherited the high error rates from them.
-By integrating the assembly graph for the task, the errors were reduced in general (random sequences, \emph{M.~tuberculosis}, \emph{S.suis} from Table~\ref{table:npgraph_compare}) but not completely since the mis-placed contigs were still not resolved in other circumstances.
-\npgraph{} significantly reduced the errors compared to \npscarf{}, however the figures were still higher than the those of the best counterparts.
-This implied a more robust decision making system is needed in \npgraph{}'s real-time path finding module for even better output's accuracy.
+
+Amongst all assemblers, \unicycler{} applies an algorithm based on semi-global (or glocal) alignments~\cite{Brudno2003glocal} with the consensus long reads using $\mathtt{SeqAn}$ library. When testing with these data sets, it was on top in terms of computational cost but returned the most reliable and complete assembly.
+$\mathtt{hybridSPAdes}$ reported decent results with high fidelity at base level. As the trade-off, there were fewer connections satisfying its quality threshold, resulting in the fragmented assemblies with lower N50 compared to the other hybrid assemblers. This behaviour was clearly reflected in the last, also the most challenging task of assembly \emph{S.~dysenteriae}.
+
+Regarding streaming algorithms, \npscarf{}, as aforementioned, employed the most greedy scaffolding approach that might introduce extra mis-assemblies and errors.
+They might be neglected for the majority of common bacterial genomes with modest repeat profiles, but in extreme cases ,\EG{} \emph{Shigella} data sets, the obtained results would be more error-proned necessitating extra post-processing, polishing steps afterward.
+On the other hand, \npgraph{} significantly reduced the errors compared to \npscarf{}, sometimes even be the best option \EG{} for \emph{M.~tuberculosis} and \kp{}.  
+For the yeast \emph{S.~ cerevisiae} data set, its assembly best covered the reference genome but the number of mis-assemblies was up to 5.
+On the other hand, the negative figures, namely number of mis-assemblies and error rate, were still high in the most extreme case of \emph{S.~dysenteriae}.
+
 
 \subsection*{Hybrid assembly for real data sets}
 A number of sequencing data sets from \emph{in vitro} bacterial samples~\cite{George2017M14} were used in this scenario.
