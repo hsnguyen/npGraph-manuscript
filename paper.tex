@@ -124,7 +124,8 @@ E-mails: l.coin@imb.uq.edu.au,s.hoangnguyen@imb.uq.edu.au
 \abstract{
 A real-time assembly pipeline for Oxford Nanopore Technology (ONT) data is important for either saving sequencing resources or reducing turnaround time for data analyses. The previous approach from \npscarf{} provided a fast-response streaming algorithm for such task but was relatively prone to mis-assemblies compared to other graph-based methods. 
 Here we present \npgraph{}, a real-time hybrid assembly software using the assembly graph instead of the separated pre-assembly contigs. It is able to produce more complete genome assembly by resolving the path finding problem on the assembly graph using long reads as the traversing guide. 
-The application on synthetic and real data set of isolate genomes show improved accuracy while still maintaining the required computational cost extremely low. On top of that, we apply \npgraph{} on mock community in the very first application to improve metagenomics assembly in real-time with nanopore data. 
+The application on synthetic and real data set of isolate genomes show improved accuracy while still maintaining the required computational cost extremely low. 
+%On top of that, we apply \npgraph{} on mock community in the very first application to improve metagenomics assembly in real-time with nanopore data. 
 With \npscarf{}, the built-in graphical user interface (GUI) can provide users a comprehensive look-and-feel of the whole assembly process. The tool and source code is available at \url{https://github.com/hsnguyen/assembly}.
 } 
 %Set keywords
@@ -178,9 +179,9 @@ To achieve that, we apply a modified DFS (depth-first search) mechanism and a dy
 The method is implemented in \npgraph{}, a user-friendly tool with GUI that can traverse the assembly graph and bridge its components in real-time as long as the nanopore sequencing process is still running. 
  
 We use different hybrid data sets to study the \npgraph{}`s performance and compare with other available tools with similar functionality, such as \npscarf{}, \unicycler{} and \hspades{}. Even though all data were from microbial genomes, the complexity of the input graphs range from few hundred to ten thousands of components, synthesized \emph{in silico} or sequenced from \emph{in vitro} samples.
-Particularly, for the first time, we employ a pipeline in an attempt to complete metagenomics assembly in real-time. 
-We aim to develop a simple approach on top of \npgraph{} to adapt with metagenomics while minimizing additional processing steps. In fact, only one more step for population binning is needed to make \npgraph{} functions on genomes of a mock community.
-Despite a rather straightforward methodology, the pipeline has shown consecutively enhanced assembly from the fragmented short-read DBG graph.
+%Particularly, for the first time, we employ a pipeline in an attempt to complete metagenomics assembly in real-time. 
+%We aim to develop a simple approach on top of \npgraph{} to adapt with metagenomics while minimizing additional processing steps. In fact, only one more step for population binning is needed to make \npgraph{} functions on genomes of a mock community.
+%Despite a rather straightforward methodology, the pipeline has shown consecutively enhanced assembly from the fragmented short-read DBG graph.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Results}
 \subsection*{\npgraph{} -- a tool to resolve assembly graph in real-time}
@@ -433,50 +434,50 @@ In addition, at the end of the streaming when the sequencing is finished, \npgra
 Once a unique path has been determined, the bridge can be formed to connect the fragments together into a longer sequence leading to the increase of N50. \npgraph{} shows stable results so that it can directly report final assembly at any timepoint. As can be seen from Figure~\ref{F:npgraph_rt}, the genomes were completed at slower speed at the beginning of the streaming process and faster toward the end due to the accumulation of bridging information. 
 However, the plots here only depict the real-time assembly operation including one final post-processing step. If the process is stopped somewhere in the middle, the post-processing would be invoked to return more completed genome but with the risk of higher mis-assembly due to shortage of supporting data.
 
-\subsection*{Metagenomics assembly on mock community}
-Here, we ran \npgraph{} on mock community data to study the performance of our method in metagenomic co-assembly problem.
-In this application, sequencing data (including both short and long reads) from mixtures of ten microbial species of ZymoBIOMICS Microbial Community Standards \cite{Nick2019zymo} were used as input for \npgraph{}. 
-The total genome size was estimated as 61.96 Mbp.
-There were two settings for the input depending on the distribution of cell abundances in the mixture itself, namely even and log population.
-On the other hand, 8 out of 10 genomes being sequenced were reconstructed by using PacBio sequencing (RSII and Sequel) previously \cite{Mcintyre2019zymo}, including \emph{Bacillus~subtills}, \emph{Enterococcus~faecalis}, \emph{Escherichia~coli}, \emph{Listeria~monocytogenes}, \emph{Pseudomonas~aeruginosa}, \emph{Saccharomyces~cerevisiae}, \emph{Salmonella~enterica} and \emph{Staphylococcus~aureus}. We evaluated the coassembly results by running $\mathtt{metaQUAST}$ given 8 PacBio assembly as references.
-
-\begin{table}[!hpt]
-\begin{center}
-\caption{Assembly improvement, in terms of NGA50 statistics, from $\mathtt{metaSPAdes}$ to \npgraph{} contigs on two mock communities ZymoLog and ZymoEven \cite{Nick2019zymo}. The statistics were generated by $\mathtt{metaQUAST}$ v3.2 with 8 (out of 10) available PacBio isolate assemblies used as reference \cite{Mcintyre2019zymo}.}
-\label{table:zymo}
-\begin{tabular}{|l|c|r|r|c|r|r|}
-\hline
-\multirow{3}{*}{\textbf{Community}} & \multicolumn{3}{|c|}{\textbf{ZymoEven}} & \multicolumn{3}{|c|}{\textbf{ZymoLog}} \\ \cline{2-7}
-& \multirow{2}{*}{Abundance(\%)} & \multicolumn{2}{|c|}{NGA50} & \multirow{2}{*}{Abundance(\%)} & \multicolumn{2}{|c|}{NGA50} \\ \cline{3-4} \cline{6-7}
-& & $\mathtt{metaSPAdes}$ & \npgraph{} &  & $\mathtt{metaSPAdes}$ & \npgraph{} \\
-\hline
-\emph{L.~monocytogenes} & 12 & $26,480$ & $520,012$ & 89.1 & $23,146$ & $130,284$ \\ \hline
-\emph{P.~aeruginosa} & 12 & $59,372$ & $1,753,658$ & 8.9 & $161,816$ & $444,495$ \\ \hline
-\emph{B.~subtilis} & 12 & $23,386$ & $382,368$ & 0.89 & $35,390$ & $433,078$ \\ \hline
-\emph{S.~cerevisiae} & 2 & $-$ & $-$ & 0.89 & $-$ & $-$ \\ \hline
-\emph{E.~coli} & 12 & $34,776$ & $1,108,989$ & 0.089 & $-$ & $-$ \\ \hline
-\emph{S.~enterica} & 12 & $33,363$ & $4,242,458$ & 0.089 & $-$ & $-$ \\ \hline
-\emph{E.~faecalis} & 12 & $23,340$ & $217,908$ & 0.00089 & $-$ & $-$ \\ \hline
-\emph{S.~aureus} & 12 & $26,058$ & $175,908$ & 0.000089 & $-$ &$-$ \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-To run \npgraph{} on the metagenomics data set, we firstly augmented binning information from using $\mathtt{metaBAT}$ \cite{Kang2015metabat} on the Illumina raw reads, before applying our method to the assembly graph generated by $\mathtt{metaSPAdes}$. The default parameter setting was remained as it was for isolate assembly. 
-
-In terms of Illumina data, Even community had been sequenced by MiSeq platform which generated about 43-fold coverage while the Log community`s short-read data had been obtained from an Illumina HiSeq 1500, for about 156X coverage.
-Even though the total amount of base coverage from the latter was almost four-times richer than the former, its $\mathtt{metaSPAdes}$ assembly quality was lesser. This happened due to the fact of under-presented microbial cells from rare species in the Log population that require much more input for their reads to be sequenced, resulting in significant smaller size of assembly contigs and more fragmented assembly graph (Supplementary Figure~\ref{supp_fig:npgraph_zymo}).
-The assembly size for the two population are approximately 41 Mbp (66\%) and 22 Mbp (36\%). 
-During pre-processing step, \npgraph{} disregarded nodes which represent short, unconnected and extremely-low-coverage contigs which were indistinguishable from sequencing errors, artifacts or the actual rare species` genomes without additional works.
-
-Despite of the input graph quality, table~\ref{table:zymo} shows the assembly improvement in terms of NGA50 after running \npgraph{} on the $\mathtt{metaSPAdes}$' initial graph.  
-As expected from better quality assembly graph, the results for the Even community indicated significant more complete genomes recovered. 
-There were 7 isolate genomes had been identified for this community, compared to only 3 from the more complicated log population.
-\npgraph{} had been able to resolve the assembly graph efficiently for Even community, with the maximum NGA50 improvement for \emph{S.~enterica} boosted from $33$ Kbp to $4.2$ Mbp. 
-On the other hand, genomes from the Log community witnessed increasing length of aligned contigs as well, but not as distinct as for the balanced colony. The longest NGA50 contigs belongs to \emph{P.aeruginosa} of 445 Kbp, however, the counterpart from the Even community was 4-fold than that, at 1.75 Mbp.
-The only exception was \emph{B.~subtilis}, where \npgraph{} can only resolved 382 Kbp correct length from the zymo even while the respective statistics was 433 Kbp for the zymo log. However for this isolate, the initial $\mathtt{metaSPAdes}$ assembly of the former was slightly better compared to the latter`s.
-
-%how much nanopore needed indeed
+%\subsection*{Metagenomics assembly on mock community}
+%Here, we ran \npgraph{} on mock community data to study the performance of our method in metagenomic co-assembly problem.
+%In this application, sequencing data (including both short and long reads) from mixtures of ten microbial species of ZymoBIOMICS Microbial Community Standards \cite{Nick2019zymo} were used as input for \npgraph{}. 
+%The total genome size was estimated as 61.96 Mbp.
+%There were two settings for the input depending on the distribution of cell abundances in the mixture itself, namely even and log population.
+%On the other hand, 8 out of 10 genomes being sequenced were reconstructed by using PacBio sequencing (RSII and Sequel) previously \cite{Mcintyre2019zymo}, including \emph{Bacillus~subtills}, \emph{Enterococcus~faecalis}, \emph{Escherichia~coli}, \emph{Listeria~monocytogenes}, \emph{Pseudomonas~aeruginosa}, \emph{Saccharomyces~cerevisiae}, \emph{Salmonella~enterica} and \emph{Staphylococcus~aureus}. We evaluated the coassembly results by running $\mathtt{metaQUAST}$ given 8 PacBio assembly as references.
+%
+%\begin{table}[!hpt]
+%\begin{center}
+%\caption{Assembly improvement, in terms of NGA50 statistics, from $\mathtt{metaSPAdes}$ to \npgraph{} contigs on two mock communities ZymoLog and ZymoEven \cite{Nick2019zymo}. The statistics were generated by $\mathtt{metaQUAST}$ v3.2 with 8 (out of 10) available PacBio isolate assemblies used as reference \cite{Mcintyre2019zymo}.}
+%\label{table:zymo}
+%\begin{tabular}{|l|c|r|r|c|r|r|}
+%\hline
+%\multirow{3}{*}{\textbf{Community}} & \multicolumn{3}{|c|}{\textbf{ZymoEven}} & \multicolumn{3}{|c|}{\textbf{ZymoLog}} \\ \cline{2-7}
+%& \multirow{2}{*}{Abundance(\%)} & \multicolumn{2}{|c|}{NGA50} & \multirow{2}{*}{Abundance(\%)} & \multicolumn{2}{|c|}{NGA50} \\ \cline{3-4} \cline{6-7}
+%& & $\mathtt{metaSPAdes}$ & \npgraph{} &  & $\mathtt{metaSPAdes}$ & \npgraph{} \\
+%\hline
+%\emph{L.~monocytogenes} & 12 & $26,480$ & $520,012$ & 89.1 & $23,146$ & $130,284$ \\ \hline
+%\emph{P.~aeruginosa} & 12 & $59,372$ & $1,753,658$ & 8.9 & $161,816$ & $444,495$ \\ \hline
+%\emph{B.~subtilis} & 12 & $23,386$ & $382,368$ & 0.89 & $35,390$ & $433,078$ \\ \hline
+%\emph{S.~cerevisiae} & 2 & $-$ & $-$ & 0.89 & $-$ & $-$ \\ \hline
+%\emph{E.~coli} & 12 & $34,776$ & $1,108,989$ & 0.089 & $-$ & $-$ \\ \hline
+%\emph{S.~enterica} & 12 & $33,363$ & $4,242,458$ & 0.089 & $-$ & $-$ \\ \hline
+%\emph{E.~faecalis} & 12 & $23,340$ & $217,908$ & 0.00089 & $-$ & $-$ \\ \hline
+%\emph{S.~aureus} & 12 & $26,058$ & $175,908$ & 0.000089 & $-$ &$-$ \\ \hline
+%\end{tabular}
+%\end{center}
+%\end{table}
+%
+%To run \npgraph{} on the metagenomics data set, we firstly augmented binning information from using $\mathtt{metaBAT}$ \cite{Kang2015metabat} on the Illumina raw reads, before applying our method to the assembly graph generated by $\mathtt{metaSPAdes}$. The default parameter setting was remained as it was for isolate assembly. 
+%
+%In terms of Illumina data, Even community had been sequenced by MiSeq platform which generated about 43-fold coverage while the Log community`s short-read data had been obtained from an Illumina HiSeq 1500, for about 156X coverage.
+%Even though the total amount of base coverage from the latter was almost four-times richer than the former, its $\mathtt{metaSPAdes}$ assembly quality was lesser. This happened due to the fact of under-presented microbial cells from rare species in the Log population that require much more input for their reads to be sequenced, resulting in significant smaller size of assembly contigs and more fragmented assembly graph (Supplementary Figure~\ref{supp_fig:npgraph_zymo}).
+%The assembly size for the two population are approximately 41 Mbp (66\%) and 22 Mbp (36\%). 
+%During pre-processing step, \npgraph{} disregarded nodes which represent short, unconnected and extremely-low-coverage contigs which were indistinguishable from sequencing errors, artifacts or the actual rare species` genomes without additional works.
+%
+%Despite of the input graph quality, table~\ref{table:zymo} shows the assembly improvement in terms of NGA50 after running \npgraph{} on the $\mathtt{metaSPAdes}$' initial graph.  
+%As expected from better quality assembly graph, the results for the Even community indicated significant more complete genomes recovered. 
+%There were 7 isolate genomes had been identified for this community, compared to only 3 from the more complicated log population.
+%\npgraph{} had been able to resolve the assembly graph efficiently for Even community, with the maximum NGA50 improvement for \emph{S.~enterica} boosted from $33$ Kbp to $4.2$ Mbp. 
+%On the other hand, genomes from the Log community witnessed increasing length of aligned contigs as well, but not as distinct as for the balanced colony. The longest NGA50 contigs belongs to \emph{P.aeruginosa} of 445 Kbp, however, the counterpart from the Even community was 4-fold than that, at 1.75 Mbp.
+%The only exception was \emph{B.~subtilis}, where \npgraph{} can only resolved 382 Kbp correct length from the zymo even while the respective statistics was 433 Kbp for the zymo log. However for this isolate, the initial $\mathtt{metaSPAdes}$ assembly of the former was slightly better compared to the latter`s.
+%
+%%how much nanopore needed indeed
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Conclusion}
@@ -490,8 +491,8 @@ Compared to \npscarf, \npgraph{} algorithm employs a less greedy approach based 
 The performance of \npgraph{} is comparable to \unicycler{} while consuming much less computational resources so that it can work on streaming mode. 
 Also, the integrated GUI allows users to visualize its animated output in a  more efficient way.
 
-In the very first attempt to run real-time assembly on metagenomics data, \npgraph{} proved that its method can adapt to scaled-up data and complexity. The assembler was able to handle the De Bruijin assembly graph from Illumina data generated by $\mathtt{metaSPAdes}$ and simplify it using a minimal input stream of long reads. 
-The result has shown more complete isolate genomes reconstructed out of the graph, but the overall communities` genome coverage were dropped with several strains omitted comparing to the reference. The issue is caused by the shortage of short-read sequencing input to cover underpresented species in the mixture, especially for the Log community.
+%In the very first attempt to run real-time assembly on metagenomics data, \npgraph{} proved that its method can adapt to scaled-up data and complexity. The assembler was able to handle the De Bruijin assembly graph from Illumina data generated by $\mathtt{metaSPAdes}$ and simplify it using a minimal input stream of long reads. 
+%The result has shown more complete isolate genomes reconstructed out of the graph, but the overall communities` genome coverage were dropped with several strains omitted comparing to the reference. The issue is caused by the shortage of short-read sequencing input to cover underpresented species in the mixture, especially for the Log community.
 
 As a hybrid assembler, similar to \unicycler{}, \npgraph{} relies on the initial assembly graph to generate the final assembly. The algorithm operates on the assumption of a high quality assembly from a well-supplied source of short-read data for a decent assembly graph to begin with.
 It then consumes a just-enought amount of data from a streaming input of nanopore reads to resolve the graph. 
