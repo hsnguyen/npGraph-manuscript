@@ -314,18 +314,25 @@ beyond the information contained in short reads. Hence each contig has multiple 
  With sufficient data, when all the knots are removed, the assembly graph is simplified 
 to a path which represents the complete assembly.
 
+%\begin{figure}[!hpt]
+%\centering
+%\subfloat[Merging bridges]{
+%    \label{figure:npgraph_merge}
+%	\includegraphics[width=.48\textwidth]{images/bridge_merging.pdf}
+%}
+%\hfill
+%\subfloat[Knot untangled]{
+%    \label{figure:npgraph_untangle}
+%	\includegraphics[width=.48\textwidth]{images/knot.pdf}
+%}
+%\caption{Graph resolving algorithm. \ref{figure:npgraph_merge} the bridges suggested by long reads are merged progressively with dynamic programming to find the best path connecting 2 anchors. \ref{figure:npgraph_untangle} A knot (repetitive contig) is unwound following the best path (highlighted in purple) leading to the graph simplification.}
+%\label{figure:npgraph_pipeline}
+%\end{figure}
+
 \begin{figure}[!hpt]
 \centering
-\subfloat[Merging bridges]{
-    \label{figure:npgraph_merge}
-	\includegraphics[width=.48\textwidth]{images/bridge_merging.pdf}
-}
-\hfill
-\subfloat[Knot untangled]{
-    \label{figure:npgraph_untangle}
-	\includegraphics[width=.48\textwidth]{images/knot.pdf}
-}
-\caption{Graph resolving algorithm. \ref{figure:npgraph_merge} the bridges suggested by long reads are merged progressively with dynamic programming to find the best path connecting 2 anchors. \ref{figure:npgraph_untangle} A knot (repetitive contig) is unwound following the best path (highlighted in purple) leading to the graph simplification.}
+\includegraphics[width=\textwidth]{images/Fig1.eps}
+\caption{Graph resolving algorithm. (a) the bridges suggested by long reads are merged progressively with dynamic programming to find the best path connecting 2 anchors. (b) A knot (repetitive contig) is unwound following the best path (highlighted in purple) leading to the graph simplification.}
 \label{figure:npgraph_pipeline}
 \end{figure}
 
@@ -334,9 +341,9 @@ to multiple contigs, \npgraph{} constructs candidate paths that are supported by
 When sufficient data are obtained, the best path is confidently identified and hence the knot is untangled.
 %TODO: two more sentences describing the bridging
 In general, the bridging algorithm used to determine the best path is a combination of progressive merging, accumulated scoring and decision making modules.
-It operates on each pair of unique contigs, or \emph{anchors}, by using a \emph{bridge} data structure maintaining 2 anchors and a list of \emph{steps} in-between as shown in Figure~\ref{figure:npgraph_merge}. 
+It operates on each pair of unique contigs, or \emph{anchors}, by using a \emph{bridge} data structure maintaining 2 anchors and a list of \emph{steps} in-between as shown in Figure~\ref{figure:npgraph_pipeline}(a). 
 A set of candidate paths are listed and the best one can be selected amongst them given enough evidence. 
-The de Bruijin graph is subsequently simplified when the bridge is replaced by a single edge representing the best path (\ref{figure:npgraph_untangle}).
+The de Bruijin graph is subsequently simplified when the bridge is replaced by a single edge representing the best path (\ref{figure:npgraph_pipeline}(b)).
 
 
 We also provide a Graphical User Interface (GUI) for \npgraph{}. The GUI includes the dashboard for controlling the settings of the program and a window for visualization of the assembly graph 
@@ -344,20 +351,11 @@ in real-time (Figure~\ref{figure:npgraph_gui}).
 In this interface, the assembly graph loading stage is separated from the actual assembly process so that users can check for the graph quality first before carry out any further tasks.
 A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. The practice is to support the real-time monitoring of
 the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2017barcode} that allow the analysis to take place abreast to a nanopore sequencing run.
+
 \begin{figure}[!hpt]
 \centering
-\parbox{\textwidth}{
-    \parbox{.57\textwidth}{
-        \subfloat{\includegraphics[width=\hsize]{images/dashboard.png}}
-    }
-    \hskip1em
-    \parbox{.44\textwidth}{%
-        \subfloat{\includegraphics[width=\hsize]{images/graph-view.png}}
-        \vskip1em
-        \subfloat{\includegraphics[width=\hsize]{images/console-view.png}}  
-    }
-}
-\caption[\npgraph{} user interface]{\npgraph{} user interface including Console (\textbf{0}) and GUI components (\textbf{1}-\textbf{6}). The GUI consists of the Dashboard (\textbf{1}-\textbf{5}) and the Graph View (\textbf{6}). From the Dashboard there are 5 components as follow: \textbf{1} the assembly graph input field; \textbf{2} the long reads input field; \textbf{3} the aligner settings field; \textbf{4} control buttons (start/stop) to monitor the real-time scaffolding process; \textbf{5} the statistics plots for the assembly result.}
+\includegraphics[width=\textwidth]{images/Fig2.eps}
+\caption{\npgraph{} user interface including Console (\textbf{0}) and GUI components (\textbf{1}-\textbf{6}). The GUI consists of the Dashboard (\textbf{1}-\textbf{5}) and the Graph View (\textbf{6}). From the Dashboard there are 5 components as follow: \textbf{1} the assembly graph input field; \textbf{2} the long reads input field; \textbf{3} the aligner settings field; \textbf{4} control buttons (start/stop) to monitor the real-time scaffolding process; \textbf{5} the statistics plots for the assembly result.}
 \label{figure:npgraph_gui}
 \end{figure}
 
@@ -438,7 +436,7 @@ A bridge in \npgraph{} has several completion levels. When created, it must be r
 % \end{figure}
 
 At early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s).
-In an example from Figure~\ref{figure:npgraph_merge}, bridges from a certain anchor (highlighted in red) are created by extracting appropriate alignments from incoming long reads to the contigs. Each of the steps therefore is assigned a weighing score based on its alignment quality.
+In an example from Figure~\ref{figure:npgraph_pipeline}(a), bridges from a certain anchor (highlighted in red) are created by extracting appropriate alignments from incoming long reads to the contigs. Each of the steps therefore is assigned a weighing score based on its alignment quality.
 Due to the error rate of long reads, there should be deviations in terms of steps found and spans measured between these bridges, even though they represent the same connection.
 A continuous merging phase, as shown in the figure, takes advantage of a pairwise Needleman-Wunsch dynamic programming to generate a consensus list based on weight and position of each of every stepping nodes. The spans are calibrated accordingly by averaging out the distances. On the other hand, the score of the merged steps are accumulated over time as well.
 Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hosting a list of steps with sufficient coverage, it is ready for a path finding in the next step.
@@ -537,14 +535,8 @@ Whenever a bridge is finished (with a unique linking path), the assembly graph i
 
 \begin{figure}[!hpt]
 \centering
-\subfloat[Initial graph]{
-	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_0.png}
-}
-\hfill
-\subfloat[Resolved graph]{
-	\includegraphics[width=.45\textwidth]{images/npgraph_shigella_2.png}
-}
-\caption[Assembly graph resolving on \npgraph{} Graph View]{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
+ \includegraphics[width=\textwidth]{images/Fig4.eps}
+\caption{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
 \label{figure:npgraph_graphview}
 \end{figure}
 
@@ -561,8 +553,8 @@ To decompose the graph, the tool simply mask out all incoming/outgoing edges roo
 
 \begin{figure}[!hpt]
 \centering
-\includegraphics[width=.6\textwidth]{images/decompose.pdf}
-\caption[Example of graph decomposition into longest straight paths]{Example of graph decomposition into longest straight paths. Branching edges are masked out (shaded) leaving only straight paths (bold colored) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
+\includegraphics[width=.6\textwidth]{images/Fig5.eps}
+\caption{Example of graph decomposition into longest straight paths. Branching edges are masked out (faded) leaving only straight paths (bold) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
 \label{figure:npgraph_decompose}
 \end{figure}
 
@@ -646,7 +638,7 @@ Table~\ref{table:npgraph_compare} shows comparative results running different me
 
 To align the long reads to the assembly graph components, both \bwa{}~\cite{Li2013} or \minimap{}~\cite{Li2016} were used in conjunction with \npgraph{}. These two methods were chosen due to their proven efficiency and compatibility with streaming data.
 While \bwa{} is a well-known classic aligner that can be adapted to work with third generation sequencing data, \minimap{} has been specially designed for this data type. 
-We observed a slightly higher error rate (comprising the sum of mismatches and indels per 100kb) using \bwa{} in comparison to \minimap{} for all simulations in Table~\ref{table:npgraph_compare}.  This is due to the fact that bridging paths induced using \bwa{} were slightly less accurate due to more noise from the smaller \emph{steps} in-between (Figure~\ref{figure:npgraph_merge}).
+We observed a slightly higher error rate (comprising the sum of mismatches and indels per 100kb) using \bwa{} in comparison to \minimap{} for all simulations in Table~\ref{table:npgraph_compare}.  This is due to the fact that bridging paths induced using \bwa{} were slightly less accurate due to more noise from the smaller \emph{steps} in-between (Figure~\ref{figure:npgraph_pipeline}(a)).
 However, under almost circumstances, using either aligner resulted in final assemblies with comparable qualities.
 In terms of running time and resources required, \minimap{} always proved to be a better option, requiring markedly less CPU time than \bwa{}.  Utilising \minimap, \npgraph{} is now the fastest hybrid assembler available.
 
@@ -729,24 +721,31 @@ The sharp \emph{jumping} patterns suggested that the linking information from lo
 In addition, at the end of the streaming when the sequencing is finished, \npgraph{} will try for the last time to connect bridges with less than 3 supporting reads which are otherwise not part of conflicting bridges.
 
 
+%\begin{figure}[!hbt]
+%\centering
+%\subfloat[\emph{Citrobacter~freundii} CAV1374]{
+%	\includegraphics[width=.45\textwidth]{images/rt_cf1374.png}
+%}
+%\hfill
+%\subfloat[\emph{Escherichia~coli} K12 MG1655]{
+%	\includegraphics[width=.45\textwidth]{images/rt_eck12.png}
+%}
+%\\
+%\subfloat[\emph{Klebsiella} 30660 NJST258]{
+%	\includegraphics[width=.45\textwidth]{images/rt_kp30660.png}
+%}
+%\hfill
+%\subfloat[\emph{Klebsiella} NTUH K2044]{
+%	\includegraphics[width=.45\textwidth]{images/rt_kpntuh.png}
+%}
+%\caption[Real-time assembly by \npscarf{} and \npgraph{}]{N50 statistics of real-time assembly by \npscarf{} and \npgraph{}.}
+%\label{F:npgraph_rt}
+%\end{figure}
+
 \begin{figure}[!hbt]
 \centering
-\subfloat[\emph{Citrobacter~freundii} CAV1374]{
-	\includegraphics[width=.45\textwidth]{images/rt_cf1374.png}
-}
-\hfill
-\subfloat[\emph{Escherichia~coli} K12 MG1655]{
-	\includegraphics[width=.45\textwidth]{images/rt_eck12.png}
-}
-\\
-\subfloat[\emph{Klebsiella} 30660 NJST258]{
-	\includegraphics[width=.45\textwidth]{images/rt_kp30660.png}
-}
-\hfill
-\subfloat[\emph{Klebsiella} NTUH K2044]{
-	\includegraphics[width=.45\textwidth]{images/rt_kpntuh.png}
-}
-\caption[Real-time assembly by \npscarf{} and \npgraph{}]{N50 statistics of real-time assembly by \npscarf{} and \npgraph{}.}
+\includegraphics[width=\textwidth]{images/Fig3.eps}
+\caption{N50 statistics of real-time assembly by \npscarf{} and \npgraph{} for 4 bacterial samples.}
 \label{F:npgraph_rt}
 \end{figure}
 

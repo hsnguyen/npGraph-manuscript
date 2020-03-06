@@ -1,0 +1,2 @@
+#After having PDF file -> EPS file
+gs -q -r300 -dNOCACHE -dNOPAUSE -dBATCH -dSAFER -sDEVICE=eps2write -sOutputFile=Fig1.eps Fig1.pdf
