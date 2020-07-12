@@ -1,0 +1,1229 @@
+% Template for PLoS
+% Version 3.5 March 2018
+%
+% % % % % % % % % % % % % % % % % % % % % %
+%
+% -- IMPORTANT NOTE
+%
+% This template contains comments intended 
+% to minimize problems and delays during our production 
+% process. Please follow the template instructions
+% whenever possible.
+%
+% % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Once your paper is accepted for publication, 
+% PLEASE REMOVE ALL TRACKED CHANGES in this file 
+% and leave only the final text of your manuscript. 
+% PLOS recommends the use of latexdiff to track changes during review, as this will help to maintain a clean tex file.
+% Visit https://www.ctan.org/pkg/latexdiff?lang=en for info or contact us at latex@plos.org.
+%
+%
+% There are no restrictions on package use within the LaTeX files except that 
+% no packages listed in the template may be deleted.
+%
+% Please do not include colors or graphics in the text.
+%
+% The manuscript LaTeX source should be contained within a single file (do not use \input, \externaldocument, or similar commands).
+%
+% % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- FIGURES AND TABLES
+%
+% Please include tables/figure captions directly after the paragraph where they are first cited in the text.
+%
+% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT
+% - Figures should be uploaded separately from your manuscript file. 
+% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. 
+% - Figures containing multiple panels/subfigures must be combined into one image file before submission.
+% For figure citations, please use "Fig" instead of "Figure".
+% See http://journals.plos.org/plosone/s/figures for PLOS figure guidelines.
+%
+% Tables should be cell-based and may not contain:
+% - spacing/line breaks within cells to alter layout or alignment
+% - do not nest tabular environments (no tabular environments within tabular environments)
+% - no graphics or colored text (cell background color/shading OK)
+% See http://journals.plos.org/plosone/s/tables for table guidelines.
+%
+% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS
+%
+% IMPORTANT
+% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://journals.plos.org/plosone/s/latex
+%
+% For inline equations, please be sure to include all portions of an equation in the math environment.  For example, x$^2$ is incorrect; this should be formatted as $x^2$ (or $\mathrm{x}^2$ if the romanized font is desired).
+%
+% Do not include text that is not math in the math environment. For example, CO2 should be written as CO\textsubscript{2} instead of CO$_2$.
+%
+% Please add line breaks to long display equations when possible in order to fit size of the column. 
+%
+% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.
+%
+% When adding superscript or subscripts outside of brackets/braces, please group using {}.  For example, change "[U(D,E,\gamma)]^2" to "{[U(D,E,\gamma)]}^2". 
+%
+% Do not use \cal for caligraphic font.  Instead, use \mathcal{}
+%
+% % % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Please contact latex@plos.org with any questions.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8x]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% color can be used to apply background shading to table cells only
+\usepackage[table]{xcolor}
+
+% array package and thick rules for tables
+\usepackage{array}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
+
+% Remove comment for double spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+%\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+%\setlength{\headheight}{27.023pt}
+%\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{\today}
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+\usepackage{cancel}
+\newcommand\replace[1]{\textcolor{red}{#1}}
+%% npGraph
+\newcommand{\npscarf}{$\mathtt{npScarf}$}
+\newcommand{\npscarfg}{$\mathtt{npScarf\_wag}$}
+\newcommand{\npreader}{$\mathtt{npReader}$}
+\newcommand{\npanalysis}{$\mathtt{npAnalysis}$}
+\newcommand{\npbarcode}{$\mathtt{npBarcode}$}
+\newcommand{\npgraph}{$\mathtt{npGraph}$}
+\newcommand{\canu}{$\mathtt{Canu}$}
+\newcommand{\unicycler}{$\mathtt{Unicycler}$}
+\newcommand{\spades}{$\mathtt{SPAdes}$}
+\newcommand{\hspades}{$\mathtt{hybridSPAdes}$}
+\newcommand{\albacore}{$\mathtt{Albacore}$}
+\newcommand{\racon}{$\mathtt{Racon}$}
+\newcommand{\metrichor}{$\mathtt{Metrichor}$}
+\newcommand{\minimap}{$\mathtt{minimap2}$}
+\newcommand{\miniasm}{$\mathtt{miniasm}$}
+\newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
+
+\newcommand{\ec}{\emph{E.~coli}}
+\newcommand{\sce}{\emph{S.~cerevisae}}
+\newcommand{\kp}{\emph{K.~pneumoniae}} 
+
+\newcommand{\IE}{\emph{i.e.}}
+\newcommand{\EG}{\emph{e.g.}}
+\newcommand{\review}[1]{\textcolor{red}{#1}}
+
+\newcommand{\cthead}[2]{\multicolumn{#1}{c}{\textbf{#2}}}
+\definecolor{Gray}{gray}{0.9}
+\newcommand{\cir}{$^\ast$}
+\newcommand{\bres}[1]{{\bf #1}}
+
+\usepackage{multirow} 
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+
+\usepackage[linesnumbered,boxed,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% For code embedding (Bash, Java...)
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{latexsym}
+\usepackage{mathtools}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+\usepackage{longtable,booktabs}
+\usepackage{ltablex} 
+
+%% End preloads
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Real-time resolution of short-read assembly graph using ONT long reads} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+\\
+Son Hoang Nguyen\textsuperscript{1*},
+Minh Duc Cao\textsuperscript{1},
+Lachlan Coin\textsuperscript{1,2,3,4*}
+\\
+\bigskip
+\textbf{1} Institute for Molecular Bioscience, the University of Queensland, 
+St Lucia, Brisbane, QLD 4072 Australia
+\\
+\textbf{2} Department of Microbiology and Immunology, The University of Melbourne, Parkville, 3010, Australia
+\\
+\textbf{3} Department of Clinical Pathology, The University of Melbourne, Parkville, 3010, Australia
+\\
+\textbf{4} Department of Infectious Disease, Imperial College London, London, W2 1NY, UK
+\bigskip
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+*s.hoangnguyen@imb.uq.edu.au,l.coin@imb.uq.edu.au
+
+\end{flushleft}
+% Please keep the abstract below 300 words
+\section*{Abstract}
+A streaming assembly pipeline utilising real-time Oxford Nanopore Technology (ONT) sequencing data is important for saving sequencing resources and reducing time-to-result. A previous approach implemented in  \npscarf{} provided an efficient streaming algorithm for hybrid assembly but was relatively prone to mis-assemblies compared to other graph-based methods. 
+Here we present \npgraph{}, a streaming hybrid assembly tool using the assembly graph instead of the separated pre-assembly contigs. It is able to produce more complete genome assembly by resolving the path finding problem on the assembly graph using long reads as the traversing guide. 
+Application to synthetic and real data from bacterial isolate genomes show improved accuracy while still maintaining a low computational cost. 
+%On top of that, we apply \npgraph{} on mock community in the very first application to improve metagenomics assembly in real-time with nanopore data. 
+\npgraph{} also provides a graphical user interface (GUI) which provides a real-time visualisation of the progress of assembly.
+ The tool and source code is available at \url{https://github.com/hsnguyen/assembly}.
+
+
+% Please keep the Author Summary between 150 and 200 words
+% Use first person. PLOS ONE authors please skip this step. 
+% Author Summary not valid for PLOS ONE submissions.   
+\section*{Author summary}
+
+
+\linenumbers
+
+% Use "Eq" instead of "Equation" for equation citations.
+\section*{Introduction}
+
+Sequencing technology has reached a level of maturity which allows the decoding of virtually any piece of genetic material
+which  can be obtained. 
+%This provides the potential use of DNA sequencing into a wide range of applications in medical 
+%and scientific research. 
+However, the time from sample to result remains a barrier to adoption of 
+sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making.  While
+there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT);  algorithms for streaming analyses  of such real-time data are still
+in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
+
+One particular strength of ONT technology is the production of ultra long reads. This is complementary to the dominant
+short read sequencing technology Illumina which is cheaper and has higher per base read quality
+but is unable to resolve the complex regions of the genome due to its read length limitation. A natural combination of
+the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to 
+scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich  connectivity information in the short read assembly graph, and as a result is prone to mis-assembly.
+%The strategy proved to be
+%a time- and cost- effective methodology where practitioners need to generate only sufficient data for completing 
+%a draft genome.
+
+
+
+ Here, we present \npgraph{}, a novel algorithm to resolve the assembly graph in real-time using long read 
+sequencing. \npgraph{} uses the stream of long reads to untangle knots in the assembly graph, which is maintained in memory.
+ Because of this, \npgraph{} has better estimation of multiplicity of repeat contigs, resulting in fewer misassemblies. 
+ In addition, we develop a visualisation tool for practitioners to monitor
+the progress of the assembly process.
+
+
+\section*{Materials and methods}
+\subsection*{Application overview}
+\npgraph{} makes use of an assembly graph generated from assembling short reads using a de Bruijin
+graph method such as \spades{}~\cite{BankevichNA2012}, $\mathtt{Velvet}$~\cite{Zerbino2008}
+and $\mathtt{AbySS}$~\cite{Simpson2009}. The assembly graph consists of a list of contigs, and 
+possible connections among these contigs. In building the assembly graph, the de Bruijin graph assembler attempts to extend 
+each contig as far as possible, until there is more than one possible way of extending due to the repetitive sequences 
+beyond the information contained in short reads. Hence each contig has multiple possible connections with others,
+ creating knots in the assembly graph. \npgraph{}  uses the connectivity information from long reads to untangle these knots in real-time. 
+ With sufficient data, when all the knots are removed, the assembly graph is simplified 
+to a path which represents the complete assembly.
+
+%\begin{figure}[!hpt]
+%\centering
+%\subfloat[Merging bridges]{
+%    \label{figure:npgraph_merge}
+%	\includegraphics[width=.48\textwidth]{images/bridge_merging.pdf}
+%}
+%\hfill
+%\subfloat[Knot untangled]{
+%    \label{figure:npgraph_untangle}
+%	\includegraphics[width=.48\textwidth]{images/knot.pdf}
+%}
+%\caption{Graph resolving algorithm. \ref{figure:npgraph_merge} the bridges suggested by long reads are merged progressively with dynamic programming to find the best path connecting 2 anchors. \ref{figure:npgraph_untangle} A knot (repetitive contig) is unwound following the best path (highlighted in purple) leading to the graph simplification.}
+%\label{figure:npgraph_pipeline}
+%\end{figure}
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=\textwidth]{images/Fig1.eps}
+\caption{Graph resolving algorithm. (a) the bridges suggested by long reads are merged progressively with dynamic programming to find the best path connecting 2 anchors. (b) A knot (repetitive contig) is unwound following the best path (highlighted in purple) leading to the graph simplification.}
+\label{figure:npgraph_pipeline}
+\end{figure}
+
+\npgraph{} aligns long reads to the contigs in the assembly graph. When a long read is aligned
+to multiple contigs, \npgraph{} constructs candidate paths that are supported by the read. This strategy allows \npgraph{} to progressively update the likelihood of the paths going through a knot.
+When sufficient data are obtained, the best path is confidently identified and hence the knot is untangled.
+%TODO: two more sentences describing the bridging
+In general, the bridging algorithm used to determine the best path is a combination of progressive merging, accumulated scoring and decision making modules.
+It operates on each pair of unique contigs, or \emph{anchors}, by using a \emph{bridge} data structure maintaining 2 anchors and a list of \emph{steps} in-between as shown in Figure~\ref{figure:npgraph_pipeline}(a). 
+A set of candidate paths are listed and the best one can be selected amongst them given enough evidence. 
+The de Bruijin graph is subsequently simplified when the bridge is replaced by a single edge representing the best path (\ref{figure:npgraph_pipeline}(b)).
+
+
+We also provide a Graphical User Interface (GUI) for \npgraph{}. The GUI includes the dashboard for controlling the settings of the program and a window for visualization of the assembly graph 
+in real-time (Figure~\ref{figure:npgraph_gui}). 
+In this interface, the assembly graph loading stage is separated from the actual assembly process so that users can check for the graph quality first before carry out any further tasks.
+A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. The practice is to support the real-time monitoring of
+the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2017barcode} that allow the analysis to take place abreast to a nanopore sequencing run.
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=\textwidth]{images/Fig2.eps}
+\caption{\npgraph{} user interface including Console (\textbf{0}) and GUI components (\textbf{1}-\textbf{6}). The GUI consists of the Dashboard (\textbf{1}-\textbf{5}) and the Graph View (\textbf{6}). From the Dashboard there are 5 components as follow: \textbf{1} the assembly graph input field; \textbf{2} the long reads input field; \textbf{3} the aligner settings field; \textbf{4} control buttons (start/stop) to monitor the real-time scaffolding process; \textbf{5} the statistics plots for the assembly result.}
+\label{figure:npgraph_gui}
+\end{figure}
+
+\subsection*{Algorithm in details}
+The work flow of \npgraph{} mainly consists of 3 stages: (1) assembly graph pre-processing; (2) graph resolving and simplifying; (3) post-processing and reporting results. 
+The first step is to load the assembly graph of Illumina contigs and analyze its components' property, including binning and multiplicity estimation.
+The second step works on the processed graph and the long read data that can be provided in real-time by ONT sequencer. Based on the paths induced from long reads, the assembly graph will be resolved on-the-fly.
+Finally, the graph is subjected to the last attempt of resolving and cleaning, as well as output the final results. The whole process can be managed by using either command-line interface or GUI.
+Among three phases, only the first one must be performed prior to the MinION sequencing process in a streaming setup.
+The algorithm works on the assembly graph of Illumina contigs, so the terms \emph{contigs} and \emph{nodes} if not mentioned specifically, would be used interchangeable throughout this context.
+\subsubsection*{Contigs binning}
+Contigs should belong to single or multiple groups, or \emph{bins}, that would represent different assembly units, \EG{} chromosome , plasmids, of different species if applying to a metagenomics dataset. 
+A binning step is needed to assign membership of each contig to its corresponding group. 
+
+The first step is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
+To achieve this, we applied DBSCAN clustering algorithm \cite{Ester96adensity-based}, which utilises a customised metric function to map contigs into a one-dimensional space.  In order to 
+ define a customised metric which is \cancel{sample} \replace{simple} and fast to calculate, we assumed that a single long contig itself consists of a Poisson distribution of \emph{k-mers} count with the mean approximated by the contig's coverage. 
+%The rationale is to approximate a coverage value of an extremely long contig (which can be split into more than 10,000 \emph{k-mers}) with a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
+The metric is then determined by a distance function of two Poisson distributions based on Kullback-Leibler divergence (or relative entropy) between the Poisson distribution representing each contig\cite{Kullback1951information}.
+
+Formally, assuming there are 2 Poisson distributions $P_1$ and $P_2$ with probability mass functions (PMF) $$P_1(X=x,\lambda_1)=\frac{e^{-\lambda_1}\lambda_1^x}{x!}$$ and $$P_2(X=x,\lambda_2)=\frac{e^{-\lambda_2}\lambda_2^x}{x!}$$ 
+The Kullback-Leibler divergence from $P_2$ to $P_1$ is defined as:
+$$D_{KL}(P_1||P_2)=\sum_{x}{P_1(x)\log{\frac{P_1(x)}{P_2(x)}}}=\mathbb{E}_{P_1}[\log{\frac{P_1(x)}{P_2(x)}}]$$
+or in other words,  it is the expectation of the logarithmic difference between the probabilities $P_1$ and $P_2$, where the expectation is taken using $P_1$.
+The log ratio of the PMFs is:
+$$\log{\frac{P_1(x)}{P_2(x)}}=\log{(e^{\lambda_2-\lambda_1}{(\frac{\lambda_1}{\lambda_2})}^x)}=x\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+Thus the divergence between $P_1$ and $P_2$ is:
+$$D_{KL}(P_1||P_2)=\mathbb{E}_{P_1}[\log{\frac{P_1(x)}{P_2(x)}}]=\lambda_1\log{\frac{\lambda_1}{\lambda_2}}+\lambda_2-\lambda_1$$
+Thus, the metric we used is a distance function defined as:
+$$D(P_1,P_2)=\frac{D_{KL}(P_1||P_2)+D_{KL}(P_2||P_1)}{2}=\frac{1}{2}(\lambda_1-\lambda_2)(\log{\lambda_1}-\log{\lambda_2})$$
+
+% After identifying the bins, we implemented a graph traversal to assign more unique nodes to them, given the graph topology as well as statistics calculated by length and coverage of each contigs. 
+Independent from the contigs clustering in the pre-processing step, additional evidence of nodes' uniqueness can be acquired using the long reads during the assembly process. Given enough data, the multiplicity of an ambiguous node can be determined based on the set of all bridges rooted from itself.
+On the other hand, external binning tools such as MetaBAT~\cite{Kang2015metabat}, maxbin~\cite{Wu2014maxbin} can be employed in \npgraph{} as well.
+%If external binning algorithm is employed, the resulting output must be converted into a text file that specifies the corresponding bin of every contigs, just like output from MetaBAT. By that, each line of the file would be:
+%$
+%\mathtt{<contig\_ID>} \; ~ \mathtt{<bin\_ID>}
+%$
+%where $\mathtt{bin\_ID}=0$ indicates unspecified binned contigs.
+\subsubsection*{Multiplicity estimation}
+Now bins of the main unique contigs had been identified, however, they only make up a certain proportion of the contigs set. From here, we need to assign bin membership and multiplicity for all other nodes of the graph, especially the repetitive ones. To do so, we relied on the graph's topology and the estimated read coverage of initial contigs from SPAdes.
+Given all contigs' coverage values as nodes' weight, we need to estimate those of edges and in return, using them to re-estimate the coverage for repetitive nodes if necessary. After this process, we will have a graph with optimized weighted components that would suggest their multiplicities more exactly. Basically the computation is described as in following steps:
+
+\begin{itemize}
+\item[0.] Initialize every node weight as its corresponding contig coverage, all edges' weight as zeros.
+\item[1.] Calculate distributed weights for edges by quadratic unconstrained optimization of the least-square function:
+$$\frac{1}{2}\sum_{i}{l_i((\sum{e^{+}_{i}}-c_i)^2+(\sum{e^{-}_{i}}-c_i)^2}$$
+where $l_i$ and $c_i$ is the length and weight of a node $i$ in the graph;
+
+$\sum{e^{+}_{i}}$ and $\sum{e^{-}_{i}}$ indicates sum of weights for incoming and outgoing edges from node $i$ respectively. They are expected to be as close to $c_i$ as possible thus the length-weighted least-square should be minimized. 
+
+The above function can be rewritten as:
+$$f(x)=\frac{1}{2}x^TQx + b^Tx + r$$
+and then being minimized by using gradient method.
+\item[2.] Re-estimate weights of repetitive nodes based on their neighboring edges' measures and repeat previous optimization step. 
+The weights are calculated iteratively until no further significant updates are made or a threshold of loop count is reached.
+\end{itemize}
+
+At this point, we can induce the copy numbers of nodes in the final assembly.
+For each node, this could be done by investigating its adjacent edges' multiplicity to estimate how many times it should be visited and from which bin(s).
+Multiplicities of insignificant nodes (of sequences with length less than $1,000$ bp) are less confident due to greater randomness in sequencing coverage. 
+For that reason, in \npgraph{}, we did not rely on them for graph transformation but as supporting information for path finding.
+
+%\subsection*{Untangling assembly graph by stream of nanopore data.}
+\subsubsection*{Building bridges in real-time}
+Bridge is the data structure designed for tracking the possible connections between two anchored nodes (of unique contigs) in the assembly graph.
+A bridge must start from a unique contig, or \emph{anchor} node, and end at another when completed. Located in-between are nodes known as \emph{steps} and distances between them are called \emph{spans} of the bridge. Stepping nodes are normally repetitive contigs and indicative for a path finding operation later on. In a complicated assembly graph, the more details the bridge, \emph{a.k.a.} more steps in-between, the faster and more accurate the linking path it would resolve. A bridge's function is complete when it successfully return the ultimate linking path between 2 anchors.
+
+The real-time bridging method considers the dynamic aspect of multiplicity measures for each node, meaning that a $n$-times repetitive node might become a unique node at certain time point when its $(n-1)$ occurrences have been already identified in other distinct unique paths. 
+Furthermore, the streaming fashion of this method allows the bridge constructions (updating steps and spans) to be carried out progressively so that assembly decisions can be made immediately after having sufficient supporting data.
+A bridge in \npgraph{} has several completion levels. When created, it must be rooted from an \emph{anchor node} which represents a unique contig (level 1). A bridge is known as fully complete (level 4) if and only if there is a unique path connecting its two anchor nodes from two ends. 
+
+% \begin{figure}[!hpt]
+% \centering
+% \includegraphics[width=.8\textwidth]{images/bridge_merging.pdf}
+% \caption[Example of bridge merging progressively]{Bridge merging progressively in real-time. Sequencing long reads induce alignments to the contigs where new bridges are created respectively. Bridges sharing same anchors can be merged together to form the ultimate, more comprehensive bridge (with more step nodes and better approximation of spans between them).}
+% \label{figure:npgraph_merging}
+% \end{figure}
+
+At early stages (level 1 or 2), a bridge is constructed progressively by alignments from long reads that spanning its corresponding anchor(s).
+In an example from Figure~\ref{figure:npgraph_pipeline}(a), bridges from a certain anchor (highlighted in red) are created by extracting appropriate alignments from incoming long reads to the contigs. Each of the steps therefore is assigned a weighing score based on its alignment quality.
+Due to the error rate of long reads, there should be deviations in terms of steps found and spans measured between these bridges, even though they represent the same connection.
+A continuous merging phase, as shown in the figure, takes advantage of a pairwise Needleman-Wunsch dynamic programming to generate a consensus list based on weight and position of each of every stepping nodes. The spans are calibrated accordingly by averaging out the distances. On the other hand, the score of the merged steps are accumulated over time as well.
+Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hosting a list of steps with sufficient coverage, it is ready for a path finding in the next step.
+
+
+\subsubsection*{Path finding algorithm}
+Given a bridge with 2 anchors, a path finding algorithm is invoked to find all candidate paths between them. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the top-scored ones are kept for the next round.
+We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space when using Depth-First Search.
+
+Due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are necessary to be appeared in the ultimate path resolved by the bridge. 
+In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
+For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}.
+
+
+Before that, we define Algorithm~\ref{algo:findpath} to demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
+$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
+from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
+This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Pair of bidirected nodes $\overrightarrow{v_1}, \overrightarrow{v_2}$ and estimated distance $d$ between them}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_1}$ to $\overrightarrow{v_2}$ with reasonable distances compared to $d$}
+\SetKwFunction{DFS}{DFS} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\DFS{$\overrightarrow{v_1}, \overrightarrow{v_2}$, $d$}}{
+$P$:=new List()\;
+$M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree from $\overrightarrow{v_2}$ with range $d$}
+\If{$M.contain(\overrightarrow{v_1})$}{
+    $S$:=new $Stack()$ \tcp*{stack of sets of edges to traverse}
+    $edgesSet$:=$getEdges(\overrightarrow{v_1})$ \tcp*{get all bidirected edges going from $\overrightarrow{v_1}$}
+    $S.push(edgesSet)$\;
+    $p$:=new $Path(\overrightarrow{v_1})$ \tcp*{init a path that has $\overrightarrow{v_1}$ as root}
+    \While{true}{
+        $edgesSet$:=$S.peek()$\;
+        \If{$edgesSet.isEmpty()$}{
+            \If{$p.size() \leq 1$}{
+                $\mathbf{break}$ \tcp*{stop the loop when there is no more edge to discover}
+            }
+        $S.pop()$\;
+        $d$+=$p.peekNode.length()+p.popEdge().length()$\; 
+        }
+        \Else{
+            $curEdge \coloneqq edgesSet.remove()$\;
+            $\overrightarrow{v}$:=$curEdge.getOpposite(p.peekNode())$\;
+            $S.push(getEdges(\overrightarrow{v}).includedIn(M))$\;
+            $p.add(curEdge)$\;
+            \If{reach $\overrightarrow{v_2}$ with reasonable $d$}{
+                $P.add(p)$\;
+            }
+            $d$-=$\overrightarrow{v}.length()+curEdge.length()$\;
+        }
+    }
+}
+
+\Return{$P$}
+}
+\caption{Pseudo-code for finding paths connecting 2 nodes given their estimated distance.}
+\label{algo:findpath}
+\end{algorithm}
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps in-between}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_2}$ that maximize the likelihood of the step list.}
+\SetKwFunction{BinaryBridging}{BinaryBridging} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\BinaryBridging{B}}{
+\tcc{search for the contig with maximum score from the step list (two ends excluded)}
+$m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
+\tcc{if there is no step in-between, run path finding algorithm above directly and return the result}
+\If{$M.size() \equiv 2$}{ 
+	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
+}
+\tcc{divide the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
+$BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
+$BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
+\tcc{Return the join of running recursive function on two sub-bridges}
+\Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
+}
+\caption{Recursive binary bridging to connect 2 anchor nodes.}
+\label{algo:binsearch}
+\end{algorithm}
+
+Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
+A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
+
+Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+
+In many cases, due to dead-ends, there not always exist a path in the assembly graph connecting two anchors as suggested by the alignments. In this case, if enough long reads coverage (20X) are met, a consensus module is invoked and the resulting sequence is contained in a \emph{pseudo} edge.
+\subsubsection*{Graph simplification in real-time}
+\npgraph{} resolves the graph by reducing its complexity perpetually using the long reads that can be streamed in real-time.
+Whenever a bridge is finished (with a unique linking path), the assembly graph is \emph{transformed} or \emph{reduced} by replacing its unique path with a composite edge and removing any unique edges (edges coming from unique nodes) along the path. The assembly graph would have at least one edge less than the original after the reduction. The nodes located on the reduced path, other than 2 ends, also have their multiplicities subtracted by one and the bridge is marked as finally resolved without any further modifications. 
+
+\begin{figure}[!hpt]
+\centering
+ \includegraphics[width=\textwidth]{images/Fig4.eps}
+\caption{Assembly graph of \emph{Shigella~dysenteriae} Sd197 synthetic data being resolved by \npgraph{} and displayed on the GUI Graph View. The \spades{} assembly graph contains 2186 nodes and 3061 edges, after the assembly shows 2 circular paths representing the chromosome and one plasmid.}
+\label{figure:npgraph_graphview}
+\end{figure}
+
+Figure~\ref{figure:npgraph_graphview} presents an example of the results before and after graph resolving process in the GUI.
+The result graph, after cleaning, would only report the significant connected components that represents the final contigs.
+Smaller fragments, even unfinished but with high remaining coverage, are also presented as potential candidates for further downstream analysis.
+Further annotation utility can be implemented in the future better monitoring the features of interests as in \npscarf{}.
+\subsubsection*{Result extraction and output}
+\npgraph{} reports assembly result in real-time by decomposing the assembly graph into a set of longest straight paths (LSP), each of the LSP will spell a contig in the assembly report.
+The final assembly output contains files in both FASTA and GFAv1 format (\url{https://github.com/GFA-spec/GFA-spec}). While the former only retains the actual genome sequences from the final decomposed graph, the latter output file can store almost every properties of the ultimate graph such as nodes, links and potential paths between them.
+
+A path $p=\{v_0,e_1,v_1,\ldots,v_{k-1},e_k,v_k\}$ of size $k$ is considered as straight if and only if each of every edges along the path $e_i, \forall i=1,\ldots,k$ is the only option to traverse from either $v_{i-1}$ or $v_i$, giving the transition rule.
+To decompose the graph, the tool simply mask out all incoming/outgoing edges rooted from any node with in/out degree greater than 1 as demonstrated in Figure~\ref{figure:npgraph_decompose}. These edges are defined as branching edges which stop straight paths from further extending.
+
+\begin{figure}[!hpt]
+\centering
+\includegraphics[width=.6\textwidth]{images/Fig5.eps}
+\caption{Example of graph decomposition into longest straight paths. Branching edges are masked out (faded) leaving only straight paths (bold) to report. There would be 3 contigs extracted by traversing along the straight paths here.}
+\label{figure:npgraph_decompose}
+\end{figure}
+
+The decomposed graph is only used to report the contigs that can be extracted from an assembly graph at certain time point. For that reason, the branching edges are only masked but not removed from the original graph as they would be used for further bridging.
+
+Other than that, if GUI mode is enabled, basic assembly statistics such as N50, N75, maximal contigs length, number of contigs can be visually reported to the users in real-time beside the Dashboard. The progressive simplification of the assembly graph can also be observed at the same time in the Graph view.
+
+
+% Results and Discussion can be combined.
+\section*{Results}
+\subsection*{Evaluation using synthetic data}
+To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), and \unicycler{} version 0.4.6 %%COMMENT_LC - why just indicate unicyler version and not others? 
+using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
+The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on available microbial references.
+We ran hybrid assembly methods using the entire nanopore data and the reciprocal results were evaluated by QUAST 5.0.2~\cite{Mikheenko2018quast5}. 
+
+
+\begin{table}[!ht]
+\begin{adjustwidth}{-2.25in}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
+\centering
+\caption{Comparison of assemblies produced in batch-mode using \npgraph{} and other hybrid assembly methods on synthetic data.} 
+\label{table:npgraph_compare}
+\begin{tabular}{llcrrrrr@{\hspace{2pt}}c@{\hspace{2pt}}r}
+ \hline
+    &       & \cthead{1}{Assembly} &     & 
+    \cthead{1}{N50}  & \cthead{1}{Mis-} &  \cthead{1}{Error}  &
+    \cthead{3}{Run times} \\
+    & \cthead{1}{Method} & \cthead{1}{size (Mbp)} & \cthead{1}{\#Contigs} &
+    \cthead{1}{(Kbp)} & \cthead{1}{assemblies} & \cthead{1}{(per 100 Kbp)} &  
+    \cthead{3}{(CPU hrs)} \\
+\thickhline
+
+\rowcolor{Gray}
+& \emph{M.~tuberculosis} H37Rv & \multicolumn{8}{l} {4,411,532 bp} \\*  
+& SPAdes & 4.376 & 66 & 150.7 & 0 & 0.23 & 1.42 & & \\*
+& SPAdes hybrid & 4.411 & 1 & 4410.5 & 0 & 0.86 & 1.61 & & \\*
+& Unicycler & 4.412 & 1 & 4411.5 & 0 & 2.56 & 5.52 & & \\*
+& npScarf & 4.432 & 4 & 4402.2 & 7 & 6.61 & 1.42 & + & 0.7 \\*
+& npGraph (bwa) & 4.411 & 1 & 4411.4 & 0 & 2.63 & 1.42 & + & 0.64 \\*
+& npGraph (minimap2) & 4.412 & 1 & 4411.5 & 0 & 0.68 & 1.42 & + & 0.02 \\*
+\rowcolor{Gray} 
+& \emph{K.~pneumoniae} 30660 & \multicolumn{8}{l} {5,540,936 bp} \\*  
+& SPAdes & 5.469 & 64 & 270.2 & 0 & 0.07 & 1.36 & & \\*
+& SPAdes hybrid & 5.543 & 8 & 4229.1 & 2 & 5.04 & 1.63 & & \\*
+& Unicycler & 5.538 & 9 & 5263.2 & 0 & 1.85 & 4.34 & & \\*
+& npScarf & 5.566 & 7 & 5259.1 & 4 & 35.6 & 1.36 & + & 0.95 \\*
+& npGraph (bwa) & 5.535 & 5 & 5263.2 & 1 & 4.16 & 1.36 & + & 0.92 \\*
+& npGraph (minimap2) & 5.541 & 6 & 5263.2 & 0 & 0.85 & 1.36 & + & 0.04 \\*
+\rowcolor{Gray} 
+& \emph{S.~cerevisiae} S288c & \multicolumn{8}{l} {12,157,105 bp} \\*  
+& SPAdes & 11.675 & 194 & 260.5 & 0 & 1.57 & 3.61 & & \\*
+& SPAdes hybrid & 11.910 & 45 & 770.5 & 5 & 34.52 & 4.15 & & \\*
+& Unicycler & 11.837 & 29 & 909.1 & 0 & 22.83 & 16.34 & & \\*
+& npScarf & 11.990 & 22 & 796.8 & 53 & 85.5 & 3.61 & + & 4.35 \\*
+& npGraph (bwa) & 12.000 & 151 & 913.1 & 3 & 38.68 & 3.61 & + & 4.12 \\*
+& npGraph (minimap2) & 12.008 & 148 & 913.1 & 5 & 25.32 & 3.61 & + & 0.13 \\*
+\rowcolor{Gray}
+& \emph{S.~sonnei} 53G & \multicolumn{8}{l} {5,220,473 bp} \\*  
+& SPAdes & 4.796 & 392 & 27.7 & 0 & 0.44 & 1.1 & & \\*
+& SPAdes hybrid & 5.218 & 8 & 2195.5 & 2 & 41.98 & 1.36 & & \\*
+& Unicycler & 5.221 & 5 & 4988.5 & 0 & 7.91 & 9.64 & & \\*
+& npScarf & 6.426 & 20 & 1293.8 & 84 & 366.04 & 1.1 & + & 0.52 \\*
+& npGraph (bwa) & 5.293 & 97 & 4988.5 & 3 & 14.87 & 1.1 & + & 0.57 \\*
+& npGraph (minimap2) & 5.293 & 97 & 4988.5 & 3 & 8.31 & 1.1 & + & 0.08 \\*
+\rowcolor{Gray}
+& \emph{S.~dysenteriae} Sd197 & \multicolumn{8}{l} {4,560,911 bp} \\*  
+& SPAdes & 4.096 & 534 & 14.4 & 1 & 0.68 & 1.19 & & \\*
+& SPAdes hybrid & 4.486 & 23 & 821.2 & 96 & 10.99 & 1.89 & & \\*
+& Unicycler & 4.561 & 3 & 4369.2 & 0 & 12.96 & 8.46 & & \\*
+& npScarf & - & - & - & - & - & 1.19 & + & - \\*
+& npGraph (bwa) & 4.553 & 3 & 4369.1 & 6 & 91.03 & 1.19 & + & 0.76 \\*
+& npGraph (minimap2) & 4.548 & 3 & 4364.1 & 8 & 83.68 & 1.19 & + & 0.14 \\*
+
+\end{tabular}
+\end{adjustwidth}
+\end{table}
+
+\normalsize
+
+Table~\ref{table:npgraph_compare} shows comparative results running different methods on 5 synthetic data sets, simulated from complete genomes of \emph{Mycobacterium~tuberculosis} H37Rv, \emph{Klebsiella~pneumoniae} 30660/NJST258\_1, \emph{Saccharomyces~cerevisiae} S288c, \emph{Shigella~sonnei} 53G and \emph{Shigella~dysenteriae} Sd197.
+
+To align the long reads to the assembly graph components, both \bwa{}~\cite{Li2013} or \minimap{}~\cite{Li2016} were used in conjunction with \npgraph{}. These two methods were chosen due to their proven efficiency and compatibility with streaming data.
+While \bwa{} is a well-known classic aligner that can be adapted to work with third generation sequencing data, \minimap{} has been specially designed for this data type. 
+We observed a slightly higher error rate (comprising the sum of mismatches and indels per 100kb) using \bwa{} in comparison to \minimap{} for all simulations in Table~\ref{table:npgraph_compare}.  This is due to the fact that bridging paths induced using \bwa{} were slightly less accurate due to more noise from the smaller \emph{steps} in-between (Figure~\ref{figure:npgraph_pipeline}(a)).
+However, under almost circumstances, using either aligner resulted in final assemblies with comparable qualities.
+In terms of running time and resources required, \minimap{} always proved to be a better option, requiring markedly less CPU time than \bwa{}.  Utilising \minimap, \npgraph{} is now the fastest hybrid assembler available.
+
+
+Amongst all assemblers, \unicycler{} applies an algorithm based on semi-global (or glocal) alignments~\cite{Brudno2003glocal} with the consensus long reads generated with the $\mathtt{SeqAn}$ library. With all of the data sets tested, \unicycler required the most computational resources, but it also returned  fewer mis-assemblies than the other approaches with a comparable rate of error (indels and mismatches) to \npgraph{}.
+$\mathtt{hybridSPAdes}$ reported decent results with high fidelity at base level. As the trade-off, there were fewer connections satisfying its quality threshold, resulting in the fragmented assemblies with lower N50 compared to the other hybrid assemblers. This behaviour was clearly reflected in the last, also the most challenging task of assembly \emph{S.~dysenteriae}.
+
+Of the two streaming algorithms, \npscarf{} utilizes a fast but greedy scaffolding approach that can lead to mis-assemblies and errors.
+For bacterial genomes with modest complexity these are minimal (e.g. \kp), but for those with severe repetitive elements, extra calibrations are needed to prevent the mis-assembly due to ambiguous alignments.
+On the other hand, \npgraph{} significantly reduced the errors compared to \npscarf{}, sometimes even proved to be the best option \EG{} for \emph{M.~tuberculosis} and \kp{}.  
+For the yeast \emph{S.~cerevisiae} data set, the \npgraph{} assembly best covered the reference genome but the number of mis-assemblies was up to 5.
+The unfavourable figures, namely mis-assemblies and error, were still high in case of \emph{S.~dysenteriae}, 
+ due to the complicated and extremely fragmented graph components containing a large number of small-scaled contigs that were difficult to map with nanopore data. The progressive path finding module tried to induce the most likely solution from a stream of coarse-grained alignments, without fully succeeding. 
+
+\subsection*{Hybrid assembly for real data sets}
+%The complicated graph topology from \emph{S.~dysenteriae} simulation is not common in real-life application.  %%CAN WE SUPPORT BETTER
+%Also, considering the potential for performance bias of \unicycler{} on its own test sets, we collected real-life sample for further comparison of \unicycler and \npgraph.
+A number of sequencing data sets from \emph{in vitro} bacterial samples~\cite{George2017M14} were used to further explore differences in performance between \npgraph{} and \unicycler{}.
+The data included both Illumina paired-end reads and MinION sequencing based-call data for each sample.
+Due to the unavailability of reference genomes, there were fewer statistics reported by QUAST for the comparison of the results. 
+Instead, we investigated the number of circular sequences and $\mathtt{PlasmidFinder}$ 1.3~\cite{Carattoli2014} mappings to obtain an evaluation on the accuracy and completeness of the assemblies (
+Table~\ref{tab:npgraph_real}) 
+%shows the benchmark results of \npgraph{} (using \minimap{}) against \unicycler{} 
+on three data sets of bacterial species \emph{Citrobacter~freundii}, \emph{Enterobacter~cloacae} and \emph{Klebsiella~oxytoca}. 
+
+\begin{table}[!hpt]
+\begin{adjustwidth}{-2.25in}{0in}
+\centering
+\caption[Assembly of real data sets using \unicycler{} and \npgraph{} with the optimized SPAdes output]{Assembly of real data sets using \unicycler{} and \npgraph{} with the optimized \spades{} output. Circular contigs are highlighted in \textbf{bold}, fragmented assemblies are presented as X$\vert$Y where X is the total length and Y is the number of supposed contigs making up X.}
+\label{tab:npgraph_real}
+\begin{tabular}{p{4cm}|r|r|l}
+ & \unicycler{} & \npgraph{} & Replicons (based on $\mathtt{PlasmidFinder}$ 1.3) \\ \thickhline
+\emph{Citrobacter freundii} & \textbf{5,029,534} & \textbf{5,029,486} & Chromosome \\
+CAV1374 & \textbf{109688} & \textbf{109688} & IncFIB(pHCM2)\_1\_pHCM2\_AL513384 \\
+ & \textbf{100,873} & \textbf{100,873} & IncFIB(pB171)\_1\_pB171\_AB024946 \\
+ & \textbf{85,575} & \textbf{85,575} & IncL/M(pMU407)\_1\_pMU407\_U27345 \\
+ & \textbf{43,621} & \textbf{43,621} & repA\_1\_pKPC-2\_CP013325 \\
+ & \textbf{3,223} & \textbf{3,223} & - \\
+ & \textbf{1,916} & \textbf{1,916} & ColRNAI\_1\_\_DQ298019 \\
+ & 14,464$\vert$3 & 14,456$\vert$2 & - \\ \hline
+\emph{Enterobacter cloacae} & 4,806,666$\vert$2 & 4,858,438$\vert$2 & Chromosome \\
+CAV1411 & \textbf{90,451} & 90,693$\vert$2 & IncR\_1\_\_DQ449578 \\
+ & \textbf{33,610} & \textbf{33,610} & repA\_1\_pKPC-2\_CP013325 \\
+ & 13,129$\vert$2 & 14,542$\vert$4 & - \\ \hline
+\emph{Klebsiella oxytoca}  & 6,153,947$\vert$5 & \textbf{6,155,762} & Chromosome \\
+CAV1015 & \textbf{113,105} & \textbf{113,105} & \begin{tabular}[c]{@{}l@{}}IncFII(SARC14)\_1\_SARC14\_JQ418540;\\ IncFII(S)\_1\_\_CP000858\end{tabular} \\
+ & \textbf{111,395} & \textbf{111,395} & - \\
+ & \textbf{108,418} & 109,209$\vert$13 & IncFIB(K)\_1\_Kpn3\_JN233704 \\
+ & \textbf{76,183} & \textbf{76,186} & IncL/M(pMU407)\_1\_pMU407\_U27345 \\
+ & \textbf{11,638} & 11,892$\vert$2 & - \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\end{table}
+
+There was high similarity between final contigs generated by two assemblers on all of these datasets.
+For the \emph{Citrobacter freundii}  dataset, they share the same number of circular  sequences, including the chromosomal and other six replicons contigs in the , with only 48 nucleotides  difference in the length of the main chromosome. 
+Five out of six identical replicons could be confirmed as plasmids based on the occurence of  origin of replication sequences from  the PlasmidFinder database.
+In detail, two megaplasmids (longer than $100$Kbp) were classified as IncFIB while the other two mid-size replicons, $85.6$Kbp and $43.6$Kbp, were incL and repA respectively, leaving the shortest one with $2Kbp$ of length as ColRNAI plasmid.
+The remaining circular sequence without any hits to the database was $3.2$Kbp long suggesting that it could be phage or a cryptic plasmid. 
+Both assemblers had $14.5$Kbp of unfinished sequences split amongst 3 linear contigs from \unicycler{} and 2 for \npgraph{}.
+
+The assembly task for \emph{Enterobacter~cloacae} was more challenging and the chromosomal DNA remained fragmented in two contigs for both methods ( of length $3.324$Mbp and $1.534$Mbp for \npgraph{} compared to $2.829$Mbp and $1.978$Mbp for \unicycler{}). Both methods detected two plasmids ( IncR and repA), and \unicycler{} returned comlpete circular sequences for both plasmids, while \npgraph{} returned circular sequence for one plasmid, while the other was fragmented into two contigs. Similar to the assembly of \emph{Citrobacter freundii} , there was around $14$Kbp of data which was unable to be finished by the assemblers (split into 2 and 4 contigs for \unicycler{} and \npgraph{} respectively). 
+
+Finally, the assembly for \emph{Klebsiella oxytoca} saw fragmented chromosome using \unicycler{} (with 5 contigs) which was a fully complete single contig for \npgraph{} with $6.156$Mbp of size.
+The two assemblers shared 3 common circular sequences of which two  were confirmed plasmids. 
+The first identical sequence represented a megaplasmid ($\simeq 113$Kbp) with two copies of IncFII origin of replication DNA being identified.  The other $76$Kbp plasmid circularised by both was IncL/M with  of length.
+The third circular contig of length $111$Kbp returned no hits to the plasmid database, suggesting the importance of \emph{de novo} replicon assembly in combination with further interrogation.
+\unicycler{} detected another megaplasmid of size $108.4$Kbp which was fractured by \npgraph{}. 
+A fragmented contig was also observed in \npgraph{} for the final contig of length $11.6$Kbp where it failed to combine two smaller sequences into one.
+
+In addition to what is presented in Table~\ref{tab:npgraph_real}, dot plots for the pair-wise alignments between the assembly contigs were generated and can be found in S1 Fig. This identified a structural difference between \npgraph{} and \unicycler{} assembly for the \emph{E.~cloacae} CAV1411 genome assembly. This was caused by the inconsistency of a fragment's direction on the final output contigs. Comparison to a reference 
+ genome from the same bacteria strain (GenBank ID: CP011581.1~\cite{Potter2016rapid}), demonstrated that contigs generated by \npgraph{} produced consistent alignment, but not those generated by \unicycler{} (S2 Fig.). However, we cannot at this stage rule out genuine structural variation between the two samples .
+
+\subsection*{Assembly performance on streaming data}
+In order to investigate the rate at which the two streaming hybrid assembly algorithms completed bacterial assemblies, we plot the N50 as a function of long-read coverage on the 4 datasets described in the previous section ( Figure~\ref{F:npgraph_rt}) .This revealed that \npgraph{} and \npscarf{} both converge to the same ultimate completeness but at different rates. \npscarf{} converged more quickly than \npgraph{}, due to the fact that it is able to build bridges with only 1 spanning long-read, whereas \npgraph{} requires 3 reads.    
+Unlike \npscarf{} where the connections could be undone and rectified later if needed, a bridge in \npgraph{} will remain unchanged once created.
+The plot for \ec{} data clarifies this behaviour when a fluctuation can be observed in \npscarf{} assembly at $\simeq 3$-folds data coverage.
+On the other hand, the N50 length of \npgraph{} is always a monotonic increasing function. 
+The sharp \emph{jumping} patterns suggested that the linking information from long-read data had been stored and exploited at certain time point decided by the algorithm. 
+In addition, at the end of the streaming when the sequencing is finished, \npgraph{} will try for the last time to connect bridges with less than 3 supporting reads which are otherwise not part of conflicting bridges.
+
+
+%\begin{figure}[!hbt]
+%\centering
+%\subfloat[\emph{Citrobacter~freundii} CAV1374]{
+%	\includegraphics[width=.45\textwidth]{images/rt_cf1374.png}
+%}
+%\hfill
+%\subfloat[\emph{Escherichia~coli} K12 MG1655]{
+%	\includegraphics[width=.45\textwidth]{images/rt_eck12.png}
+%}
+%\\
+%\subfloat[\emph{Klebsiella} 30660 NJST258]{
+%	\includegraphics[width=.45\textwidth]{images/rt_kp30660.png}
+%}
+%\hfill
+%\subfloat[\emph{Klebsiella} NTUH K2044]{
+%	\includegraphics[width=.45\textwidth]{images/rt_kpntuh.png}
+%}
+%\caption[Real-time assembly by \npscarf{} and \npgraph{}]{N50 statistics of real-time assembly by \npscarf{} and \npgraph{}.}
+%\label{F:npgraph_rt}
+%\end{figure}
+
+\begin{figure}[!hbt]
+\centering
+\includegraphics[width=\textwidth]{images/Fig3.eps}
+\caption{N50 statistics of real-time assembly by \npscarf{} and \npgraph{} for 4 bacterial samples.}
+\label{F:npgraph_rt}
+\end{figure}
+
+\section*{Discussion}
+
+% \end{itemize}
+Streaming assembly methods have been proven to be useful in saving time and resources compared to conventional batch algorithms with examples including \EG{} $\mathtt{Faucet}$~\cite{Rozov2017faucet} and \npscarf{}~\cite{Cao2017scaffolding}. The first method allows the assembly graph to be constructed incrementally as long as reads are retrieved and processed. This practice is helpful dealing with huge short-read data set because it can significantly reduce the local storage for the reads, as well as save time for a De Bruijn graph (DBG) construction while waiting for the data being retrieved.
+\npscarf{}, on the other hand, 
+is a hybrid assembler working on a pre-assembly set of short-read assembly contigs. It functions by scaffolding the contigs using real-time nanopore sequencing. The completion of genome assembly in parallel with the sequencing run provides explicit benefits in term of resource control and turn-around time for analysis~\cite{Cao2017scaffolding}.  
+
+% Why hybrid???
+Hybrid approaches are still common practice in genome assembly and data analyses while Illumina sequencing retains cost and accuracy benefits over long-read sequencing.
+On the other hand, the third-generation sequencing methods such as Pacbio or Oxford Nanopore Technology are well-known for the ability to produce much longer reads that can further complete the Illumina assembly.
+As a consequence, it is rational to combine two sources of data together in a hybrid method that can offer accurate and complete genomes at the same time.
+\npscarf{}, following that philosophy, had been developed and deployed on real microbial genomes.
+
+However, due to the greedy bridging approach of the contig-based streaming algorithm, \npscarf{}`s results can suffer from mis-assemblies~\cite{Wick2017unicycler,Giordano2017}. 
+A default setting was optimized for microbial genomes input but cannot fit for all data from various experiments in practice.
+Also, the gap filling step has to rely on the lower accuracy nanopore reads thus the accuracy of the final assembly is also affected. 
+To tackle the quality issue while maintaining the streaming feature of the approach, a bridging method by assembly graph traversing has been proposed in this manuscript. 
+Our approach uses as its starting point a compact DBG assembly graph, followed by graph-traveseral, repeat resolution and identification of the longest possible un-branched paths that would represents contigs for the final assembly.
+
+Hybrid assembler using nanopore data to resolve the graph has been implemented in $\mathtt{hybridSPAdes}$ \cite{AntipovKM2015} as well as \unicycler{} \cite{Wick2017unicycler}. 
+The available tools employ batch-mode algorithms on the whole long-read data set to generate the final genome assembly. 
+The \spades{} hybrid assembly module, from its first step, exhaustively looks for the most likely paths (with minimum edit distance) on the graph for each of the long read given but only ones supported by at least two reads are retained. In the next step, these paths will be subjected to a decision-rule algorithm, namely $\mathtt{exSPAnder}$~\cite{Prjibelski2014}, for repeat resolution by step-by-step expansion, before output the final assembly.
+On the other hand, \unicycler{}'s hybrid assembler will initially generate a consensus long read for each of the bridge from the batch data. 
+The higher quality consensus reads are used to align with the assembly graph to find the best paths bridging pairs of anchored contigs.
+While this method employs the completeness of the data  set from the very beginning for a consensus step, the former only iterates over the batch of possible paths and relies on a scoring system for the final decision of graph traversal. Hence, in theory it can be adapted to a real-time pipeline.
+    
+The challenge in adapting graph-based  approaches into streaming algorithm comes mainly from building a progressive implementation for path-finding and graph reducing module . 
+To achieve this, we apply a modified DFS (depth-first search) mechanism and a dynamic voting algorithm into an on-the-fly graph resolver.
+%The method is implemented in \npgraph{}, a user-friendly tool with GUI that can traverse the assembly graph and bridge its components in real-time while the  nanopore sequencing process is still running. 
+ 
+By testing with synthetic and real data, we have shown that \npgraph{} can generate assemblies of comparative quality compared to other powerful batch-mode hybrid assemblers, such as $\mathtt{hybridSPAdes}$ or \unicycler{}, while also providing the ability to build and visualise the assembly in real-time. 
+%Furthermore, similar to \npscarf{}, it has the advantage in term of supporting real-time assembly.
+%The next section will address this utility and the interactive GUI bundled in \npgraph{}. 
+
+%Particularly, for the first time, we employ a pipeline in an attempt to complete metagenomics assembly in real-time. 
+%We aim to develop a simple approach on top of \npgraph{} to adapt with metagenomics while minimizing additional processing steps. In fact, only one more step for population binning is needed to make \npgraph{} functions on genomes of a mock community.
+%Despite a rather straightforward methodology, the pipeline has shown consecutively enhanced assembly from the fragmented short-read DBG graph
+
+
+
+\section*{Conclusion}  %%COMMENT_LC seems repetitive here
+%npgraph: how important hybrid assembly
+Due to the limits of current sequencing technology, application of hybrid methods should remain a common practice in whole genome assembly for the near future.
+On the other hand, the ONT platforms are evolving quickly with significant improvement in terms of data accuracy and yield and cost. Beside, the real-time property of this technology has not been sufficiently exploited to match its potential benefits.
+\npscarf{} had been introduced initially to address these issues, however, the accuracy of the assembly output was affected by its greedy alignment-based scaffolding approach.
+Here we present \npgraph{}, a streaming hybrid assembly method working on the DBG assembly graph that is able to finish short-read assembly in real-time while minimizing the errors and mis-assemblies drastically.
+
+Compared to \npscarf, \npgraph{} algorithm employs more rigorous approach based on graph traversal. This might reduce the assembly errors because the bridging method is more accurate so that the reporting results are more reliable.
+The performance of \npgraph{} is comparable to \unicycler{} while consuming much less computational resources so that it can work on streaming mode. 
+Also, the integrated GUI allows users to visualize its animated output in a  more efficient way.
+
+On the other hand, similar to \unicycler{}, \npgraph{} relies on the initial assembly graph to generate the final assembly. The algorithm operates on the assumption of a high quality assembly from a well-supplied source of short-read data for a decent assembly graph to begin with.
+It then consumes a just-enough amount of data from a streaming input of nanopore reads to resolve the graph. 
+Finally, extra pre-processing and comprehensive binning on the initial graph could further improve the performance of the streaming assembler.
+
+%For more information, see \nameref{S1_Appendix}.
+
+\section*{Supporting information}
+\renewcommand{\figurename}{Supporting Figure}
+\renewcommand{\tablename}{Supporting Table}
+\renewcommand\thefigure{S\arabic{figure}}    
+\setcounter{figure}{0}    
+
+% Include only the SI item label in the paragraph heading. Use the \nameref{label} command to cite SI items in the text.
+\paragraph*{S1 Fig.}
+\label{S1_Fig} Dotplot generated by MUMmer for assembly results of \unicycler{} versus \npgraph{}.
+
+\begin{figure}[!ht]
+ \includegraphics[width=\textwidth]{images/FigS1.eps}
+ \caption{Dotplot generated by MUMmer for assembly results of \unicycler{} versus \npgraph{}. Structural agreements between two methods were found in (a)~\emph{C.freundii} and (b)~\emph{K.oxytoca} assembly contigs. On the other hand, for (c)~\emph{E.cloacae} sample, there was a disagreement detected between 2 largest contigs given by two assembly algorithms.}
+\end{figure}
+
+\paragraph*{S2 Fig.}
+\label{S2_Fig} Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\unicycler{} and (b)~\npgraph{}
+
+\begin{figure}[!ht]
+ \includegraphics[width=\textwidth]{images/FigS2.eps}
+ \caption{Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\unicycler{} and (b)~\npgraph{}. The former suggests a structural variant, the latter is virtually an 1-to-1 mapping.}
+\end{figure}
+
+\clearpage
+\paragraph*{S1 Table.}
+\label{S1_Table}
+Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.
+
+\makeatletter
+
+\newlength\oriarrayrulewidth  
+\newcount\orilowpenalty
+\newcommand\nobreakmidrule{%
+ \noalign{\global\oriarrayrulewidth\arrayrulewidth\relax
+          \global\orilowpenalty\@lowpenalty\relax  
+          \global\@lowpenalty=\numexpr-10000\relax%
+          \global\arrayrulewidth\lightrulewidth\relax}
+ \hline
+ \noalign{\global\@lowpenalty=\orilowpenalty\relax%
+          \global\arrayrulewidth\oriarrayrulewidth\relax}}
+
+\makeatother
+\setlength{\LTleft}{-1in}
+\setcounter{table}{0}  
+
+\begin{longtable}[!hpt]{llcrrrrr}
+%\caption{Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.}
+%\label{supp_tab:synthetic_benchmark}\\
+\toprule
+    &       & Assembly &  & N50  & Mis- &  Mismatch & Indel \\
+    & Method & size (bp) & \#Contigs  & (bp) & assemblies & (per $100$Kbp) & (per $100$Kbp) \\
+    \hline  
+\endfirsthead
+\multicolumn{8}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+    &       & Assembly &  & N50  & Mis- &  Mismatch & Indel \\
+    & Method & size (bp) & \#Contigs  & (bp) & assemblies & (per $100$Kbp) & (per $100$Kbp) \\
+\hline
+\endhead
+\hline \multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+\hline
+\endlastfoot
+
+\rowcolor{Gray}
+\multicolumn{8}{l}{random sequences no repeats} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  4110000 &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npScarf\_wag & 4109516  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4110000  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4110231  &  3  & 4000077   &  0  & 0.00  &  0.07\\*
+\rowcolor{Gray}
+& Unicycler & 4110000  &  3  &  4000000  &  0  & 0.00  &  0.00\\
+\hline
+\multicolumn{8}{l}{random sequences some repeats} \\* %
+\nobreakmidrule
+& npScarf & 4110940  &  3  &  4002715  &  0  &  0.00 &  0.66\\*
+& npScarf\_wag & 4437094  &  7 &  2795129  &  0  &  0.00 &  1.07\\*
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0 &  0.00 &  0.00\\*
+& npGraph-mm2 &  4110000 &  3  &   4000000 & 0  & 0.00  &  0.00\\*
+& hybridSPAdes & 4107566  &  3  &  3999364  &  0  & 0.02  & 0.02\\*
+& Unicycler &  4110000 &  3 & 4000000  &  0 & 0.00  &  0.00\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{random sequences many repeats} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  4316934 &  8  &  3963485  &  24  & 11.55  & 34.54\\*
+\rowcolor{Gray}
+& npScarf\_wag &  5215965 &  16  &  1515563  &  37  & 0.32  & 7.22\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0  &  0.32 & 0.15\\*
+\rowcolor{Gray}
+& npGraph-mm2 &  4110000 &  3  &  4000000  &  0  & 0.32  & 0.15\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4108190  &  3  &  3999621  &  0  &  0.68 &  0.15\\*
+\rowcolor{Gray}
+& Unicycler & 4110000  &  3  &  4000000  &  0  &  0.32  & 0.15  \\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Acinetobacter} A1} \\* %
+\nobreakmidrule
+& npScarf & 3912299  &  3  &  3870269  &  4  & 4.74  & 13.02 \\*
+& npScarf\_wag & 3945166  &  3  &  3906368  &  1  & 7.00  & 14.02 \\*
+& npGraph-bwa & 3918374  &  2  &  3909643  &  0 & 16.34  & 0.61 \\*
+& npGraph-mm2 & 3885898  &  2  &  3877167  & 1 & 18.05  & 1.03 \\*
+& hybridSPAdes &  3929948 &  53  &  3353679  &  0  & 35.48  & 3.22\\*
+& Unicycler & 3917745  &  2 & 3909014  & 0  & 2.50  &  0.13\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Acinetobacter} AB30} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf & 4512464  &  7  &  4304628  &  35  & 57.95  & 72.87\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5315235  &  13  &  1267710  &  136  &  73.55 & 8.15\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4335342  &  2  &  4148952  &  1  & 16.93  & 1.45\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4335790  &  1  &  4335790  & 0   &  6.97 & 0.25\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4337369  &  3  &  2701005  &  0  &  12.80 &  1.39\\*
+\rowcolor{Gray}
+& Unicycler &  4333041 &  1  &  4333041  &  1  &  6.42 &  0.53\\
+\hline
+\multicolumn{8}{l}{\ec{} K12 MG1655} \\* %
+\nobreakmidrule
+& npScarf & 4649902  &  2  &  4641702  &  4  & 14.94  & 34.35 \\*
+& npScarf\_wag &  4687952 &  3  &  4641732  &  0  & 6.55  &  1.96\\*
+& npGraph-bwa & 4641743  &  1  &  4641743  & 0  &  4.50 & 0.43 \\*
+& npGraph-mm2 & 4641820  &  1  &  4641820  &  0 &  3.88 & 0.26 \\*
+& hybridSPAdes &  4644555 &  1  &  4641036  &  0  & 0.62  & 0.09\\*
+& Unicycler & 4641650  &  1 &  4641650 &  0 & 3.43  & 0.26 \\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\ec{} O25b H4-ST131} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  5245913 &  3  &  5095571  &  7  &  7.05 & 18.81\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5292700  &  3  &  3469617  &  9  &  9.03 & 1.55\\*
+\rowcolor{Gray}
+& npGraph-bwa & 5237821  &  7  &  4049493  &  1  &  3.38 & 0.31\\*
+\rowcolor{Gray}
+& npGraph-mm2 &  5249799 &  3  &  5110117  &  0  &  2.40 & 0.15\\*
+\rowcolor{Gray}
+& hybridSPAdes & 5252762  &  8  &  4258948  &  2  &  5.43 &  0.57\\*
+\rowcolor{Gray}
+& Unicycler & 5249442  &  3  &  5109760  &  0  & 4.02 & 0.27 \\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Klebsiella} 30660 NJST258 1} \\* %
+\nobreakmidrule
+& npScarf & 5559772  &  7  &  5259053  &  4  & 17.18  & 13.48\\*
+& npScarf\_wag & 5613780  &  7  &  5268535  &  6  & 1.59  & 1.92\\*
+& npGraph-bwa & 5534843  &  8  &  5263229  &  0  & 3.15  & 0.76\\*
+& npGraph-mm2 & 5534878  &  8  &  5263264  &  0  & 2.75  & 0.74\\*
+& hybridSPAdes &  5545668 & 8   &  5545668  &  2  & 4.95  & 0.09 \\*
+& Unicycler & 5537860  &  9  &  5263196  &  0  & 1.34  & 0.51 \\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Klebsiella} MGH 78578} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  5729304 &  5  &  5316429  &  12  & 14.90  & 20.27\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5754443  &  5  &  3026286  &  16  &  8.17 & 2.56\\*
+\rowcolor{Gray}
+& npGraph-bwa &  5695801 &  7  &  5311745  &  1  & 12.65  & 1.25\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 5696302  &  6  &  5315267  &  0  &  6.06 & 0.44\\*
+\rowcolor{Gray}
+& hybridSPAdes &  5706470 &  11  &  5315273  &  1  & 3.82  &  0.67\\*
+\rowcolor{Gray}
+& Unicycler &  5694231 &  14  &  5315096  &  0  & 5.38 &  0.21\\
+\hline
+\multicolumn{8}{l}{\emph{Klebsiella} NTUH-K2044} \\* %
+\nobreakmidrule
+& npScarf & 5471696  &  2  &  5249198  &  6  & 4.82  &  8.55\\*
+& npScarf\_wag & 5530559  &  3  &  5249369  &  2  &  2.25 &  1.35\\*
+& npGraph-bwa & 5472629  &  2  &  5248476  & 0  & 2.52  &  0.31\\*
+& npGraph-mm2 &  5472655 &  2  &  5248503  &  0 &  1.21 &  0.26\\*
+& hybridSPAdes & 5473572  &  2  &  5248894  &  0  &  0.44 & 0.15\\*
+& Unicycler & 5472697  & 2  & 5248545  &  0 & 2.41  &  0.35\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Mycobacterium tuberculosis} H37Rv} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  4498245 &  4  & 4402238   &  8  & 5.15  & 2.68\\*
+\rowcolor{Gray}
+& npScarf\_wag &  4506056 &  4  &  4410942  &  3  & 6.81  & 2.59\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4411406  &  1  &  4411406  &  0  & 1.88  & 0.43\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4411532  & 1   &  4411532  &  0  & 0.68  & 0.00\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4413942  &  1  &  4410519  &  0  &  0.75 &  0.11\\*
+\rowcolor{Gray}
+& Unicycler & 4411538  &  1  &  4411538  &  0  &  2.22 &  0.34\\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Saccharomyces cerevisiae} S288c} \\* %
+\nobreakmidrule
+& npScarf &  11986800 &  24  &  796769  &  51  &  62.12 & 21.46 \\*
+& npScarf\_wag & 12003203  &  21  &  917017  &  21  & 69.14  & 5.47 \\*
+& npGraph-bwa & 11921736  &  40  &  913090  &  3 &  38.04 &  1.94\\*
+& npGraph-mm2 & 11920984  &  38  &  913198  &  2 &  20.66 &  0.95\\*
+& hybridSPAdes &  12027533 &  45  &  770543  &  5  & 32.58  & 1.94\\*
+& Unicycler &  11847655 & 72  & 909114  &  0 & 21.81  &  1.04\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Shigella dysenteriae}  Sd197} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  4586075 &  173  & 36560   &  55  & 120.14  & 111.59\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5462918  &  92  &  98791  &  105  &  147.48 & 79.28\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4564058  &  6  &  4369264  &  5  & 80.64  & 11.16\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4558920  &  6  &  4364264  &  7  & 75.51  & 10.98\\*
+\rowcolor{Gray}
+& hybridSPAdes &  4519131 & 23   &  821249  & 96   & 9.57  &  1.42\\*
+\rowcolor{Gray}
+& Unicycler & 4560901  & 3   &  4369231  &  0  & 11.88  & 1.05 \\
+\hline
+\multicolumn{8}{l}{\emph{Shigella sonnei} 53G} \\* %
+\nobreakmidrule
+& npScarf &  6441461 &  20  &  1953896  &  82  & 164.02  &  219.52\\*
+& npScarf\_wag & -  &  -  &  -  &  -  & -  &  -\\*
+& npGraph-bwa & 5211544  &   4 &  4988532  & 0  & 14.53  &  0.31\\*
+& npGraph-mm2 & 5211527  &  4  &   4988519 & 0  &  8.56 &  0.17\\*
+& hybridSPAdes & 5223875  &  8  &  2195455  &  2  & 41.92  & 0.06\\*
+& Unicycler &  5220517 &  5 &  4988548 & 0  & 7.39  &  0.52\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Streptococcus suis} BM407} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& npScarf &  2183951 & 3   &  2146594  &  0  & 21.51  & 9.17\\*
+\rowcolor{Gray}
+& npScarf\_wag & 2289880  &  3  &  1493189  &  1  & 3.17  & 1.96\\*
+\rowcolor{Gray}
+& npGraph-bwa & 2154623  &  6  &  2131479  &  1  & 5.25  & 0.28\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 2149876  &  6  &  2146774  &  0  & 1.44  & 0.28\\*
+\rowcolor{Gray}
+& hybridSPAdes & 2172703  &  2  &  2146237  &  0  & 6.82  &  0.09\\*
+\rowcolor{Gray}
+& Unicycler &  2170829 &   2 &  2146250  &  0  &  2.67 & 0.32 \\
+\hline
+\end{longtable}
+
+\section*{Data availability}
+All data used for benchmarking were from public sources. The synthetic data was downloaded from \url{https://cloudstor.aarnet.edu.au/plus/index.php/s/dzRCaxLjpGpfKYW}. The real bacterial sequencing data was from NCBI under project accession number PRJNA353060.
+
+
+\section*{Acknowledgments}
+
+
+\nolinenumbers
+
+\begin{thebibliography}{10}
+
+\bibitem{Cao2017scaffolding}
+Cao MD, Nguyen SH, Ganesamoorthy D, Elliott AG, Cooper MA, Coin LJ.
+\newblock {Scaffolding and completing genome assemblies in real-time with
+  nanopore sequencing}.
+\newblock Nature Communications. 2017;8:14515.
+
+\bibitem{BankevichNA2012}
+Bankevich A, Nurk S, Antipov D, Gurevich AA, Dvorkin M, Kulikov AS, et~al.
+\newblock {SPAdes: A New Genome Assembly Algorithm and Its Applications to
+  Single-Cell Sequencing}.
+\newblock Journal of Computational Biology. 2012;19(5):455--477.
+\newblock doi:{10.1089/cmb.2012.0021}.
+
+\bibitem{Zerbino2008}
+Zerbino DR, Birney E.
+\newblock {Velvet: algorithms for de novo short read assembly using de Bruijn
+  graphs.}
+\newblock Genome research. 2008;18(5):821--9.
+
+\bibitem{Simpson2009}
+Simpson JT, Wong K, Jackman SD, Schein JE, Jones SJM, Birol I.
+\newblock {ABySS: A parallel assembler for short read sequence data}.
+\newblock Genome Research. 2009;19(6):1117--1123.
+
+\bibitem{CaoGC2016}
+Cao MD, Ganesamoorthy D, Cooper MA, Coin LJM.
+\newblock {Realtime analysis and visualization of MinION sequencing data with
+  npReader}.
+\newblock Bioinformatics. 2016;32(5):764--766.
+\newblock doi:{10.1093/bioinformatics/btv658}.
+
+\bibitem{Nguyen2017barcode}
+Nguyen SH, Duarte TP, Coin LJ, Cao MD.
+\newblock {Real-time demultiplexing Nanopore barcoded sequencing data with
+  npBarcode}.
+\newblock Bioinformatics. 2017;33(24):3988--3990.
+
+\bibitem{Ester96adensity-based}
+Ester M, Kriegel HP, Sander J, Xu X.
+\newblock A density-based algorithm for discovering clusters in large spatial
+  databases with noise.
+\newblock AAAI Press; 1996. p. 226--231.
+
+\bibitem{Kullback1951information}
+Kullback S, Leibler RA.
+\newblock On information and sufficiency.
+\newblock The annals of mathematical statistics. 1951;22(1):79--86.
+
+\bibitem{Kang2015metabat}
+Kang DD, Froula J, Egan R, Wang Z.
+\newblock {MetaBAT}, an efficient tool for accurately reconstructing single
+  genomes from complex microbial communities.
+\newblock PeerJ. 2015;3:e1165.
+
+\bibitem{Wu2014maxbin}
+Wu YW, Tang YH, Tringe SG, Simmons BA, Singer SW.
+\newblock {MaxBin}: an automated binning method to recover individual genomes
+  from metagenomes using an expectation-maximization algorithm.
+\newblock Microbiome. 2014;2(1):26.
+
+\bibitem{Dijkstra1959}
+Dijkstra EW.
+\newblock A note on two problems in connexion with graphs.
+\newblock Numerische mathematik. 1959;1(1):269--271.
+
+\bibitem{AntipovKM2015}
+Antipov D, Korobeynikov A, McLean JS, Pevzner PA.
+\newblock {hybridSPAdes: an algorithm for hybrid assembly of short and long
+  reads}.
+\newblock Bioinformatics. 2016;32(7):1009--1015.
+\newblock doi:{10.1093/bioinformatics/btv688}.
+
+\bibitem{Wick2017unicycler}
+Wick RR, Judd LM, Gorrie CL, Holt KE.
+\newblock Unicycler: resolving bacterial genome assemblies from short and long
+  sequencing reads.
+\newblock PLOS Computational Biology. 2017;13(6):e1005595.
+
+\bibitem{Mikheenko2018quast5}
+Mikheenko A, Prjibelski A, Saveliev V, Antipov D, Gurevich A.
+\newblock Versatile genome assembly evaluation with {QUAST-LG}.
+\newblock Bioinformatics. 2018;34(13):i142--i150.
+
+\bibitem{Li2013}
+Li H.
+\newblock {Aligning sequence reads, clone sequences and assembly contigs with
+  BWA-MEM}.
+\newblock arXiv. 2013; p.~3.
+
+\bibitem{Li2016}
+Li H.
+\newblock {Minimap and miniasm: fast mapping and de novo assembly for noisy
+  long sequences}.
+\newblock Bioinformatics. 2016;32(14):2103--2110.
+\newblock doi:{10.1093/bioinformatics/btw152}.
+
+\bibitem{Brudno2003glocal}
+Brudno M, Malde S, Poliakov A, Do CB, Couronne O, Dubchak I, et~al.
+\newblock {Glocal alignment: finding rearrangements during alignment}.
+\newblock Bioinformatics. 2003;19(suppl\_1):i54--i62.
+
+\bibitem{George2017M14}
+George S, Pankhurst L, Hubbard A, Votintseva A, Stoesser N, Sheppard AE, et~al.
+\newblock {Resolving plasmid structures in Enterobacteriaceae using the MinION
+  nanopore sequencer: assessment of MinION and MinION/Illumina hybrid data
+  assembly approaches}.
+\newblock Microbial genomics. 2017;3(8).
+
+\bibitem{Carattoli2014}
+Carattoli A, Zankari E, Garc{\`\i}a-Fernandez A, Larsen MV, Lund O, Villa L,
+  et~al.
+\newblock PlasmidFinder and pMLST: in silico detection and typing of plasmids.
+\newblock Antimicrobial agents and chemotherapy. 2014; p. AAC--02412.
+
+\bibitem{Potter2016rapid}
+Potter RF, D’souza AW, Dantas G.
+\newblock {The rapid spread of carbapenem-resistant Enterobacteriaceae}.
+\newblock Drug Resistance Updates. 2016;29:30--46.
+
+\bibitem{Rozov2017faucet}
+Rozov R, Goldshlager G, Halperin E, Shamir R.
+\newblock Faucet: streaming de novo assembly graph construction.
+\newblock Bioinformatics. 2017;34(1):147--154.
+
+\bibitem{Giordano2017}
+Giordano F, Aigrain L, Quail MA, Coupland P, Bonfield JK, Davies RM, et~al.
+\newblock {De novo yeast genome assemblies from MinION, PacBio and MiSeq
+  platforms}.
+\newblock Scientific reports. 2017;7(1):3935.
+
+\bibitem{Prjibelski2014}
+Prjibelski AD, Vasilinetc I, Bankevich A, Gurevich A, Krivosheeva T, Nurk S,
+  et~al.
+\newblock {ExSPAnder}: a universal repeat resolver for {DNA} fragment assembly.
+\newblock Bioinformatics. 2014;30(12):i293--i301.
+
+\end{thebibliography}
+
+
+
+
+\end{document}
+

@@ -1,0 +1,107 @@
+Dear Dr Coin,
+
+Thank you very much for submitting your manuscript "Real-time resolution of short-read assembly graph using ONT long reads" for consideration at PLOS Computational Biology.
+
+As with all papers reviewed by the journal, your manuscript was reviewed by members of the editorial board and by several independent reviewers. In light of the reviews (below this email), we would like to invite the resubmission of a significantly-revised version that takes into account the reviewers' comments.
+
+We cannot make any decision about publication until we have seen the revised manuscript and your response to the reviewers' comments. Your revised manuscript is also likely to be sent to reviewers for further evaluation.
+
+When you are ready to resubmit, please upload the following:
+
+[1] A letter containing a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript. Please note while forming your response, if your article is accepted, you may have the opportunity to make the peer review history publicly available. The record will include editor decision letters (with reviews) and your responses to reviewer comments. If eligible, we will contact you to opt in or out.
+
+[2] Two versions of the revised manuscript: one with either highlights or tracked changes denoting where the text has been changed; the other a clean version (uploaded as the manuscript file).
+
+Important additional instructions are given below your reviewer comments.
+
+Please prepare and submit your revised manuscript within 60 days. If you anticipate any delay, please let us know the expected resubmission date by replying to this email. Please note that revised manuscripts received after the 60-day due date may require evaluation and peer review similar to newly submitted manuscripts.
+
+Thank you again for your submission. We hope that our editorial process has been constructive so far, and we welcome your feedback at any time. Please don't hesitate to contact us if you have any questions or comments.
+
+Sincerely,
+
+Kin Fai Au
+Guest Editor
+PLOS Computational Biology
+
+Jian Ma
+Deputy Editor
+PLOS Computational Biology
+
+***********************
+
+
+
+Reviewer's Responses to Questions
+
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+
+###############################################################################################################################################################################
+###############################################################################################################################################################################
+###############################################################################################################################################################################
+
+Reviewer #1: The manuscript describes the algorithm, npGraph, offers a way to improve the assembly completeness and visualize the procedure in real-time using Nanopore long reads. On the synthetic and real dataset, the authors show that npGraph yields assemblies of comparative performances to other hybrid scaffolders. It is really a nice tool, which is thought to be popular in sequencing analysis. To make the results stronger in comparison, I give my suggestions and questions.
+
+In Contigs Binning step, by using kmer coverages to determine the contigs membership, is the kmer size sensitive to this?
+
+npGraph is a hybrid scaffolder based on streaming data. In table 1, Unicycler has high accurate assemblies than other algorithms, even it takes long time. Though with unique merits by itself, it would be good to show the performances and benchmarks among hybrid scaffolders with increasing coverage of long reads (Such as 1x -> 5x -> 10x -> 20x).
+
+Another two potentially missing software used in scaffolding would be FastSG (https://github.com/adigenova/fast-sg) and LRScaf (https://github.com/shingocat/lrscaf), which are two differences strategies on hybrid scaffolding. FastSG does the scaffolding step by simulating mate-pair information from long reads, whereas LRScaf is fast hybrid scaffolders on low coverage long reads by using full length information.
+
+As mentioned by authors, npScarf is a greedy scaffolder with only 1 spanning long-read, whereas npGraph requires 3 reads. If improving the required number of long reads for npScarf, would the misassemblies and contiguous of assemblies be decreased? It is reasonable to benchmark the performance between npScarf and npGraph on similar circumstances.
+
+Line 79, “In order to define a customised metric which is sample and fast to calculate”, is this a typo for simple?
+
+In supporting figure S2, the figure is not consistent with the description.
+
+Reviewer #2: This paper reports a new streaming pipeline npGraph for hybrid assembly, which uses error-prone long reads to improve fragmented assemblies from short reads. The idea is to use long reads to bridge contigs in the assembly graph from short reads. Tested on simulated and real datasets, the proposed streaming pipeline achieved comparative performances with existing batch-mode hybrid assemblers including Unicycler and SPAdes hybrid, and outperformed the existing streaming
+approach npScarf. The method is sound and results are convincing. My only doubt about the proposed approach is the significance of having a streaming algorithm for hybrid assembler. There are important real-time analysis of the ONT reads, but I am not so sure about hybrid assembly.
+
+Other specific comments:
+1) How the important parameters (the eps and min samples ) for DBSCAN are determined? What's their impact on the performance of npGraph.
+2) I assume that the binning results are used to constraint the bride candidates -- bridges are only considered between contigs in the same bin. This needs to be clarified in the methods.
+3) The paper mentioned that external binning algorithms including MetaBAT and maxBin can be utilized. Are they already implemented in the pipeline? If not, will that be straightforward to implement?
+4) Is it a typo in algorithm 2: set of candidate paths connecting v0 to v2 -> v0 to vn?
+5) The relationship between Algorithm 1 & 2 is not well explained.
+6) It is unclear how the estimated multiplicity is used for path finding (aren't paths candidates ranked according to the likelihood computed based on long reads to contig alignment?).
+7) Line 79, sample and fast -> simple and fast?
+
+###############################################################################################################################################################################
+###############################################################################################################################################################################
+###############################################################################################################################################################################
+Have all data underlying the figures and results presented in the manuscript been provided?
+Large-scale datasets should be made available via a public repository as described in the PLOS Computational Biology data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+
+Reviewer #1: Yes
+
+Reviewer #2: Yes
+
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+
+
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+
+
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+
+Reviewer #1: Yes: Jue Ruan
+
+Reviewer #2: No
+
+
+
+
+
+  Figure Files:
+
+  While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+
+  Data Requirements:
+
+  Please note that, as a condition of publication, PLOS' data policy requires that you make available all data used to draw the conclusions outlined in your manuscript. Data must be deposited in an appropriate repository, included within the body of the manuscript, or uploaded as supporting information. This includes all numerical values that were used to generate graphs, histograms etc.. For an example in PLOS Biology see here:
+  http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.1001908#s5.
+
+  Reproducibility:
+
+  To enhance the reproducibility of your results, PLOS recommends that you deposit laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. For instructions, please see http://journals.plos.org/compbiol/s/submission-guidelines#loc-materials-and-methods
