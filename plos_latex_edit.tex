@@ -279,30 +279,24 @@ Application to synthetic and real data from bacterial isolate genomes show impro
 % Use "Eq" instead of "Equation" for equation citations.
 \section*{Introduction}
 
-Sequencing technology has reached a level of maturity which allows the decoding of virtually any piece of genetic material
-which  can be obtained. 
+Sequencing technology has reached a level of maturity which allows the decoding of virtually any piece of genetic material which  can be obtained. 
 %This provides the potential use of DNA sequencing into a wide range of applications in medical 
 %and scientific research. 
-However, the time from sample to result remains a barrier to adoption of 
-sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making.  While
-there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT);  algorithms for streaming analyses  of such real-time data are still
-in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
+However, the time from sample to result remains a barrier to adoption of sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making. 
+While there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT), algorithms for streaming analyses of such real-time data are still in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
+\addnew{In addition, the release of Read Until API enables direct control to the actual molecular reading process which has paved the way for customized selective and/or enrichment sequencing on ONT platforms. To function properly, methods using this protocol must implement rapid-responsed operations on the streaming data, for example in ReadFish~\cite{Payne2020}.}
 
-One particular strength of ONT technology is the production of ultra long reads. This is complementary to the dominant
-short read sequencing technology Illumina which is cheaper and has higher per base read quality
-but is unable to resolve the complex regions of the genome due to its read length limitation. A natural combination of
-the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to 
-scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich  connectivity information in the short read assembly graph, and as a result is prone to mis-assembly.
+One particular strength of ONT technology is the production of ultra long reads. 
+This is complementary to the dominant short read sequencing technology Illumina which is cheaper and has higher per base read quality but is unable to resolve the complex regions of the genome due to its read length limitation. 
+A natural combination of the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
 %The strategy proved to be
 %a time- and cost- effective methodology where practitioners need to generate only sufficient data for completing 
 %a draft genome.
 
-
-
- Here, we present \npgraph{}, a novel algorithm to resolve the assembly graph in real-time using long read 
+Here, we present \npgraph{}, a novel algorithm to resolve the assembly graph in real-time using long read 
 sequencing. \npgraph{} uses the stream of long reads to untangle knots in the assembly graph, which is maintained in memory.
- Because of this, \npgraph{} has better estimation of multiplicity of repeat contigs, resulting in fewer misassemblies. 
- In addition, we develop a visualisation tool for practitioners to monitor
+Because of this, \npgraph{} has better estimation of multiplicity of repeat contigs, resulting in fewer misassemblies. 
+In addition, we develop a visualisation tool for practitioners to monitor
 the progress of the assembly process.
 
 
@@ -1109,6 +1103,12 @@ All data used for benchmarking were from public sources. The synthetic data was 
 
 \begin{thebibliography}{10}
 
+\bibitem{Payne2020}
+Payne A, Holmes N, Clarke T, Munro R, Debebe B, Loose M.
+\newblock Nanopore adaptive sequencing for mixed samples, whole exome capture and targeted panels.
+\newblock bioRxiv 2020.02.03.926956; 
+\newblock doi: https://doi.org/10.1101/2020.02.03.926956
+
 \bibitem{Cao2017scaffolding}
 Cao MD, Nguyen SH, Ganesamoorthy D, Elliott AG, Cooper MA, Coin LJ.
 \newblock {Scaffolding and completing genome assemblies in real-time with
@@ -1225,7 +1225,7 @@ Carattoli A, Zankari E, Garc{\`\i}a-Fernandez A, Larsen MV, Lund O, Villa L,
 
 \bibitem{Potter2016rapid}
 Potter RF, D’souza AW, Dantas G.
-\newblock {The rapid spread of carbapenem-resistant Enterobacteriaceae}.
+\newblock The rapid spread of carbapenem-resistant \emph{Enterobacteriaceae}.
 \newblock Drug Resistance Updates. 2016;29:30--46.
 
 \bibitem{Rozov2017faucet}
@@ -1235,24 +1235,21 @@ Rozov R, Goldshlager G, Halperin E, Shamir R.
 
 \bibitem{Giordano2017}
 Giordano F, Aigrain L, Quail MA, Coupland P, Bonfield JK, Davies RM, et~al.
-\newblock {De novo yeast genome assemblies from MinION, PacBio and MiSeq
-  platforms}.
+\newblock De novo yeast genome assemblies from MinION, PacBio and MiSeq platforms.
 \newblock Scientific reports. 2017;7(1):3935.
 
 \bibitem{Prjibelski2014}
 Prjibelski AD, Vasilinetc I, Bankevich A, Gurevich A, Krivosheeva T, Nurk S,
   et~al.
-\newblock {ExSPAnder}: a universal repeat resolver for {DNA} fragment assembly.
+\newblock ExSPAnder: a universal repeat resolver for DNA fragment assembly.
 \newblock Bioinformatics. 2014;30(12):i293--i301.
 
 \bibitem{Qin2019}
-Qin, M., Wu, S., Li, A., Zhao, F., Feng, H., Ding, L., Ruan, J
-\newblock {{LRScaf}: improving draft genomes using long noisy reads}
+Qin M, Wu S, Li A, Zhao F, Feng H, Ding L, Ruan J.
+\newblock LRScaf: improving draft genomes using long noisy reads.
 \newblock BMC Genomics. 2019;20(1):955
+
+
 \end{thebibliography}
-
-
-
-
 \end{document}
 
