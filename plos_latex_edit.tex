@@ -284,7 +284,7 @@ Sequencing technology has reached a level of maturity which allows the decoding 
 %and scientific research. 
 However, the time from sample to result remains a barrier to adoption of sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making. 
 While there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT), algorithms for streaming analyses of such real-time data are still in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
-\addnew{In addition, the release of Read Until API enables direct control to the actual molecular reading process which has paved the way for customized selective and/or enrichment sequencing on ONT platforms. To function properly, methods using this protocol must implement rapid-responsed operations on the streaming data, for example in ReadFish~\cite{Payne2020}.}
+\addnew{In addition, the release of Read Until API enables direct control to the actual molecular reading process which has paved the way for customized targeted sequencing on ONT platforms. To function properly, such methods must implement a real-time ultrafast operation on the streaming data, \EG{} in ReadFish~\cite{Payne2020}. Up until now, there is a shortage of similar tools that can utilize this distinctive feature.}
 
 One particular strength of ONT technology is the production of ultra long reads. 
 This is complementary to the dominant short read sequencing technology Illumina which is cheaper and has higher per base read quality but is unable to resolve the complex regions of the genome due to its read length limitation. 
