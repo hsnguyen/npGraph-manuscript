@@ -284,11 +284,13 @@ Sequencing technology has reached a level of maturity which allows the decoding 
 %and scientific research. 
 However, the time from sample to result remains a barrier to adoption of sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making. 
 While there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT), algorithms for streaming analyses of such real-time data are still in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
-\addnew{In addition, the release of Read Until API enables direct control to the actual molecular reading process which has paved the way for customized targeted sequencing on ONT platforms. To function properly, such methods must implement a real-time ultrafast operation on the streaming data, \EG{} in ReadFish~\cite{Payne2020}. Up until now, there is a shortage of similar tools that can utilize this distinctive feature.}
+
 
 One particular strength of ONT technology is the production of ultra long reads. 
 This is complementary to the dominant short read sequencing technology Illumina which is cheaper and has higher per base read quality but is unable to resolve the complex regions of the genome due to its read length limitation. 
-A natural combination of the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
+\addnew{Hybrid assembly with ONT reads provides the opportunity to use long reads to fully resolve existing microbial genome assemblies. However, in order achieve this in an effective manner it is necessary to avoid both under-sequencing (and thus not completely resolving the assembly) or over-sequencing (and thus incurring unnecessary costs and time-to -results).  In addition, the release of Read Until API provides the opportunity to selectively enrich parts of the genome, as has been implemented in customised targeted sequencing applications ~\cite{Payne2020}.   The combination of ReadUntil with  streaming hybrid assembly opens the possibility for further efficiency gains by targeting sequencing to unresolved regions of the genome. }
+
+Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
 %The strategy proved to be
 %a time- and cost- effective methodology where practitioners need to generate only sufficient data for completing 
 %a draft genome.
@@ -357,7 +359,7 @@ the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2
 \label{figure:npgraph_gui}
 \end{figure}
 
-\subsection*{Algorithm in details}
+\subsection*{Algorithm  details}
 The work flow of \npgraph{} mainly consists of 3 stages: (1) assembly graph pre-processing; (2) graph resolving and simplifying; (3) post-processing and reporting results. 
 The first step is to load the assembly graph of Illumina contigs and analyze its components' property, including binning and multiplicity estimation.
 The second step works on the processed graph and the long read data that can be provided in real-time by ONT sequencer. Based on the paths induced from long reads, the assembly graph will be resolved on-the-fly.
