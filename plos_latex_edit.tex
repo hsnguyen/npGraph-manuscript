@@ -180,6 +180,7 @@
 \newcommand{\npanalysis}{$\mathtt{npAnalysis}$}
 \newcommand{\npbarcode}{$\mathtt{npBarcode}$}
 \newcommand{\npgraph}{$\mathtt{npGraph}$}
+\newcommand{\lrscaf}{$\mathtt{npGraph}$}
 \newcommand{\canu}{$\mathtt{Canu}$}
 \newcommand{\unicycler}{$\mathtt{Unicycler}$}
 \newcommand{\spades}{$\mathtt{SPAdes}$}
@@ -190,6 +191,7 @@
 \newcommand{\minimap}{$\mathtt{minimap2}$}
 \newcommand{\miniasm}{$\mathtt{miniasm}$}
 \newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
+\newcommand{\lrscarf}{$\mathtt{LRScaf}$}
 
 \newcommand{\ec}{\emph{E.~coli}}
 \newcommand{\sce}{\emph{S.~cerevisae}}
@@ -284,11 +286,13 @@ Sequencing technology has reached a level of maturity which allows the decoding 
 %and scientific research. 
 However, the time from sample to result remains a barrier to adoption of sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making. 
 While there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT), algorithms for streaming analyses of such real-time data are still in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
-\addnew{In addition, the release of Read Until API enables direct control to the actual molecular reading process which has paved the way for customized targeted sequencing on ONT platforms. To function properly, such methods must implement a real-time ultrafast operation on the streaming data, \EG{} in ReadFish~\cite{Payne2020}. Up until now, there is a shortage of similar tools that can utilize this distinctive feature.}
+
 
 One particular strength of ONT technology is the production of ultra long reads. 
 This is complementary to the dominant short read sequencing technology Illumina which is cheaper and has higher per base read quality but is unable to resolve the complex regions of the genome due to its read length limitation. 
-A natural combination of the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
+\addnew{Hybrid assembly with ONT reads provides the opportunity to use long reads to fully resolve existing microbial genome assemblies. However, in order achieve this in an effective manner it is necessary to avoid both under-sequencing (and thus not completely resolving the assembly) or over-sequencing (and thus incurring unnecessary costs and time-to -results).  In addition, the release of Read Until API provides the opportunity to selectively enrich parts of the genome, as has been implemented in customised targeted sequencing applications ~\cite{Payne2020}.   The combination of ReadUntil with  streaming hybrid assembly opens the possibility for further efficiency gains by targeting sequencing to unresolved regions of the genome. }
+
+Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
 %The strategy proved to be
 %a time- and cost- effective methodology where practitioners need to generate only sufficient data for completing 
 %a draft genome.
@@ -357,7 +361,7 @@ the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2
 \label{figure:npgraph_gui}
 \end{figure}
 
-\subsection*{Algorithm in details}
+\subsection*{Algorithm  details}
 The work flow of \npgraph{} mainly consists of 3 stages: (1) assembly graph pre-processing; (2) graph resolving and simplifying; (3) post-processing and reporting results. 
 The first step is to load the assembly graph of Illumina contigs and analyze its components' property, including binning and multiplicity estimation.
 The second step works on the processed graph and the long read data that can be provided in real-time by ONT sequencer. Based on the paths induced from long reads, the assembly graph will be resolved on-the-fly.
@@ -564,7 +568,7 @@ Other than that, if GUI mode is enabled, basic assembly statistics such as N50, 
 % Results and Discussion can be combined.
 \section*{Results}
 \subsection*{Evaluation using synthetic data}
-To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), and \unicycler{} version 0.4.6 using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
+To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), \addnew{\lrscaf{} version 1.1.9} and \unicycler{} version 0.4.6 using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
 \addnew{}
 The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on available microbial references.
 We ran hybrid assembly methods using the entire nanopore data and the reciprocal results were evaluated by QUAST 5.0.2~\cite{Mikheenko2018quast5}. 
@@ -650,6 +654,8 @@ On the other hand, \npgraph{} significantly reduced the errors compared to \npsc
 For the yeast \emph{S.~cerevisiae} data set, the \npgraph{} assembly best covered the reference genome but the number of mis-assemblies was up to 5.
 The unfavourable figures, namely mis-assemblies and error, were still high in case of \emph{S.~dysenteriae}, 
  due to the complicated and extremely fragmented graph components containing a large number of small-scaled contigs that were difficult to map with nanopore data. The progressive path finding module tried to induce the most likely solution from a stream of coarse-grained alignments, without fully succeeding. 
+
+\addnew{\lrscaf{} has been designed as a computationally efficient hybrid assembly tool which is scalable to large genomes.  We ran \lrscaf{} using default parameters on the extended benchmarking set presented in Supplementary table 1.  We observed that  \lrscaf{} assemblies had fewer misassemblies than \npscarf{}, and also exhibited a low mismatch and indel rate, but produced more fragmented assemblies than either \npgraph{} or \unicycler{}. }
 
 \subsection*{Hybrid assembly for real data sets}
 %The complicated graph topology from \emph{S.~dysenteriae} simulation is not common in real-life application.  %%CAN WE SUPPORT BETTER

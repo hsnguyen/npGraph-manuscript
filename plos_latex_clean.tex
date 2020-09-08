@@ -170,7 +170,7 @@
 \newcommand{\ipsum}{{\bf IPSUM}}
 
 %% END MACROS SECTION
-
+\usepackage[normalem]{ulem}
 %% npGraph
 \newcommand{\npscarf}{$\mathtt{npScarf}$}
 \newcommand{\npscarfg}{$\mathtt{npScarf\_wag}$}
@@ -178,6 +178,7 @@
 \newcommand{\npanalysis}{$\mathtt{npAnalysis}$}
 \newcommand{\npbarcode}{$\mathtt{npBarcode}$}
 \newcommand{\npgraph}{$\mathtt{npGraph}$}
+\newcommand{\lrscaf}{$\mathtt{npGraph}$}
 \newcommand{\canu}{$\mathtt{Canu}$}
 \newcommand{\unicycler}{$\mathtt{Unicycler}$}
 \newcommand{\spades}{$\mathtt{SPAdes}$}
@@ -188,6 +189,7 @@
 \newcommand{\minimap}{$\mathtt{minimap2}$}
 \newcommand{\miniasm}{$\mathtt{miniasm}$}
 \newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
+\newcommand{\lrscarf}{$\mathtt{LRScaf}$}
 
 \newcommand{\ec}{\emph{E.~coli}}
 \newcommand{\sce}{\emph{S.~cerevisae}}
@@ -277,30 +279,26 @@ Application to synthetic and real data from bacterial isolate genomes show impro
 % Use "Eq" instead of "Equation" for equation citations.
 \section*{Introduction}
 
-Sequencing technology has reached a level of maturity which allows the decoding of virtually any piece of genetic material
-which  can be obtained. 
+Sequencing technology has reached a level of maturity which allows the decoding of virtually any piece of genetic material which  can be obtained. 
 %This provides the potential use of DNA sequencing into a wide range of applications in medical 
 %and scientific research. 
-However, the time from sample to result remains a barrier to adoption of 
-sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making.  While
-there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT);  algorithms for streaming analyses  of such real-time data are still
-in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
+However, the time from sample to result remains a barrier to adoption of sequencing technology into time critical applications such as infectious disease diagnostics or clinical decision making. 
+While there exists real-time sequencing technology such as Oxford Nanopore Technologies (ONT), algorithms for streaming analyses of such real-time data are still in their infancy. Effective streaming methodology will help bridge the gap between potential and practical use. 
 
-One particular strength of ONT technology is the production of ultra long reads. This is complementary to the dominant
-short read sequencing technology Illumina which is cheaper and has higher per base read quality
-but is unable to resolve the complex regions of the genome due to its read length limitation. A natural combination of
-the two technologies is in hybrid assembly of genomes. Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to 
-scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich  connectivity information in the short read assembly graph, and as a result is prone to mis-assembly.
+
+One particular strength of ONT technology is the production of ultra long reads. 
+This is complementary to the dominant short read sequencing technology Illumina which is cheaper and has higher per base read quality but is unable to resolve the complex regions of the genome due to its read length limitation. 
+Hybrid assembly with ONT reads provides the opportunity to use long reads to fully resolve existing microbial genome assemblies. However, in order achieve this in an effective manner it is necessary to avoid both under-sequencing (and thus not completely resolving the assembly) or over-sequencing (and thus incurring unnecessary costs and time-to -results).  In addition, the release of Read Until API provides the opportunity to selectively enrich parts of the genome, as has been implemented in customised targeted sequencing applications ~\cite{Payne2020}.   The combination of ReadUntil with  streaming hybrid assembly opens the possibility for further efficiency gains by targeting sequencing to unresolved regions of the genome.
+
+Previously, we developed \npscarf{}~\cite{Cao2017scaffolding} an algorithm to scaffold a draft assembly from Illumina sequencing simultaneously with ONT sequencing.  However, \npscarf{} ignores the rich connectivity information in the short read assembly graph, and as a result is relatively prone to mis-assembly compared to alternative methods.
 %The strategy proved to be
 %a time- and cost- effective methodology where practitioners need to generate only sufficient data for completing 
 %a draft genome.
 
-
-
- Here, we present \npgraph{}, a novel algorithm to resolve the assembly graph in real-time using long read 
+Here, we present \npgraph{}, a novel algorithm to resolve the assembly graph in real-time using long read 
 sequencing. \npgraph{} uses the stream of long reads to untangle knots in the assembly graph, which is maintained in memory.
- Because of this, \npgraph{} has better estimation of multiplicity of repeat contigs, resulting in fewer misassemblies. 
- In addition, we develop a visualisation tool for practitioners to monitor
+Because of this, \npgraph{} has better estimation of multiplicity of repeat contigs, resulting in fewer misassemblies. 
+In addition, we develop a visualisation tool for practitioners to monitor
 the progress of the assembly process.
 
 
@@ -361,7 +359,7 @@ the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2
 \label{figure:npgraph_gui}
 \end{figure}
 
-\subsection*{Algorithm in details}
+\subsection*{Algorithm  details}
 The work flow of \npgraph{} mainly consists of 3 stages: (1) assembly graph pre-processing; (2) graph resolving and simplifying; (3) post-processing and reporting results. 
 The first step is to load the assembly graph of Illumina contigs and analyze its components' property, including binning and multiplicity estimation.
 The second step works on the processed graph and the long read data that can be provided in real-time by ONT sequencer. Based on the paths induced from long reads, the assembly graph will be resolved on-the-fly.
@@ -374,7 +372,7 @@ A binning step is needed to assign membership of each contig to its correspondin
 
 The first step is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
 To achieve this, we applied DBSCAN clustering algorithm \cite{Ester96adensity-based}, which utilises a customised metric function to map contigs into a one-dimensional space.  In order to 
- define a customised metric which is sample and fast to calculate, we assumed that a single long contig itself consists of a Poisson distribution of \emph{k-mers} count with the mean approximated by the contig's coverage. 
+ define a customised metric which is simple and fast to calculate, we assumed that a single long contig itself consists of a Poisson distribution of \emph{k-mers} count with the mean approximated by the contig's coverage. 
 %The rationale is to approximate a coverage value of an extremely long contig (which can be split into more than 10,000 \emph{k-mers}) with a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
 The metric is then determined by a distance function of two Poisson distributions based on Kullback-Leibler divergence (or relative entropy) between the Poisson distribution representing each contig\cite{Kullback1951information}.
 
@@ -448,14 +446,14 @@ Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hos
 Given a bridge with 2 anchors, a path finding algorithm is invoked to find all candidate paths between them. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the top-scored ones are kept for the next round.
 We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space when using Depth-First Search.
 
-Due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are necessary to be appeared in the ultimate path resolved by the bridge. 
+Due to false positive alignments from shorter contigs to the long reads, not all of the reported step nodes would appear in the ultimate path resolved by the bridge. 
 In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
-For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}.
-
-
-Before that, we define Algorithm~\ref{algo:findpath} to demonstrates the path finding algorithm for two nodes given their estimated distance. In which, function 
-$\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n$ 
-from line 3 of the algorithm's pseudo code builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance regarding nanopore read error rate) is reached. This task is implemented based on Dijkstra algorithm.
+For that reason, a strategy similar to binary search is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}. Briefly, it recursively looks for sub-paths connecting pairs of step nodes in-between 2 anchors and return a final continuous path with the highest score.
+We define Algorithm~\ref{algo:findpath} as the \emph{base} sub-rountine to find paths between a \emph{connectable} pair of two step nodes given their estimated distance. In which, function 
+\[
+\mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n
+\]
+from line 3 builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance for the nanopore error rate) is reached. This task is implemented based on Dijkstra algorithm.
 This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
 
 \begin{algorithm}[!hpt]
@@ -505,7 +503,7 @@ $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree f
 \DontPrintSemicolon
 \KwData{Assembly graph $G\{V,E\}$}
 \KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps in-between}
-\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_2}$ that maximize the likelihood of the step list.}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_n}$ that maximize the likelihood of the step list.}
 \SetKwFunction{BinaryBridging}{BinaryBridging} 
 \SetKwProg{Fn}{Function}{:}{}
 \Fn{\BinaryBridging{B}}{
@@ -568,8 +566,7 @@ Other than that, if GUI mode is enabled, basic assembly statistics such as N50, 
 % Results and Discussion can be combined.
 \section*{Results}
 \subsection*{Evaluation using synthetic data}
-To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), and \unicycler{} version 0.4.6 %%COMMENT_LC - why just indicate unicyler version and not others? 
-using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
+To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), \lrscaf{} version 1.1.9 and \unicycler{} version 0.4.6 using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
 The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on available microbial references.
 We ran hybrid assembly methods using the entire nanopore data and the reciprocal results were evaluated by QUAST 5.0.2~\cite{Mikheenko2018quast5}. 
 
@@ -654,6 +651,8 @@ On the other hand, \npgraph{} significantly reduced the errors compared to \npsc
 For the yeast \emph{S.~cerevisiae} data set, the \npgraph{} assembly best covered the reference genome but the number of mis-assemblies was up to 5.
 The unfavourable figures, namely mis-assemblies and error, were still high in case of \emph{S.~dysenteriae}, 
  due to the complicated and extremely fragmented graph components containing a large number of small-scaled contigs that were difficult to map with nanopore data. The progressive path finding module tried to induce the most likely solution from a stream of coarse-grained alignments, without fully succeeding. 
+
+\lrscaf{} has been designed as a computationally efficient hybrid assembly tool which is scalable to large genomes.  We ran \lrscaf{} using default parameters on the extended benchmarking set presented in Supplementary table 1.  We observed that  \lrscaf{} assemblies had fewer misassemblies than \npscarf{}, and also exhibited a low mismatch and indel rate, but produced more fragmented assemblies than either \npgraph{} or \unicycler{}.
 
 \subsection*{Hybrid assembly for real data sets}
 %The complicated graph topology from \emph{S.~dysenteriae} simulation is not common in real-life application.  %%CAN WE SUPPORT BETTER
@@ -828,13 +827,13 @@ Finally, extra pre-processing and comprehensive binning on the initial graph cou
 
 \begin{figure}[!ht]
  \includegraphics[width=\textwidth]{images/FigS2.eps}
- \caption{Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\unicycler{} and (b)~\npgraph{}. The former suggests a structural variant, the latter is virtually an 1-to-1 mapping.}
+ \caption{Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\npgraph{} and (b)~\unicycler{}. The former suggests a structural variant, the latter is virtually an 1-to-1 mapping.}
 \end{figure}
 
 \clearpage
 \paragraph*{S1 Table.}
 \label{S1_Table}
-Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.
+Benchmarking different methods using \lrscaf{}, \npscarf{}, \npgraph{}, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.
 
 \makeatletter
 
@@ -877,6 +876,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \multicolumn{8}{l}{random sequences no repeats} \\* %
 \nobreakmidrule
 \rowcolor{Gray}
+& LRScaf & - & - & - & - & - & - \\*
+\rowcolor{Gray}
 & npScarf &  4110000 &  3  &  4000000  &  0  & 0.00  & 0.00\\*
 \rowcolor{Gray}
 & npScarf\_wag & 4109516  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
@@ -891,6 +892,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \hline
 \multicolumn{8}{l}{random sequences some repeats} \\* %
 \nobreakmidrule
+& LRScaf & 4113104 & 6 & 4002298 & 0 & 0.00 & 0.00\\*
 & npScarf & 4110940  &  3  &  4002715  &  0  &  0.00 &  0.66\\*
 & npScarf\_wag & 4437094  &  7 &  2795129  &  0  &  0.00 &  1.07\\*
 & npGraph-bwa & 4110000  &  3  &  4000000  &  0 &  0.00 &  0.00\\*
@@ -901,6 +903,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{random sequences many repeats} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4119020 & 12 & 4002117 & 0 & 0.03 & 0.79\\* 
 \rowcolor{Gray}
 & npScarf &  4316934 &  8  &  3963485  &  24  & 11.55  & 34.54\\*
 \rowcolor{Gray}
@@ -918,6 +922,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 % \toprule
 \multicolumn{8}{l}{\emph{Acinetobacter} A1} \\* %
 \nobreakmidrule
+& LRScaf & 3896799 & 4 & 3886381 & 0 & 0.47 & 0.36\\*
 & npScarf & 3912299  &  3  &  3870269  &  4  & 4.74  & 13.02 \\*
 & npScarf\_wag & 3945166  &  3  &  3906368  &  1  & 7.00  & 14.02 \\*
 & npGraph-bwa & 3918374  &  2  &  3909643  &  0 & 16.34  & 0.61 \\*
@@ -928,6 +933,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\emph{Acinetobacter} AB30} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4367657 & 27 & 1035967 & 13 & 30.11 & 1.42\\* 
 \rowcolor{Gray}
 & npScarf & 4512464  &  7  &  4304628  &  35  & 57.95  & 72.87\\*
 \rowcolor{Gray}
@@ -943,6 +950,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \hline
 \multicolumn{8}{l}{\ec{} K12 MG1655} \\* %
 \nobreakmidrule
+& LRScaf & 4732001 & 16 & 692794 & 7 & 3.42 & 0.58\\*
 & npScarf & 4649902  &  2  &  4641702  &  4  & 14.94  & 34.35 \\*
 & npScarf\_wag &  4687952 &  3  &  4641732  &  0  & 6.55  &  1.96\\*
 & npGraph-bwa & 4641743  &  1  &  4641743  & 0  &  4.50 & 0.43 \\*
@@ -953,6 +961,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\ec{} O25b H4-ST131} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 5410854 & 21 & 910949 & 9 & 13.70 & 0.87\\*
 \rowcolor{Gray}
 & npScarf &  5245913 &  3  &  5095571  &  7  &  7.05 & 18.81\\*
 \rowcolor{Gray}
@@ -970,6 +980,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 % \toprule
 \multicolumn{8}{l}{\emph{Klebsiella} 30660 NJST258 1} \\* %
 \nobreakmidrule
+& LRScaf & 5512518 & 20 & 777919 & 26 & 3.52 & 0.38\\*
 & npScarf & 5559772  &  7  &  5259053  &  4  & 17.18  & 13.48\\*
 & npScarf\_wag & 5613780  &  7  &  5268535  &  6  & 1.59  & 1.92\\*
 & npGraph-bwa & 5534843  &  8  &  5263229  &  0  & 3.15  & 0.76\\*
@@ -980,6 +991,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\emph{Klebsiella} MGH 78578} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 5823340 & 38 & 559414 & 7 & 5.92 & 1.27\\*
 \rowcolor{Gray}
 & npScarf &  5729304 &  5  &  5316429  &  12  & 14.90  & 20.27\\*
 \rowcolor{Gray}
@@ -995,6 +1008,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \hline
 \multicolumn{8}{l}{\emph{Klebsiella} NTUH-K2044} \\* %
 \nobreakmidrule
+& LRScaf & 5470282 & 8 & 2951488 & 9 & 3.04 & 2.62\\*
 & npScarf & 5471696  &  2  &  5249198  &  6  & 4.82  &  8.55\\*
 & npScarf\_wag & 5530559  &  3  &  5249369  &  2  &  2.25 &  1.35\\*
 & npGraph-bwa & 5472629  &  2  &  5248476  & 0  & 2.52  &  0.31\\*
@@ -1005,6 +1019,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\emph{Mycobacterium tuberculosis} H37Rv} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4260869 & 12 & 3215170 & 8 & 6.69 & 2.27\\*
 \rowcolor{Gray}
 & npScarf &  4498245 &  4  & 4402238   &  8  & 5.15  & 2.68\\*
 \rowcolor{Gray}
@@ -1022,6 +1038,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 % \toprule
 \multicolumn{8}{l}{\emph{Saccharomyces cerevisiae} S288c} \\* %
 \nobreakmidrule
+& LRScaf & 12486884 & 214 & 254587 & 27 & 16.45 & 1.97\\*
 & npScarf &  11986800 &  24  &  796769  &  51  &  62.12 & 21.46 \\*
 & npScarf\_wag & 12003203  &  21  &  917017  &  21  & 69.14  & 5.47 \\*
 & npGraph-bwa & 11921736  &  40  &  913090  &  3 &  38.04 &  1.94\\*
@@ -1032,6 +1049,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\emph{Shigella dysenteriae}  Sd197} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4678609 & 175 & 376897 & 26 & 3.91 & 2.35\\*
 \rowcolor{Gray}
 & npScarf &  4586075 &  173  & 36560   &  55  & 120.14  & 111.59\\*
 \rowcolor{Gray}
@@ -1047,6 +1066,7 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \hline
 \multicolumn{8}{l}{\emph{Shigella sonnei} 53G} \\* %
 \nobreakmidrule
+& LRScaf & 5266645 & 128 & 429353 & 27 & 9.72 & 1.19\\*
 & npScarf &  6441461 &  20  &  1953896  &  82  & 164.02  &  219.52\\*
 & npScarf\_wag & -  &  -  &  -  &  -  & -  &  -\\*
 & npGraph-bwa & 5211544  &   4 &  4988532  & 0  & 14.53  &  0.31\\*
@@ -1057,6 +1077,8 @@ Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and
 \rowcolor{Gray}
 \multicolumn{8}{l}{\emph{Streptococcus suis} BM407} \\* %
 \nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 2231488 & 10 & 683404 & 6 & 11.96 & 1.37\\*
 \rowcolor{Gray}
 & npScarf &  2183951 & 3   &  2146594  &  0  & 21.51  & 9.17\\*
 \rowcolor{Gray}
@@ -1082,6 +1104,12 @@ All data used for benchmarking were from public sources. The synthetic data was 
 \nolinenumbers
 
 \begin{thebibliography}{10}
+
+\bibitem{Payne2020}
+Payne A, Holmes N, Clarke T, Munro R, Debebe B, Loose M.
+\newblock Nanopore adaptive sequencing for mixed samples, whole exome capture and targeted panels.
+\newblock bioRxiv 2020.02.03.926956; 
+\newblock doi: https://doi.org/10.1101/2020.02.03.926956
 
 \bibitem{Cao2017scaffolding}
 Cao MD, Nguyen SH, Ganesamoorthy D, Elliott AG, Cooper MA, Coin LJ.
@@ -1199,7 +1227,7 @@ Carattoli A, Zankari E, Garc{\`\i}a-Fernandez A, Larsen MV, Lund O, Villa L,
 
 \bibitem{Potter2016rapid}
 Potter RF, D’souza AW, Dantas G.
-\newblock {The rapid spread of carbapenem-resistant Enterobacteriaceae}.
+\newblock The rapid spread of carbapenem-resistant \emph{Enterobacteriaceae}.
 \newblock Drug Resistance Updates. 2016;29:30--46.
 
 \bibitem{Rozov2017faucet}
@@ -1209,20 +1237,21 @@ Rozov R, Goldshlager G, Halperin E, Shamir R.
 
 \bibitem{Giordano2017}
 Giordano F, Aigrain L, Quail MA, Coupland P, Bonfield JK, Davies RM, et~al.
-\newblock {De novo yeast genome assemblies from MinION, PacBio and MiSeq
-  platforms}.
+\newblock De novo yeast genome assemblies from MinION, PacBio and MiSeq platforms.
 \newblock Scientific reports. 2017;7(1):3935.
 
 \bibitem{Prjibelski2014}
 Prjibelski AD, Vasilinetc I, Bankevich A, Gurevich A, Krivosheeva T, Nurk S,
   et~al.
-\newblock {ExSPAnder}: a universal repeat resolver for {DNA} fragment assembly.
+\newblock ExSPAnder: a universal repeat resolver for DNA fragment assembly.
 \newblock Bioinformatics. 2014;30(12):i293--i301.
 
+\bibitem{Qin2019}
+Qin M, Wu S, Li A, Zhao F, Feng H, Ding L, Ruan J.
+\newblock LRScaf: improving draft genomes using long noisy reads.
+\newblock BMC Genomics. 2019;20(1):955
+
+
 \end{thebibliography}
-
-
-
-
 \end{document}
 
