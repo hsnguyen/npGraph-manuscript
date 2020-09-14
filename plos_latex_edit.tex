@@ -180,7 +180,6 @@
 \newcommand{\npanalysis}{$\mathtt{npAnalysis}$}
 \newcommand{\npbarcode}{$\mathtt{npBarcode}$}
 \newcommand{\npgraph}{$\mathtt{npGraph}$}
-\newcommand{\lrscaf}{$\mathtt{npGraph}$}
 \newcommand{\canu}{$\mathtt{Canu}$}
 \newcommand{\unicycler}{$\mathtt{Unicycler}$}
 \newcommand{\spades}{$\mathtt{SPAdes}$}
@@ -191,7 +190,7 @@
 \newcommand{\minimap}{$\mathtt{minimap2}$}
 \newcommand{\miniasm}{$\mathtt{miniasm}$}
 \newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
-\newcommand{\lrscarf}{$\mathtt{LRScaf}$}
+\newcommand{\lrscaf}{$\mathtt{LRScaf}$}
 
 \newcommand{\ec}{\emph{E.~coli}}
 \newcommand{\sce}{\emph{S.~cerevisae}}
@@ -371,8 +370,9 @@ The algorithm works on the assembly graph of Illumina contigs, so the terms \emp
 \subsubsection*{Contigs binning}
 Contigs should belong to single or multiple groups, or \emph{bins}, that would represent different assembly units, \EG{} chromosome , plasmids, of different species if applying to a metagenomics dataset. 
 A binning step is needed to assign membership of each contig to its corresponding group. 
+\addnew{This information can aid the bridging phase later, as member contigs of a bridge are expected to appear in the same group. However, the criteria can be relaxed between closed groups given strong connecting evidence from long read alignments.}
 
-The first step is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
+The first step \addnew{in our binning procedure} is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
 To achieve this, we applied DBSCAN clustering algorithm \cite{Ester96adensity-based}, which utilises a customised metric function to map contigs into a one-dimensional space.  In order to 
  define a customised metric which is \cancel{sample} \addnew{simple} and fast to calculate, we assumed that a single long contig itself consists of a Poisson distribution of \emph{k-mers} count with the mean approximated by the contig's coverage. 
 %The rationale is to approximate a coverage value of an extremely long contig (which can be split into more than 10,000 \emph{k-mers}) with a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
