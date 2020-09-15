@@ -461,10 +461,10 @@ $m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
 \If{$M.size() \equiv 2$}{ 
 	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
 }
-\tcc{divide the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
+\tcc{break the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
 $BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
 $BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
-\tcc{Return the join of running recursive function on two sub-bridges}
+\tcc{recursively invoke the procedure and join the results together}
 \Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
 }
 \caption{Recursive binary bridging to connect 2 anchor nodes.}
@@ -523,9 +523,9 @@ $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree f
 \end{algorithm}
 
 Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
-A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
+Another threshold for the maximum traversing depth is set and heuristic cut-off can be used to preven exceptional combinatorial explosion when traversing extremely complex graph components.
 
-Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+It worths noting that from the pseudo code in Algorithm~\ref{algo:findpath}, despite of identical name,, procedure $length()$ used for nodes are different than for edges. The former would return the contig length while the latter measure the overlap or distance between a pair of contigs thus can be negative or positive respectively. From De Bruijin graph for instance, all edges have same the length value of $-k$. In \npgraph{}'s algorithm, an edge's length can vary as we allow additional connection types on top of the original \spades{} assembly graph input.
 
 In many cases, due to dead-ends, there not always exist a path in the assembly graph connecting two anchors as suggested by the alignments. In this case, if enough long reads coverage (20X) are met, a consensus module is invoked and the resulting sequence is contained in a \emph{pseudo} edge.
 \subsubsection*{Graph simplification in real-time}
