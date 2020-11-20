@@ -1,0 +1,4 @@
+#After having PDF file -> EPS file
+gs -q -r300 -dNOCACHE -dNOPAUSE -dBATCH -dSAFER -sDEVICE=eps2write -sOutputFile=Fig1.eps Fig1.pdf
+
+#Link to emulation used to generate Fig5: http://data.genomicsresearch.org/Projects/Fig5
