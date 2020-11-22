@@ -190,6 +190,7 @@
 \newcommand{\minimap}{$\mathtt{minimap2}$}
 \newcommand{\miniasm}{$\mathtt{miniasm}$}
 \newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
+\newcommand{\lrscaf}{$\mathtt{LRScaf}$}
 
 \newcommand{\ec}{\emph{E.~coli}}
 \newcommand{\sce}{\emph{S.~cerevisae}}
@@ -349,7 +350,7 @@ The de Bruijin graph is subsequently simplified when the bridge is replaced by a
 We also provide a Graphical User Interface (GUI) for \npgraph{}. The GUI includes the dashboard for controlling the settings of the program and a window for visualization of the assembly graph 
 in real-time (Figure~\ref{figure:npgraph_gui}). 
 In this interface, the assembly graph loading stage is separated from the actual assembly process so that users can check for the graph quality first before carry out any further tasks.
-A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. The practice is to support the real-time monitoring of
+A proper combination of command line and GUI can provide an useful streaming pipeline that copes well with MinION output data. This is designed to support the real-time monitoring of
 the results from real-time sequencing~\cite{CaoGC2016,Cao2017scaffolding,Nguyen2017barcode} that allow the analysis to take place abreast to a nanopore sequencing run.
 
 \begin{figure}[!hpt]
@@ -369,8 +370,9 @@ The algorithm works on the assembly graph of Illumina contigs, so the terms \emp
 \subsubsection*{Contigs binning}
 Contigs should belong to single or multiple groups, or \emph{bins}, that would represent different assembly units, \EG{} chromosome , plasmids, of different species if applying to a metagenomics dataset. 
 A binning step is needed to assign membership of each contig to its corresponding group. 
+\addnew{This information can aid the bridging phase later, as member contigs of a bridge are expected to appear in the same group. However, the criteria can be relaxed between closed groups given strong connecting evidence from long read alignments.}
 
-The first step is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
+The first step \addnew{in our binning procedure} is to cluster the big anchors (longer than $10$Kbp and in/out degree less than 2) based on their \emph{kmer} coverage.
 To achieve this, we applied DBSCAN clustering algorithm \cite{Ester96adensity-based}, which utilises a customised metric function to map contigs into a one-dimensional space.  In order to 
  define a customised metric which is \cancel{sample} \addnew{simple} and fast to calculate, we assumed that a single long contig itself consists of a Poisson distribution of \emph{k-mers} count with the mean approximated by the contig's coverage. 
 %The rationale is to approximate a coverage value of an extremely long contig (which can be split into more than 10,000 \emph{k-mers}) with a sampled mean of a Poisson distribution (of \emph{k-mers} count). 
@@ -421,8 +423,8 @@ For that reason, in \npgraph{}, we did not rely on them for graph transformation
 
 %\subsection*{Untangling assembly graph by stream of nanopore data.}
 \subsubsection*{Building bridges in real-time}
-Bridge is the data structure designed for tracking the possible connections between two anchored nodes (of unique contigs) in the assembly graph.
-A bridge must start from a unique contig, or \emph{anchor} node, and end at another when completed. Located in-between are nodes known as \emph{steps} and distances between them are called \emph{spans} of the bridge. Stepping nodes are normally repetitive contigs and indicative for a path finding operation later on. In a complicated assembly graph, the more details the bridge, \emph{a.k.a.} more steps in-between, the faster and more accurate the linking path it would resolve. A bridge's function is complete when it successfully return the ultimate linking path between 2 anchors.
+Bridge is the data structure designed to identify the possible connections between two anchored nodes (of unique contigs) in the assembly graph.
+A bridge must start from a unique contig, or \emph{anchor} node, and end at another if completed. Located in-between are nodes known as \emph{steps} and distances between them are called \emph{spans} of the bridge. Stepping nodes are normally repetitive contigs and indicative for a path finding operation later on. In a complicated assembly graph, the more details the bridge, \emph{a.k.a.} more steps in-between, the faster and more accurate the linking path it would resolve. A bridge's function is complete when it successfully return the ultimate linking path between 2 anchors.
 
 The real-time bridging method considers the dynamic aspect of multiplicity measures for each node, meaning that a $n$-times repetitive node might become a unique node at certain time point when its $(n-1)$ occurrences have been already identified in other distinct unique paths. 
 Furthermore, the streaming fashion of this method allows the bridge constructions (updating steps and spans) to be carried out progressively so that assembly decisions can be made immediately after having sufficient supporting data.
@@ -443,17 +445,48 @@ Whenever a consensus bridge is anchored by 2 unique contigs at both ends and hos
 
 
 \subsubsection*{Path finding algorithm}
-Given a bridge with 2 anchors, a path finding algorithm is invoked to find all candidate paths between them. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the top-scored ones are kept for the next round.
-We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space when using Depth-First Search.
+\cancel{Given a bridge with 2 anchors, a path finding algorithm is used to find all candidate paths between them. Each of these paths is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the divergence between candidates' score becomes greater and only the top-scored ones are kept for the next round.}
+\cancel{We implement a modified stack-based version utilizing Dijkstra's shortest path finding algorithm to reduce the search space when using Depth-First Search.}
 
-Due to false \addnew{positive} alignments from shorter contigs to the long reads, not all of the reported step nodes \cancel{are necessary to be appeared} \addnew{would appear} in the ultimate path resolved by the bridge. 
+\cancel{Due to false alignments from shorter contigs to the long reads, not all of the reported step nodes are necessary to be appeared in the ultimate path resolved by the bridge. 
 In most cases, the accumulated score of each step indicates its likelihood to be the true component of the final solution.
-For that reason, a strategy similar to binary search\cancel{ing} is employed to find a path across 2 anchors of a bridge as shown in Algorithm~\ref{algo:binsearch}. \addnew{Briefly, it recursively looks for sub-paths connecting pairs of step nodes in-between 2 anchors and return a final continuous path with the highest score.}
-\cancel{Before that, }We define Algorithm~\ref{algo:findpath} \addnew{as the \emph{base} sub-rountine} to \cancel{demonstrates the path finding algorithm for} \addnew{find paths between a \emph{connectable} pair of} two \addnew{step} nodes given their estimated distance. In which, function 
+For that reason, a strategy similar to binary searching is employed to find a path across 2 anchors of a bridge as shown in Algorithm~2.
+Before that, we define Algorithm~1 to demonstrates the path finding algorithm for two nodes given their estimated distance.}
+
+\addnew{Given a proposed bridge with 2 anchors $B=\lbrace\overrightarrow{v_0}\,..., \overrightarrow{v_n}\rbrace$ identified from previous step, a searching algorithm is implemented to find the final bridging solution, \IE{} an ungapped path among all possiblities. To do so, each of the candidates is given a score of alignment-based likelihood which are updated immediately as long as there is an appropriate long read being generated by the sequencer. As more nanopore data arrives, the score divergence increases and only the highest one would be selected for the next round.}
+
+\addnew{Overall, the algorithm employs a binary search strategy as shown in Algorithm~\ref{algo:binsearch}. Starting with the original bridge $\lbrace\overrightarrow{v_0}\,..., \overrightarrow{v_n}\rbrace$, we recursively break the target bridge in half at one of its \emph{step} $\overrightarrow{v_k}$ in-between then find the sub-paths of $\lbrace\overrightarrow{v_0}\,..., \overrightarrow{v_k}\rbrace$ and $\lbrace\overrightarrow{v_k}\,..., \overrightarrow{v_n}\rbrace$. Algorithm~\ref{algo:binsearch} will call Algorithm~\ref{algo:findpath} when the base condition is met, meaning the target bridge is unbreakable (no more in-between \emph{step} available).}
+
+\begin{algorithm}[!hpt]
+\DontPrintSemicolon
+\KwData{Assembly graph $G\{V,E\}$}
+\KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps in-between}
+\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_n}$ that maximize the likelihood of the step list.}
+\SetKwFunction{BinaryBridging}{BinaryBridging} 
+\SetKwProg{Fn}{Function}{:}{}
+\Fn{\BinaryBridging{B}}{
+\tcc{search for the contig with maximum score from the step list (two ends excluded)}
+$m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
+\tcc{if there is no step in-between, run Algorithm~\ref{algo:findpath} and return the result}
+\If{$M.size() \equiv 2$}{ 
+	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
+}
+\tcc{break the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
+$BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
+$BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
+\tcc{recursively invoke the procedure and join the results together}
+\Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
+}
+\caption{Recursive binary bridging to connect 2 anchor nodes.}
+\label{algo:binsearch}
+\end{algorithm}
+
+\addnew{In Algorithm~\ref{algo:findpath}, we implement a modified stack-based Depth-First Search (DFS) using Dijkstra's shortest path finding algorithm~\cite{Dijkstra1959} to reduce the search space.}
+In which, function 
 \[
 \mathtt{shortestTree}(\overrightarrow{vertex},distance) : (V,Z) \rightarrow V^n
 \]
-from line 3 \cancel{of the algorithm's pseudo code} builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance \cancel{regarding nanopore read} \addnew{for the nanopore} error rate) is reached. This task is implemented based on Dijkstra algorithm.
+from line 3 builds a shortest tree rooted from $\overrightarrow{v}$, following its direction until a distance of approximately $d$ (with a tolerance for the nanopore error rate) is reached, similar to the Dijkstra algorithm.
 This tree is used on line 4 and in function $includedIn()$ on line 19 to filter out any node or edge with ending nodes that do not belong to the tree.
 
 \begin{algorithm}[!hpt]
@@ -499,34 +532,13 @@ $M$:=$\mathtt{shortestTree}(\overrightarrow{v_2},d)$ \tcp*{build shortest tree f
 \label{algo:findpath}
 \end{algorithm}
 
-\begin{algorithm}[!hpt]
-\DontPrintSemicolon
-\KwData{Assembly graph $G\{V,E\}$}
-\KwIn{Brigde $B:\lbrace\overrightarrow{v_0}, ...\overrightarrow{v_k}, ...,\overrightarrow{v_n}\rbrace$ with $\overrightarrow{v_0}$ and $\overrightarrow{v_n}$ are two anchors, $\{\overrightarrow{v_k}\}, k=1\ldots(n-1)$ are steps in-between}
-\KwOut{Set of candidate paths connecting $\overrightarrow{v_0}$ to $\overrightarrow{v_n}$ that maximize the likelihood of the step list.}
-\SetKwFunction{BinaryBridging}{BinaryBridging} 
-\SetKwProg{Fn}{Function}{:}{}
-\Fn{\BinaryBridging{B}}{
-\tcc{search for the contig with maximum score from the step list (two ends excluded)}
-$m$:=$\argmax_k(\overrightarrow{v_k}.score())$ \;
-\tcc{if there is no step in-between, run path finding algorithm above directly and return the result}
-\If{$M.size() \equiv 2$}{ 
-	\Return{$\mathtt{DFS}(B.start(),B.end().B.distance())$}
-}
-\tcc{divide the original bridge $B$ into 2 bridges by $v_m$: $BL$ and $BR$}
-$BL$:=$\lbrace B.start(), ...,\overrightarrow{v_m}\rbrace$ \;
-$BR$:=$\lbrace \overrightarrow{v_m}, ...,B.end()\rbrace$ \;
-\tcc{Return the join of running recursive function on two sub-bridges}
-\Return{$\BinaryBridging(BL)\Join\BinaryBridging(BR)$} 
-}
-\caption{Recursive binary bridging to connect 2 anchor nodes.}
-\label{algo:binsearch}
-\end{algorithm}
 
 Basically, the algorithm keeps track of a stack that contains sets of candidate edges to discover. During the traversal, a variable $d$ is updated as an estimation for the distance to the target. A hit is reported if the target node is reached with a reasonable distance \IE{} close to zero, within a given tolerance (line 21). 
-A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.
+\cancel{A threshold for the traversing depth is set (150) to ignore too complicated and time-consuming path searching.}
+\addnew{Another threshold for the maximum traversing depth is set and heuristic cut-off can be used to preven exceptional combinatorial explosion when traversing extremely complex graph components.}
 
-Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$. 
+\cancel{Note that the $length()$ functions for node and edge are totally different. While the former returns the length of the sequence represented by the node, \IE{} contig from short-read assembly, the latter is usually negative because an edge models a link between two nodes, which is normally an overlap (except for composite edges). For example, in a \emph{k-mers} SPAdes assembly graph, the value of an edge is $-k+1$.} 
+\addnew{It worths noting that from the pseudo code in Algorithm~\ref{algo:findpath}, despite of identical name, procedure $length()$ used for nodes are different than for edges. The former would return the contig length while the latter measure the overlap or distance between a pair of contigs thus can be negative or positive respectively. From De Bruijin graph for instance, all edges have same the length value of $-k$. In \npgraph{}'s algorithm, an edge's length can vary as we allow additional connection types on top of the original \spades{} assembly graph input.}
 
 In many cases, due to dead-ends, there not always exist a path in the assembly graph connecting two anchors as suggested by the alignments. In this case, if enough long reads coverage (20X) are met, a consensus module is invoked and the resulting sequence is contained in a \emph{pseudo} edge.
 \subsubsection*{Graph simplification in real-time}
@@ -566,7 +578,7 @@ Other than that, if GUI mode is enabled, basic assembly statistics such as N50, 
 % Results and Discussion can be combined.
 \section*{Results}
 \subsection*{Evaluation using synthetic data}
-To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), and \unicycler{} version 0.4.6 using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
+To evaluate the performance of the method, \npgraph{} 1.1 was tested along with \spades{}, \spades{} hybrid from version 3.13.1, ~\cite{AntipovKM2015}, \npscarf{} (japsa 1.7-02), \addnew{\lrscaf{} version 1.1.9} and \unicycler{} version 0.4.6 using \unicycler{}`s synthetic data set~ \cite{Wick2017unicycler} . 
 \addnew{}
 The data set is a simulation of Illumina and MinION raw data, generated \emph{in silico} based on available microbial references.
 We ran hybrid assembly methods using the entire nanopore data and the reciprocal results were evaluated by QUAST 5.0.2~\cite{Mikheenko2018quast5}. 
@@ -652,6 +664,8 @@ On the other hand, \npgraph{} significantly reduced the errors compared to \npsc
 For the yeast \emph{S.~cerevisiae} data set, the \npgraph{} assembly best covered the reference genome but the number of mis-assemblies was up to 5.
 The unfavourable figures, namely mis-assemblies and error, were still high in case of \emph{S.~dysenteriae}, 
  due to the complicated and extremely fragmented graph components containing a large number of small-scaled contigs that were difficult to map with nanopore data. The progressive path finding module tried to induce the most likely solution from a stream of coarse-grained alignments, without fully succeeding. 
+
+\addnew{\lrscaf{} has been designed as a computationally efficient hybrid assembly tool which is scalable to large genomes.  We ran \lrscaf{} using default parameters on the extended benchmarking set presented in Supplementary table 1.  We observed that  \lrscaf{} assemblies had fewer misassemblies than \npscarf{}, and also exhibited a low mismatch and indel rate, but produced more fragmented assemblies than either \npgraph{} or \unicycler{}. }
 
 \subsection*{Hybrid assembly for real data sets}
 %The complicated graph topology from \emph{S.~dysenteriae} simulation is not common in real-life application.  %%CAN WE SUPPORT BETTER

@@ -1,0 +1,549 @@
+% Template for PLoS
+% Version 3.5 March 2018
+%
+% % % % % % % % % % % % % % % % % % % % % %
+%
+% -- IMPORTANT NOTE
+%
+% This template contains comments intended 
+% to minimize problems and delays during our production 
+% process. Please follow the template instructions
+% whenever possible.
+%
+% % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Once your paper is accepted for publication, 
+% PLEASE REMOVE ALL TRACKED CHANGES in this file 
+% and leave only the final text of your manuscript. 
+% PLOS recommends the use of latexdiff to track changes during review, as this will help to maintain a clean tex file.
+% Visit https://www.ctan.org/pkg/latexdiff?lang=en for info or contact us at latex@plos.org.
+%
+%
+% There are no restrictions on package use within the LaTeX files except that 
+% no packages listed in the template may be deleted.
+%
+% Please do not include colors or graphics in the text.
+%
+% The manuscript LaTeX source should be contained within a single file (do not use \input, \externaldocument, or similar commands).
+%
+% % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- FIGURES AND TABLES
+%
+% Please include tables/figure captions directly after the paragraph where they are first cited in the text.
+%
+% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT
+% - Figures should be uploaded separately from your manuscript file. 
+% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. 
+% - Figures containing multiple panels/subfigures must be combined into one image file before submission.
+% For figure citations, please use "Fig" instead of "Figure".
+% See http://journals.plos.org/plosone/s/figures for PLOS figure guidelines.
+%
+% Tables should be cell-based and may not contain:
+% - spacing/line breaks within cells to alter layout or alignment
+% - do not nest tabular environments (no tabular environments within tabular environments)
+% - no graphics or colored text (cell background color/shading OK)
+% See http://journals.plos.org/plosone/s/tables for table guidelines.
+%
+% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS
+%
+% IMPORTANT
+% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://journals.plos.org/plosone/s/latex
+%
+% For inline equations, please be sure to include all portions of an equation in the math environment.  For example, x$^2$ is incorrect; this should be formatted as $x^2$ (or $\mathrm{x}^2$ if the romanized font is desired).
+%
+% Do not include text that is not math in the math environment. For example, CO2 should be written as CO\textsubscript{2} instead of CO$_2$.
+%
+% Please add line breaks to long display equations when possible in order to fit size of the column. 
+%
+% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.
+%
+% When adding superscript or subscripts outside of brackets/braces, please group using {}.  For example, change "[U(D,E,\gamma)]^2" to "{[U(D,E,\gamma)]}^2". 
+%
+% Do not use \cal for caligraphic font.  Instead, use \mathcal{}
+%
+% % % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Please contact latex@plos.org with any questions.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8x]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% color can be used to apply background shading to table cells only
+\usepackage[table]{xcolor}
+
+% array package and thick rules for tables
+\usepackage{array}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+\hline
+\noalign{\global\arrayrulewidth\savedwidth}}
+
+
+% Remove comment for double spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+%\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+%\setlength{\headheight}{27.023pt}
+%\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{\today}
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+\usepackage[normalem]{ulem}
+%% npGraph
+\newcommand{\npscarf}{$\mathtt{npScarf}$}
+\newcommand{\npscarfg}{$\mathtt{npScarf\_wag}$}
+\newcommand{\npreader}{$\mathtt{npReader}$}
+\newcommand{\npanalysis}{$\mathtt{npAnalysis}$}
+\newcommand{\npbarcode}{$\mathtt{npBarcode}$}
+\newcommand{\npgraph}{$\mathtt{npGraph}$}
+\newcommand{\canu}{$\mathtt{Canu}$}
+\newcommand{\unicycler}{$\mathtt{Unicycler}$}
+\newcommand{\spades}{$\mathtt{SPAdes}$}
+\newcommand{\hspades}{$\mathtt{hybridSPAdes}$}
+\newcommand{\albacore}{$\mathtt{Albacore}$}
+\newcommand{\racon}{$\mathtt{Racon}$}
+\newcommand{\metrichor}{$\mathtt{Metrichor}$}
+\newcommand{\minimap}{$\mathtt{minimap2}$}
+\newcommand{\miniasm}{$\mathtt{miniasm}$}
+\newcommand{\bwa}{$\mathtt{BWA\text{-}MEM}$}
+\newcommand{\lrscaf}{$\mathtt{LRScaf}$}
+
+\newcommand{\ec}{\emph{E.~coli}}
+\newcommand{\sce}{\emph{S.~cerevisae}}
+\newcommand{\kp}{\emph{K.~pneumoniae}} 
+
+\newcommand{\IE}{\emph{i.e.}}
+\newcommand{\EG}{\emph{e.g.}}
+\newcommand{\review}[1]{\textcolor{red}{#1}}
+
+\newcommand{\cthead}[2]{\multicolumn{#1}{c}{\textbf{#2}}}
+\definecolor{Gray}{gray}{0.9}
+\newcommand{\cir}{$^\ast$}
+\newcommand{\bres}[1]{{\bf #1}}
+
+\usepackage{multirow} 
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+
+\usepackage[linesnumbered,boxed,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% For code embedding (Bash, Java...)
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{latexsym}
+\usepackage{mathtools}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+\usepackage{longtable,booktabs}
+\usepackage{ltablex} 
+
+%% End preloads
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Real-time resolution of short-read assembly graph using ONT long reads} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+\\
+Son Hoang Nguyen\textsuperscript{1*},
+Minh Duc Cao\textsuperscript{1},
+Lachlan Coin\textsuperscript{1,2,3,4*}
+\\
+\bigskip
+\textbf{1} Institute for Molecular Bioscience, the University of Queensland, 
+St Lucia, Brisbane, QLD 4072 Australia
+\\
+\textbf{2} Department of Microbiology and Immunology, The University of Melbourne, Parkville, 3010, Australia
+\\
+\textbf{3} Department of Clinical Pathology, The University of Melbourne, Parkville, 3010, Australia
+\\
+\textbf{4} Department of Infectious Disease, Imperial College London, London, W2 1NY, UK
+\bigskip
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+*s.hoangnguyen@imb.uq.edu.au,l.coin@imb.uq.edu.au
+
+\end{flushleft}
+
+\section*{Supporting information}
+\renewcommand{\figurename}{Supporting Figure}
+\renewcommand{\tablename}{Supporting Table}
+\renewcommand\thefigure{S\arabic{figure}}    
+\setcounter{figure}{0}    
+
+% Include only the SI item label in the paragraph heading. Use the \nameref{label} command to cite SI items in the text.
+%\paragraph*{S1 Fig.}
+%\label{S1_Fig} Dotplot generated by MUMmer for assembly results of \unicycler{} versus \npgraph{}.
+
+\begin{figure}[!ht]
+ \includegraphics[width=\textwidth]{images/FigS1.eps}
+ \caption{Dotplot generated by MUMmer for assembly results of \unicycler{} versus \npgraph{}. Structural agreements between two methods were found in (a)~\emph{C.freundii} and (b)~\emph{K.oxytoca} assembly contigs. On the other hand, for (c)~\emph{E.cloacae} sample, there was a disagreement detected between 2 largest contigs given by two assembly algorithms.}
+\end{figure}
+
+%\paragraph*{S2 Fig.}
+%\label{S2_Fig} Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\unicycler{} and (b)~\npgraph{}
+
+\begin{figure}[!ht]
+ \includegraphics[width=\textwidth]{images/FigS2.eps}
+ \caption{Alignments of an \emph{Enterobacter~cloacae} reference genome to assembly sequences generated by  (a)~\npgraph{} and (b)~\unicycler{}. The former suggests a structural variant, the latter is virtually an 1-to-1 mapping.}
+\end{figure}
+
+\clearpage
+\paragraph*{S1 Table.}
+\label{S1_Table}
+Benchmarking different methods using \lrscaf{}, \npscarf{}, \npgraph{}, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.
+
+\makeatletter
+
+\newlength\oriarrayrulewidth  
+\newcount\orilowpenalty
+\newcommand\nobreakmidrule{%
+ \noalign{\global\oriarrayrulewidth\arrayrulewidth\relax
+          \global\orilowpenalty\@lowpenalty\relax  
+          \global\@lowpenalty=\numexpr-10000\relax%
+          \global\arrayrulewidth\lightrulewidth\relax}
+ \hline
+ \noalign{\global\@lowpenalty=\orilowpenalty\relax%
+          \global\arrayrulewidth\oriarrayrulewidth\relax}}
+
+\makeatother
+\setlength{\LTleft}{-1in}
+\setcounter{table}{0}  
+
+\begin{longtable}[!hpt]{llcrrrrr}
+%\caption{Benchmarking \npgraph{} against \npscarf{} versions, $\mathtt{hybridSPAdes}$ and \unicycler{} hybrid assembler with the synthetic data set.}
+%\label{supp_tab:synthetic_benchmark}\\
+\toprule
+    &       & Assembly &  & N50  & Mis- &  Mismatch & Indel \\
+    & Method & size (bp) & \#Contigs  & (bp) & assemblies & (per $100$Kbp) & (per $100$Kbp) \\
+    \hline  
+\endfirsthead
+\multicolumn{8}{c}%
+{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+\hline
+    &       & Assembly &  & N50  & Mis- &  Mismatch & Indel \\
+    & Method & size (bp) & \#Contigs  & (bp) & assemblies & (per $100$Kbp) & (per $100$Kbp) \\
+\hline
+\endhead
+\hline \multicolumn{8}{r}{\textit{Continued on next page}} \\
+\endfoot
+\hline
+\endlastfoot
+
+\rowcolor{Gray}
+\multicolumn{8}{l}{random sequences no repeats} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & - & - & - & - & - & - \\*
+\rowcolor{Gray}
+& npScarf &  4110000 &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npScarf\_wag & 4109516  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4110000  &  3  &  4000000  &  0  & 0.00  & 0.00\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4110231  &  3  & 4000077   &  0  & 0.00  &  0.07\\*
+\rowcolor{Gray}
+& Unicycler & 4110000  &  3  &  4000000  &  0  & 0.00  &  0.00\\
+\hline
+\multicolumn{8}{l}{random sequences some repeats} \\* %
+\nobreakmidrule
+& LRScaf & 4113104 & 6 & 4002298 & 0 & 0.00 & 0.00\\*
+& npScarf & 4110940  &  3  &  4002715  &  0  &  0.00 &  0.66\\*
+& npScarf\_wag & 4437094  &  7 &  2795129  &  0  &  0.00 &  1.07\\*
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0 &  0.00 &  0.00\\*
+& npGraph-mm2 &  4110000 &  3  &   4000000 & 0  & 0.00  &  0.00\\*
+& hybridSPAdes & 4107566  &  3  &  3999364  &  0  & 0.02  & 0.02\\*
+& Unicycler &  4110000 &  3 & 4000000  &  0 & 0.00  &  0.00\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{random sequences many repeats} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4119020 & 12 & 4002117 & 0 & 0.03 & 0.79\\* 
+\rowcolor{Gray}
+& npScarf &  4316934 &  8  &  3963485  &  24  & 11.55  & 34.54\\*
+\rowcolor{Gray}
+& npScarf\_wag &  5215965 &  16  &  1515563  &  37  & 0.32  & 7.22\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4110000  &  3  &  4000000  &  0  &  0.32 & 0.15\\*
+\rowcolor{Gray}
+& npGraph-mm2 &  4110000 &  3  &  4000000  &  0  & 0.32  & 0.15\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4108190  &  3  &  3999621  &  0  &  0.68 &  0.15\\*
+\rowcolor{Gray}
+& Unicycler & 4110000  &  3  &  4000000  &  0  &  0.32  & 0.15  \\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Acinetobacter} A1} \\* %
+\nobreakmidrule
+& LRScaf & 3896799 & 4 & 3886381 & 0 & 0.47 & 0.36\\*
+& npScarf & 3912299  &  3  &  3870269  &  4  & 4.74  & 13.02 \\*
+& npScarf\_wag & 3945166  &  3  &  3906368  &  1  & 7.00  & 14.02 \\*
+& npGraph-bwa & 3918374  &  2  &  3909643  &  0 & 16.34  & 0.61 \\*
+& npGraph-mm2 & 3885898  &  2  &  3877167  & 1 & 18.05  & 1.03 \\*
+& hybridSPAdes &  3929948 &  53  &  3353679  &  0  & 35.48  & 3.22\\*
+& Unicycler & 3917745  &  2 & 3909014  & 0  & 2.50  &  0.13\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Acinetobacter} AB30} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4367657 & 27 & 1035967 & 13 & 30.11 & 1.42\\* 
+\rowcolor{Gray}
+& npScarf & 4512464  &  7  &  4304628  &  35  & 57.95  & 72.87\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5315235  &  13  &  1267710  &  136  &  73.55 & 8.15\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4335342  &  2  &  4148952  &  1  & 16.93  & 1.45\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4335790  &  1  &  4335790  & 0   &  6.97 & 0.25\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4337369  &  3  &  2701005  &  0  &  12.80 &  1.39\\*
+\rowcolor{Gray}
+& Unicycler &  4333041 &  1  &  4333041  &  1  &  6.42 &  0.53\\
+\hline
+\multicolumn{8}{l}{\ec{} K12 MG1655} \\* %
+\nobreakmidrule
+& LRScaf & 4732001 & 16 & 692794 & 7 & 3.42 & 0.58\\*
+& npScarf & 4649902  &  2  &  4641702  &  4  & 14.94  & 34.35 \\*
+& npScarf\_wag &  4687952 &  3  &  4641732  &  0  & 6.55  &  1.96\\*
+& npGraph-bwa & 4641743  &  1  &  4641743  & 0  &  4.50 & 0.43 \\*
+& npGraph-mm2 & 4641820  &  1  &  4641820  &  0 &  3.88 & 0.26 \\*
+& hybridSPAdes &  4644555 &  1  &  4641036  &  0  & 0.62  & 0.09\\*
+& Unicycler & 4641650  &  1 &  4641650 &  0 & 3.43  & 0.26 \\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\ec{} O25b H4-ST131} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 5410854 & 21 & 910949 & 9 & 13.70 & 0.87\\*
+\rowcolor{Gray}
+& npScarf &  5245913 &  3  &  5095571  &  7  &  7.05 & 18.81\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5292700  &  3  &  3469617  &  9  &  9.03 & 1.55\\*
+\rowcolor{Gray}
+& npGraph-bwa & 5237821  &  7  &  4049493  &  1  &  3.38 & 0.31\\*
+\rowcolor{Gray}
+& npGraph-mm2 &  5249799 &  3  &  5110117  &  0  &  2.40 & 0.15\\*
+\rowcolor{Gray}
+& hybridSPAdes & 5252762  &  8  &  4258948  &  2  &  5.43 &  0.57\\*
+\rowcolor{Gray}
+& Unicycler & 5249442  &  3  &  5109760  &  0  & 4.02 & 0.27 \\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Klebsiella} 30660 NJST258 1} \\* %
+\nobreakmidrule
+& LRScaf & 5512518 & 20 & 777919 & 26 & 3.52 & 0.38\\*
+& npScarf & 5559772  &  7  &  5259053  &  4  & 17.18  & 13.48\\*
+& npScarf\_wag & 5613780  &  7  &  5268535  &  6  & 1.59  & 1.92\\*
+& npGraph-bwa & 5534843  &  8  &  5263229  &  0  & 3.15  & 0.76\\*
+& npGraph-mm2 & 5534878  &  8  &  5263264  &  0  & 2.75  & 0.74\\*
+& hybridSPAdes &  5545668 & 8   &  5545668  &  2  & 4.95  & 0.09 \\*
+& Unicycler & 5537860  &  9  &  5263196  &  0  & 1.34  & 0.51 \\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Klebsiella} MGH 78578} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 5823340 & 38 & 559414 & 7 & 5.92 & 1.27\\*
+\rowcolor{Gray}
+& npScarf &  5729304 &  5  &  5316429  &  12  & 14.90  & 20.27\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5754443  &  5  &  3026286  &  16  &  8.17 & 2.56\\*
+\rowcolor{Gray}
+& npGraph-bwa &  5695801 &  7  &  5311745  &  1  & 12.65  & 1.25\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 5696302  &  6  &  5315267  &  0  &  6.06 & 0.44\\*
+\rowcolor{Gray}
+& hybridSPAdes &  5706470 &  11  &  5315273  &  1  & 3.82  &  0.67\\*
+\rowcolor{Gray}
+& Unicycler &  5694231 &  14  &  5315096  &  0  & 5.38 &  0.21\\
+\hline
+\multicolumn{8}{l}{\emph{Klebsiella} NTUH-K2044} \\* %
+\nobreakmidrule
+& LRScaf & 5470282 & 8 & 2951488 & 9 & 3.04 & 2.62\\*
+& npScarf & 5471696  &  2  &  5249198  &  6  & 4.82  &  8.55\\*
+& npScarf\_wag & 5530559  &  3  &  5249369  &  2  &  2.25 &  1.35\\*
+& npGraph-bwa & 5472629  &  2  &  5248476  & 0  & 2.52  &  0.31\\*
+& npGraph-mm2 &  5472655 &  2  &  5248503  &  0 &  1.21 &  0.26\\*
+& hybridSPAdes & 5473572  &  2  &  5248894  &  0  &  0.44 & 0.15\\*
+& Unicycler & 5472697  & 2  & 5248545  &  0 & 2.41  &  0.35\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Mycobacterium tuberculosis} H37Rv} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4260869 & 12 & 3215170 & 8 & 6.69 & 2.27\\*
+\rowcolor{Gray}
+& npScarf &  4498245 &  4  & 4402238   &  8  & 5.15  & 2.68\\*
+\rowcolor{Gray}
+& npScarf\_wag &  4506056 &  4  &  4410942  &  3  & 6.81  & 2.59\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4411406  &  1  &  4411406  &  0  & 1.88  & 0.43\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4411532  & 1   &  4411532  &  0  & 0.68  & 0.00\\*
+\rowcolor{Gray}
+& hybridSPAdes & 4413942  &  1  &  4410519  &  0  &  0.75 &  0.11\\*
+\rowcolor{Gray}
+& Unicycler & 4411538  &  1  &  4411538  &  0  &  2.22 &  0.34\\
+\hline
+% \pagebreak
+% \toprule
+\multicolumn{8}{l}{\emph{Saccharomyces cerevisiae} S288c} \\* %
+\nobreakmidrule
+& LRScaf & 12486884 & 214 & 254587 & 27 & 16.45 & 1.97\\*
+& npScarf &  11986800 &  24  &  796769  &  51  &  62.12 & 21.46 \\*
+& npScarf\_wag & 12003203  &  21  &  917017  &  21  & 69.14  & 5.47 \\*
+& npGraph-bwa & 11921736  &  40  &  913090  &  3 &  38.04 &  1.94\\*
+& npGraph-mm2 & 11920984  &  38  &  913198  &  2 &  20.66 &  0.95\\*
+& hybridSPAdes &  12027533 &  45  &  770543  &  5  & 32.58  & 1.94\\*
+& Unicycler &  11847655 & 72  & 909114  &  0 & 21.81  &  1.04\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Shigella dysenteriae}  Sd197} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 4678609 & 175 & 376897 & 26 & 3.91 & 2.35\\*
+\rowcolor{Gray}
+& npScarf &  4586075 &  173  & 36560   &  55  & 120.14  & 111.59\\*
+\rowcolor{Gray}
+& npScarf\_wag & 5462918  &  92  &  98791  &  105  &  147.48 & 79.28\\*
+\rowcolor{Gray}
+& npGraph-bwa & 4564058  &  6  &  4369264  &  5  & 80.64  & 11.16\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 4558920  &  6  &  4364264  &  7  & 75.51  & 10.98\\*
+\rowcolor{Gray}
+& hybridSPAdes &  4519131 & 23   &  821249  & 96   & 9.57  &  1.42\\*
+\rowcolor{Gray}
+& Unicycler & 4560901  & 3   &  4369231  &  0  & 11.88  & 1.05 \\
+\hline
+\multicolumn{8}{l}{\emph{Shigella sonnei} 53G} \\* %
+\nobreakmidrule
+& LRScaf & 5266645 & 128 & 429353 & 27 & 9.72 & 1.19\\*
+& npScarf &  6441461 &  20  &  1953896  &  82  & 164.02  &  219.52\\*
+& npScarf\_wag & -  &  -  &  -  &  -  & -  &  -\\*
+& npGraph-bwa & 5211544  &   4 &  4988532  & 0  & 14.53  &  0.31\\*
+& npGraph-mm2 & 5211527  &  4  &   4988519 & 0  &  8.56 &  0.17\\*
+& hybridSPAdes & 5223875  &  8  &  2195455  &  2  & 41.92  & 0.06\\*
+& Unicycler &  5220517 &  5 &  4988548 & 0  & 7.39  &  0.52\\
+\hline
+\rowcolor{Gray}
+\multicolumn{8}{l}{\emph{Streptococcus suis} BM407} \\* %
+\nobreakmidrule
+\rowcolor{Gray}
+& LRScaf & 2231488 & 10 & 683404 & 6 & 11.96 & 1.37\\*
+\rowcolor{Gray}
+& npScarf &  2183951 & 3   &  2146594  &  0  & 21.51  & 9.17\\*
+\rowcolor{Gray}
+& npScarf\_wag & 2289880  &  3  &  1493189  &  1  & 3.17  & 1.96\\*
+\rowcolor{Gray}
+& npGraph-bwa & 2154623  &  6  &  2131479  &  1  & 5.25  & 0.28\\*
+\rowcolor{Gray}
+& npGraph-mm2 & 2149876  &  6  &  2146774  &  0  & 1.44  & 0.28\\*
+\rowcolor{Gray}
+& hybridSPAdes & 2172703  &  2  &  2146237  &  0  & 6.82  &  0.09\\*
+\rowcolor{Gray}
+& Unicycler &  2170829 &   2 &  2146250  &  0  &  2.67 & 0.32 \\
+\hline
+\end{longtable}
+
+\end{document}
+
